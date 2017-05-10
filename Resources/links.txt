@@ -1,0 +1,24 @@
+https://www.mathworks.com/help/physmod/elec/ug/example--modeling-a-dc-motor.html?requestedDomain=www.mathworks.com
+
+https://www.mathworks.com/videos/pid-controller-design-for-a-dc-motor-68881.html
+
+https://www.mathworks.com/help/slcontrol/gs/automated-tuning-of-simulink-pid-controller-block.html
+
+http://ctms.engin.umich.edu/CTMS/index.php?aux=Activities_DCmotorB
+
+https://www.mathworks.com/help/physmod/simscape/ug/linearize-a-plant-model-for-use-in-feedback-control-design.html
+
+https://www.youtube.com/watch?v=JJSgUNfZqgU
+
+https://www.mathworks.com/help/control/examples/control-of-an-inverted-pendulum-on-a-cart.html
+
+https://www.mathworks.com/help/physmod/elec/examples/brushless-dc-motor.html
+
+http://ctms.engin.umich.edu/CTMS/index.php?example=MotorSpeed&section=SimulinkControl#2
+
+http://www.mathworks.com/help/simulink/ug/create-models-and-open-existing-models.html#btozflu-1
+
+https://www.mathworks.com/help/simulink/ug/how-to-mask-a-block.html
+
+
+sim('pid_auto_tune', 'debug', 'on')
