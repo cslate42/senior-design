@@ -7,15 +7,17 @@ import glob
 
 class Communications:
     conn = False
+    baudRate = None
 
-    def __init__(self):
+    def __init__(self, baudRate = 9600):
+        self.baudRate = baudRate
         self.setup()
         if not self.conn:
             raise IOError("Connection is not setup")
 
     def setup(self):
         # self.conn = serial.Serial("/dev/ttyS0", 9600)
-        self.conn = serial.Serial("/dev/ttyUSB0", 9600)
+        self.conn = serial.Serial("/dev/ttyUSB0", self.baudRate)
 
     def read(self):
         return self.conn.read()

@@ -1,19 +1,20 @@
 // https://learn.adafruit.com/adxl345-digital-accelerometer/programming
 // ADXL345
-#include "accelerometer.h"
+#include "adxl345.h"
 
-ADXL345::ADXL345(int sensorId) {
-    this->sensorId = sensorId;
+ADXL345::ADXL345(int deviceAddr) {
+    this->deviceAddr = deviceAddr;
 }
 
 void ADXL345::setup() {
     // Assign a unique ID to this sensor at the same time
-    sensorInst = Adafruit_ADXL345_Unified(this->sensorId);
+    sensorInst = Adafruit_ADXL345_Unified(this->deviceAddr);
     #ifndef ESP8266
-    while (!Serial); // for Leonardo/Micro/Zero
+        while (!Serial); // for Leonardo/Micro/Zero
     #endif
-    Serial.begin(9600);
-    Serial.println("Accelerometer Test"); Serial.println("");
+
+    Serial.println("Accelerometer Test");
+    Serial.println("");
 
     /* Initialise the sensor */
     if(!sensorInst.begin())  {

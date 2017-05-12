@@ -8,7 +8,7 @@
     class ADXL345 {
         private:
             Adafruit_ADXL345_Unified sensorInst;
-            int sensorId;
+            int deviceAddr;
         public:
             ADXL345(int);
             void setup();
@@ -18,5 +18,4 @@
             void displayData();
             void serialEncode();
     };
-    extern ADXL345 adxl345;
 #endif
