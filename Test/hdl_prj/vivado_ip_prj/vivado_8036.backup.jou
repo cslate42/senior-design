@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2017.1 (64-bit)
+# SW Build 1846317 on Fri Apr 14 18:55:03 MDT 2017
+# IP Build 1846188 on Fri Apr 14 20:52:08 MDT 2017
+# Start of session at: Wed Jun 14 19:42:55 2017
+# Process ID: 8036
+# Current directory: C:/Users/mini/Dropbox/current_semester/SENIOR_DESIGN_PROJECT/MATLAB/hdl_prj/vivado_ip_prj
+# Command line: vivado.exe -mode batch -source vivado_create_prj.tcl
+# Log file: C:/Users/mini/Dropbox/current_semester/SENIOR_DESIGN_PROJECT/MATLAB/hdl_prj/vivado_ip_prj/vivado.log
+# Journal file: C:/Users/mini/Dropbox/current_semester/SENIOR_DESIGN_PROJECT/MATLAB/hdl_prj/vivado_ip_prj\vivado.jou
+#-----------------------------------------------------------
+source vivado_create_prj.tcl

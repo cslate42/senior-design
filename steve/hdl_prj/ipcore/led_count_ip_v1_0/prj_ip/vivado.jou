@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2017.1 (64-bit)
+# SW Build 1846317 on Fri Apr 14 18:55:03 MDT 2017
+# IP Build 1846188 on Fri Apr 14 20:52:08 MDT 2017
+# Start of session at: Fri Jun 16 16:20:47 2017
+# Process ID: 7700
+# Current directory: F:/steve/hdl_prj/ipcore/led_count_ip_v1_0/prj_ip
+# Command line: vivado.exe -mode batch -source vivado_ip_package.tcl
+# Log file: F:/steve/hdl_prj/ipcore/led_count_ip_v1_0/prj_ip/vivado.log
+# Journal file: F:/steve/hdl_prj/ipcore/led_count_ip_v1_0/prj_ip\vivado.jou
+#-----------------------------------------------------------
+source vivado_ip_package.tcl

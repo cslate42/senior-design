@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2017.1 (64-bit)
+# SW Build 1846317 on Fri Apr 14 18:55:03 MDT 2017
+# IP Build 1846188 on Fri Apr 14 20:52:08 MDT 2017
+# Start of session at: Fri Jun 16 16:21:22 2017
+# Process ID: 8300
+# Current directory: F:/steve/hdl_prj/vivado_ip_prj
+# Command line: vivado.exe -mode batch -source vivado_create_prj.tcl
+# Log file: F:/steve/hdl_prj/vivado_ip_prj/vivado.log
+# Journal file: F:/steve/hdl_prj/vivado_ip_prj\vivado.jou
+#-----------------------------------------------------------
+source vivado_create_prj.tcl
