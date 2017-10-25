@@ -1,0 +1,35 @@
+# Note "#" means comment
+# "$" means start of bash line (don't write $)
+
+# =================To clone repo==================
+# ask me - need to add you as collaborator then you need to accept it
+
+$ git clone https://github.com/knowsWhereHisTowelIs/senior-design.git
+$ git config --global user.email "YOUR_EMAIL@github.com"
+
+# =================To add to repo==================
+# create/update files
+$ git add .
+$ git commit -m "YOUR_MESSAGE"
+$ git push
+
+# ===============check status=====================
+$ git status
+
+# =================To reset changes to most recent commit=================
+
+# IMPORTANT DELETES ALL CHANGES YOU MAY HAVE MADE
+$ git reset --hard HEAD
+
+# ===================Get any updates==========
+# IMPOTANT make sure pull before working 
+# PUSH ONCE DONE WORKING (DONT WAIT TILL END OF DAY/WEEK)
+$ git pull
+
+# ==============Merge changes========
+# Think this overrides any changes you may have made
+# merge your edits to the 
+# https://git-scm.com/docs/git-merge
+# TODO
+
+
