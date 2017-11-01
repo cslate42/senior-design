@@ -1,7 +1,17 @@
 %---------------------------------------------------
 %               Starting Params
 %---------------------------------------------------
-set_param();
+%set_param();
+hdlsetup('three_axis_gimbal');
+
+% trigger info
+% web(fullfile(docroot, 'hdlcoder/ref/triggeredsubsystem.html'));
+
+% to watch!!!
+% EDGE DETECTION https://www.youtube.com/watch?v=yapF8MLWORY
+
+% clocks
+% https://www.mathworks.com/help/hdlverifier/ug/clock-reset-and-enable-signals.html#bt9u4xl-90
 
 %{
 Function Gen

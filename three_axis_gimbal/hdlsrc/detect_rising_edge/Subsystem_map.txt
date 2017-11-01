@@ -1,0 +1,2 @@
+detect_rising_edge/Subsystem/Detect Rise Nonnegative --> Detect_Rise_Nonnegative
+detect_rising_edge/Subsystem --> Subsystem
