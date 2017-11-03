@@ -4,6 +4,9 @@
 %set_param();
 hdlsetup('three_axis_gimbal');
 
+%{
+%}
+
 % trigger info
 % web(fullfile(docroot, 'hdlcoder/ref/triggeredsubsystem.html'));
 
