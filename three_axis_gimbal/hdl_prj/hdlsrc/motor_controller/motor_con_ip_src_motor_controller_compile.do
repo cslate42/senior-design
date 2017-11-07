@@ -1,0 +1,6 @@
+vlib work
+vcom  motor_con_ip_src_motor_controller_pkg.vhd
+vcom  motor_con_ip_src_Chart.vhd
+vcom  motor_con_ip_src_Motor_Controller_block.vhd
+vcom  motor_con_ip_src_Subsystem.vhd
+vcom  motor_con_ip_src_motor_controller.vhd

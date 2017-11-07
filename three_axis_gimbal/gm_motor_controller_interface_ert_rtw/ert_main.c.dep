@@ -1,0 +1,14 @@
+ert_main.c.o: ert_main.c gm_motor_controller_interface.h rtwtypes.h \
+ gm_motor_controller_interface_types.h \
+ gm_motor_controller_interface_private.h \
+ C:/PROGRA~1/MATLAB/R2017a/toolbox/target/codertarget/rtos/inc/linuxinitialize.h
+
+gm_motor_controller_interface.h:
+
+rtwtypes.h:
+
+gm_motor_controller_interface_types.h:
+
+gm_motor_controller_interface_private.h:
+
+C:/PROGRA~1/MATLAB/R2017a/toolbox/target/codertarget/rtos/inc/linuxinitialize.h:

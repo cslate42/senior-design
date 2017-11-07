@@ -1,0 +1,21 @@
+gm_motor_controller_interface.c.o: gm_motor_controller_interface.c \
+ gm_motor_controller_interface.h rtwtypes.h \
+ gm_motor_controller_interface_types.h \
+ gm_motor_controller_interface_private.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/axi_lct.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/axi_interface.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/mwadma_ioctl.h
+
+gm_motor_controller_interface.h:
+
+rtwtypes.h:
+
+gm_motor_controller_interface_types.h:
+
+gm_motor_controller_interface_private.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/axi_lct.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/axi_interface.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/mwadma_ioctl.h:
