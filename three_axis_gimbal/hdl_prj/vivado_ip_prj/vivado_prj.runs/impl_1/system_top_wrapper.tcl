@@ -71,7 +71,7 @@ set rc [catch {
   set_property processing_order EARLY [get_files f:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/ip/system_top_proc_sys_reset_0_0/system_top_proc_sys_reset_0_0.xdc]
   read_xdc -ref system_top_processing_system7_0_0 -cells inst f:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/ip/system_top_processing_system7_0_0/system_top_processing_system7_0_0.xdc
   set_property processing_order EARLY [get_files f:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/ip/system_top_processing_system7_0_0/system_top_processing_system7_0_0.xdc]
-  read_xdc F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/motor_con_ip_src_motor_controller_top.xdc
+  read_xdc F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/I2C_MPU60_ip_src_I2C_MPU6050_IP_top.xdc
   link_design -top system_top_wrapper -part xc7z020clg484-1
   write_hwdef -file system_top_wrapper.hwdef
   close_msg_db -file init_design.pb

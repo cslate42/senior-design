@@ -158,7 +158,13 @@ proc create_root_design { parentCell } {
   set FIXED_IO [ create_bd_intf_port -mode Master -vlnv xilinx.com:display_processing_system7:fixedio_rtl:1.0 FIXED_IO ]
 
   # Create ports
+  set ADDRALT [ create_bd_port -dir O -from 0 -to 0 ADDRALT ]
+  set CS [ create_bd_port -dir O -from 0 -to 0 CS ]
   set PmodJA1 [ create_bd_port -dir O -from 7 -to 0 PmodJA1 ]
+  set SDA [ create_bd_port -dir IO -from 0 -to 0 SDA ]
+
+  # Create instance: I2C_MPU60_ip_0, and set properties
+  set I2C_MPU60_ip_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:I2C_MPU60_ip:1.0 I2C_MPU60_ip_0 ]
 
   # Create instance: axi_interconnect_0, and set properties
   set axi_interconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_interconnect_0 ]
@@ -190,9 +196,6 @@ CONFIG.MMCM_CLKIN1_PERIOD.VALUE_SRC {DEFAULT} \
 CONFIG.MMCM_CLKIN2_PERIOD.VALUE_SRC {DEFAULT} \
 CONFIG.MMCM_COMPENSATION.VALUE_SRC {DEFAULT} \
  ] $clk_wiz_0
-
-  # Create instance: motor_con_ip_0, and set properties
-  set motor_con_ip_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:motor_con_ip:1.0 motor_con_ip_0 ]
 
   # Create instance: proc_sys_reset_0, and set properties
   set proc_sys_reset_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0 ]
@@ -1267,22 +1270,25 @@ CONFIG.PCW_WDT_WDT_IO.VALUE_SRC {DEFAULT} \
  ] $processing_system7_0
 
   # Create interface connections
-  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins motor_con_ip_0/AXI4_Lite]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins I2C_MPU60_ip_0/AXI4_Lite] [get_bd_intf_pins axi_interconnect_0/M00_AXI]
   connect_bd_intf_net -intf_net processing_system7_0_DDR [get_bd_intf_ports DDR] [get_bd_intf_pins processing_system7_0/DDR]
   connect_bd_intf_net -intf_net processing_system7_0_FIXED_IO [get_bd_intf_ports FIXED_IO] [get_bd_intf_pins processing_system7_0/FIXED_IO]
   connect_bd_intf_net -intf_net processing_system7_0_M_AXI_GP0 [get_bd_intf_pins axi_interconnect_0/S00_AXI] [get_bd_intf_pins processing_system7_0/M_AXI_GP0]
 
   # Create port connections
   connect_bd_net -net ARESETN_1 [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins proc_sys_reset_0/interconnect_aresetn]
-  connect_bd_net -net S00_ARESETN_1 [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins motor_con_ip_0/AXI4_Lite_ARESETN] [get_bd_pins motor_con_ip_0/IPCORE_RESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
-  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins motor_con_ip_0/AXI4_Lite_ACLK] [get_bd_pins motor_con_ip_0/IPCORE_CLK] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK]
+  connect_bd_net -net I2C_MPU60_ip_0_ADDRALT [get_bd_ports ADDRALT] [get_bd_pins I2C_MPU60_ip_0/ADDRALT]
+  connect_bd_net -net I2C_MPU60_ip_0_CS [get_bd_ports CS] [get_bd_pins I2C_MPU60_ip_0/CS]
+  connect_bd_net -net I2C_MPU60_ip_0_PmodJA1 [get_bd_ports PmodJA1] [get_bd_pins I2C_MPU60_ip_0/PmodJA1]
+  connect_bd_net -net Net [get_bd_ports SDA] [get_bd_pins I2C_MPU60_ip_0/SDA]
+  connect_bd_net -net S00_ARESETN_1 [get_bd_pins I2C_MPU60_ip_0/AXI4_Lite_ARESETN] [get_bd_pins I2C_MPU60_ip_0/IPCORE_RESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins I2C_MPU60_ip_0/AXI4_Lite_ACLK] [get_bd_pins I2C_MPU60_ip_0/IPCORE_CLK] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK]
   connect_bd_net -net clk_wiz_1_locked [get_bd_pins clk_wiz_0/locked] [get_bd_pins proc_sys_reset_0/dcm_locked]
-  connect_bd_net -net motor_con_ip_0_PmodJA1 [get_bd_ports PmodJA1] [get_bd_pins motor_con_ip_0/PmodJA1]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins clk_wiz_0/clk_in1] [get_bd_pins processing_system7_0/FCLK_CLK0]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins clk_wiz_0/resetn] [get_bd_pins proc_sys_reset_0/ext_reset_in] [get_bd_pins processing_system7_0/FCLK_RESET0_N]
 
   # Create address segments
-  create_bd_addr_seg -range 0x00010000 -offset 0x400D0000 [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs motor_con_ip_0/AXI4_Lite/reg0] SEG_motor_con_ip_0_reg0
+  create_bd_addr_seg -range 0x00010000 -offset 0x400D0000 [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs I2C_MPU60_ip_0/AXI4_Lite/reg0] SEG_I2C_MPU60_ip_0_reg0
 
   # Perform GUI Layout
   regenerate_bd_layout -layout_string {

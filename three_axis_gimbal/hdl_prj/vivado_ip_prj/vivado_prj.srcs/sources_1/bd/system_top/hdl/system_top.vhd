@@ -1,7 +1,7 @@
 --Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
---Date        : Tue Nov 07 15:18:46 2017
+--Date        : Sat Nov 18 14:35:46 2017
 --Host        : LAPTOP-BT7NMSMH running 64-bit major release  (build 9200)
 --Command     : generate_target system_top.bd
 --Design      : system_top
@@ -578,6 +578,8 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity system_top is
   port (
+    ADDRALT : out STD_LOGIC_VECTOR ( 0 to 0 );
+    CS : out STD_LOGIC_VECTOR ( 0 to 0 );
     DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
     DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
     DDR_cas_n : inout STD_LOGIC;
@@ -599,7 +601,8 @@ entity system_top is
     FIXED_IO_ps_clk : inout STD_LOGIC;
     FIXED_IO_ps_porb : inout STD_LOGIC;
     FIXED_IO_ps_srstb : inout STD_LOGIC;
-    PmodJA1 : out STD_LOGIC_VECTOR ( 7 downto 0 )
+    PmodJA1 : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    SDA : inout STD_LOGIC_VECTOR ( 0 to 0 )
   );
   attribute CORE_GENERATION_INFO : string;
   attribute CORE_GENERATION_INFO of system_top : entity is "system_top,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=system_top,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=7,numReposBlks=5,numNonXlnxBlks=0,numHierBlks=2,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,synth_mode=Global}";
@@ -702,7 +705,7 @@ architecture STRUCTURE of system_top is
     PS_PORB : inout STD_LOGIC
   );
   end component system_top_processing_system7_0_0;
-  component system_top_motor_con_ip_0_0 is
+  component system_top_I2C_MPU60_ip_0_0 is
   port (
     IPCORE_CLK : in STD_LOGIC;
     IPCORE_RESETN : in STD_LOGIC;
@@ -717,6 +720,9 @@ architecture STRUCTURE of system_top is
     AXI4_Lite_ARADDR : in STD_LOGIC_VECTOR ( 15 downto 0 );
     AXI4_Lite_ARVALID : in STD_LOGIC;
     AXI4_Lite_RREADY : in STD_LOGIC;
+    SDA : inout STD_LOGIC;
+    CS : out STD_LOGIC;
+    ADDRALT : out STD_LOGIC;
     PmodJA1 : out STD_LOGIC_VECTOR ( 7 downto 0 );
     AXI4_Lite_AWREADY : out STD_LOGIC;
     AXI4_Lite_WREADY : out STD_LOGIC;
@@ -727,8 +733,12 @@ architecture STRUCTURE of system_top is
     AXI4_Lite_RRESP : out STD_LOGIC_VECTOR ( 1 downto 0 );
     AXI4_Lite_RVALID : out STD_LOGIC
   );
-  end component system_top_motor_con_ip_0_0;
+  end component system_top_I2C_MPU60_ip_0_0;
   signal ARESETN_1 : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal I2C_MPU60_ip_0_ADDRALT : STD_LOGIC;
+  signal I2C_MPU60_ip_0_CS : STD_LOGIC;
+  signal I2C_MPU60_ip_0_PmodJA1 : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal Net : STD_LOGIC_VECTOR ( 0 to 0 );
   signal S00_ARESETN_1 : STD_LOGIC_VECTOR ( 0 to 0 );
   signal axi_interconnect_0_M00_AXI_ARADDR : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal axi_interconnect_0_M00_AXI_ARREADY : STD_LOGIC;
@@ -749,7 +759,6 @@ architecture STRUCTURE of system_top is
   signal axi_interconnect_0_M00_AXI_WVALID : STD_LOGIC;
   signal clk_wiz_0_clk_out1 : STD_LOGIC;
   signal clk_wiz_1_locked : STD_LOGIC;
-  signal motor_con_ip_0_PmodJA1 : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal processing_system7_0_DDR_ADDR : STD_LOGIC_VECTOR ( 14 downto 0 );
   signal processing_system7_0_DDR_BA : STD_LOGIC_VECTOR ( 2 downto 0 );
   signal processing_system7_0_DDR_CAS_N : STD_LOGIC;
@@ -820,7 +829,37 @@ architecture STRUCTURE of system_top is
   signal NLW_processing_system7_0_USB0_VBUS_PWRSELECT_UNCONNECTED : STD_LOGIC;
   signal NLW_processing_system7_0_USB0_PORT_INDCTL_UNCONNECTED : STD_LOGIC_VECTOR ( 1 downto 0 );
 begin
-  PmodJA1(7 downto 0) <= motor_con_ip_0_PmodJA1(7 downto 0);
+  ADDRALT(0) <= I2C_MPU60_ip_0_ADDRALT;
+  CS(0) <= I2C_MPU60_ip_0_CS;
+  PmodJA1(7 downto 0) <= I2C_MPU60_ip_0_PmodJA1(7 downto 0);
+I2C_MPU60_ip_0: component system_top_I2C_MPU60_ip_0_0
+     port map (
+      ADDRALT => I2C_MPU60_ip_0_ADDRALT,
+      AXI4_Lite_ACLK => clk_wiz_0_clk_out1,
+      AXI4_Lite_ARADDR(15 downto 0) => axi_interconnect_0_M00_AXI_ARADDR(15 downto 0),
+      AXI4_Lite_ARESETN => S00_ARESETN_1(0),
+      AXI4_Lite_ARREADY => axi_interconnect_0_M00_AXI_ARREADY,
+      AXI4_Lite_ARVALID => axi_interconnect_0_M00_AXI_ARVALID,
+      AXI4_Lite_AWADDR(15 downto 0) => axi_interconnect_0_M00_AXI_AWADDR(15 downto 0),
+      AXI4_Lite_AWREADY => axi_interconnect_0_M00_AXI_AWREADY,
+      AXI4_Lite_AWVALID => axi_interconnect_0_M00_AXI_AWVALID,
+      AXI4_Lite_BREADY => axi_interconnect_0_M00_AXI_BREADY,
+      AXI4_Lite_BRESP(1 downto 0) => axi_interconnect_0_M00_AXI_BRESP(1 downto 0),
+      AXI4_Lite_BVALID => axi_interconnect_0_M00_AXI_BVALID,
+      AXI4_Lite_RDATA(31 downto 0) => axi_interconnect_0_M00_AXI_RDATA(31 downto 0),
+      AXI4_Lite_RREADY => axi_interconnect_0_M00_AXI_RREADY,
+      AXI4_Lite_RRESP(1 downto 0) => axi_interconnect_0_M00_AXI_RRESP(1 downto 0),
+      AXI4_Lite_RVALID => axi_interconnect_0_M00_AXI_RVALID,
+      AXI4_Lite_WDATA(31 downto 0) => axi_interconnect_0_M00_AXI_WDATA(31 downto 0),
+      AXI4_Lite_WREADY => axi_interconnect_0_M00_AXI_WREADY,
+      AXI4_Lite_WSTRB(3 downto 0) => axi_interconnect_0_M00_AXI_WSTRB(3 downto 0),
+      AXI4_Lite_WVALID => axi_interconnect_0_M00_AXI_WVALID,
+      CS => I2C_MPU60_ip_0_CS,
+      IPCORE_CLK => clk_wiz_0_clk_out1,
+      IPCORE_RESETN => S00_ARESETN_1(0),
+      PmodJA1(7 downto 0) => I2C_MPU60_ip_0_PmodJA1(7 downto 0),
+      SDA => SDA(0)
+    );
 axi_interconnect_0: entity work.system_top_axi_interconnect_0_0
      port map (
       ACLK => clk_wiz_0_clk_out1,
@@ -891,31 +930,6 @@ clk_wiz_0: component system_top_clk_wiz_0_0
       clk_out1 => clk_wiz_0_clk_out1,
       locked => clk_wiz_1_locked,
       resetn => processing_system7_0_FCLK_RESET0_N
-    );
-motor_con_ip_0: component system_top_motor_con_ip_0_0
-     port map (
-      AXI4_Lite_ACLK => clk_wiz_0_clk_out1,
-      AXI4_Lite_ARADDR(15 downto 0) => axi_interconnect_0_M00_AXI_ARADDR(15 downto 0),
-      AXI4_Lite_ARESETN => S00_ARESETN_1(0),
-      AXI4_Lite_ARREADY => axi_interconnect_0_M00_AXI_ARREADY,
-      AXI4_Lite_ARVALID => axi_interconnect_0_M00_AXI_ARVALID,
-      AXI4_Lite_AWADDR(15 downto 0) => axi_interconnect_0_M00_AXI_AWADDR(15 downto 0),
-      AXI4_Lite_AWREADY => axi_interconnect_0_M00_AXI_AWREADY,
-      AXI4_Lite_AWVALID => axi_interconnect_0_M00_AXI_AWVALID,
-      AXI4_Lite_BREADY => axi_interconnect_0_M00_AXI_BREADY,
-      AXI4_Lite_BRESP(1 downto 0) => axi_interconnect_0_M00_AXI_BRESP(1 downto 0),
-      AXI4_Lite_BVALID => axi_interconnect_0_M00_AXI_BVALID,
-      AXI4_Lite_RDATA(31 downto 0) => axi_interconnect_0_M00_AXI_RDATA(31 downto 0),
-      AXI4_Lite_RREADY => axi_interconnect_0_M00_AXI_RREADY,
-      AXI4_Lite_RRESP(1 downto 0) => axi_interconnect_0_M00_AXI_RRESP(1 downto 0),
-      AXI4_Lite_RVALID => axi_interconnect_0_M00_AXI_RVALID,
-      AXI4_Lite_WDATA(31 downto 0) => axi_interconnect_0_M00_AXI_WDATA(31 downto 0),
-      AXI4_Lite_WREADY => axi_interconnect_0_M00_AXI_WREADY,
-      AXI4_Lite_WSTRB(3 downto 0) => axi_interconnect_0_M00_AXI_WSTRB(3 downto 0),
-      AXI4_Lite_WVALID => axi_interconnect_0_M00_AXI_WVALID,
-      IPCORE_CLK => clk_wiz_0_clk_out1,
-      IPCORE_RESETN => S00_ARESETN_1(0),
-      PmodJA1(7 downto 0) => motor_con_ip_0_PmodJA1(7 downto 0)
     );
 proc_sys_reset_0: component system_top_proc_sys_reset_0_0
      port map (
