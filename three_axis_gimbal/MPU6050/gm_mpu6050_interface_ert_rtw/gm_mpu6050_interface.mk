@@ -2,7 +2,7 @@
 ## Makefile generated for Simulink model 'gm_mpu6050_interface'. 
 ## 
 ## Makefile     : gm_mpu6050_interface.mk
-## Generated on : Thu Nov 30 21:13:58 2017
+## Generated on : Thu Nov 30 23:13:19 2017
 ## MATLAB Coder version: 3.3 (R2017a)
 ## 
 ## Build Info:

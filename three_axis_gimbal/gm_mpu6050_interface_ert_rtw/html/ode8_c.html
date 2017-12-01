@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="./js/coder_app.js"></script>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="./rtwreport_utils.js"></script>
+<script type="text/javascript" src="./rtwannotate.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/coder_app.css"/>
+</head>
+<body onload="srcFileOnload();">
+<pre id="code">
+<table class="code" id="codeTbl">
+<tr name="1" id="1">
+<td><a id="l1" class='ln'>1</a></td><td><span class="ct">/*</span></td></tr>
+<tr name="2" id="2">
+<td><a id="l2" class='ln'>2</a></td><td><span class="ct"> * Copyright 1994-2009 The MathWorks, Inc.</span></td></tr>
+<tr name="3" id="3">
+<td><a id="l3" class='ln'>3</a></td><td><span class="ct"> *</span></td></tr>
+<tr name="4" id="4">
+<td><a id="l4" class='ln'>4</a></td><td><span class="ct"> * File: ode5.c        </span></td></tr>
+<tr name="5" id="5">
+<td><a id="l5" class='ln'>5</a></td><td><span class="ct"> *</span></td></tr>
+<tr name="6" id="6">
+<td><a id="l6" class='ln'>6</a></td><td><span class="ct"> */</span></td></tr>
+<tr name="7" id="7">
+<td><a id="l7" class='ln'>7</a></td><td></td></tr>
+<tr name="8" id="8">
+<td><a id="l8" class='ln'>8</a></td><td><span class="pp">#include &lt;math.h&gt;</span></td></tr>
+<tr name="9" id="9">
+<td><a id="l9" class='ln'>9</a></td><td><span class="pp">#include &lt;string.h&gt;</span></td></tr>
+<tr name="10" id="10">
+<td><a id="l10" class='ln'>10</a></td><td><span class="pp">#include "tmwtypes.h"</span></td></tr>
+<tr name="11" id="11">
+<td><a id="l11" class='ln'>11</a></td><td><span class="pp">#ifdef</span> <a id="11c8" class="tk">USE_RTMODEL</a></td></tr>
+<tr name="12" id="12">
+<td><a id="l12" class='ln'>12</a></td><td><span class="pp"># include "simstruc_types.h"</span></td></tr>
+<tr name="13" id="13">
+<td><a id="l13" class='ln'>13</a></td><td><span class="pp">#else</span></td></tr>
+<tr name="14" id="14">
+<td><a id="l14" class='ln'>14</a></td><td><span class="pp"># include "simstruc.h"</span></td></tr>
+<tr name="15" id="15">
+<td><a id="l15" class='ln'>15</a></td><td><span class="pp">#endif</span></td></tr>
+<tr name="16" id="16">
+<td><a id="l16" class='ln'>16</a></td><td><span class="pp">#include "odesup.h"</span></td></tr>
+<tr name="17" id="17">
+<td><a id="l17" class='ln'>17</a></td><td></td></tr>
+<tr name="18" id="18">
+<td><a id="l18" class='ln'>18</a></td><td><span class="pp">#define</span> <a id="18c9" class="tk">MAT13</a> <span class="br">{</span>0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0<span class="br">}</span></td></tr>
+<tr name="19" id="19">
+<td><a id="l19" class='ln'>19</a></td><td><span class="pp">#define</span> <a id="19c9" class="tk">TWODMAT13</a> <span class="br">{</span><a id="19c20" class="tk">MAT13</a>,<a id="19c26" class="tk">MAT13</a>,<a id="19c32" class="tk">MAT13</a>,<a id="19c38" class="tk">MAT13</a>,<a id="19c44" class="tk">MAT13</a>,<a id="19c50" class="tk">MAT13</a>,<a id="19c56" class="tk">MAT13</a>,<a id="19c62" class="tk">MAT13</a>,<a id="19c68" class="tk">MAT13</a>,<a id="19c74" class="tk">MAT13</a>,<a id="19c80" class="tk">MAT13</a>,<a id="19c86" class="tk">MAT13</a>,<a id="19c92" class="tk">MAT13</a><span class="br">}</span></td></tr>
+<tr name="20" id="20">
+<td><a id="l20" class='ln'>20</a></td><td><span class="pp">#define</span> <a id="20c9" class="tk">NSTAGES</a> 13</td></tr>
+<tr name="21" id="21">
+<td><a id="l21" class='ln'>21</a></td><td><span class="pp">#define</span> <a id="21c9" class="tk">ODE8_CONSTANTS</a>  <a id="21c25" class="tk">rt_ODE8_C</a>[1] = 5.555555555555556E-2; \</td></tr>
+<tr name="22" id="22">
+<td><a id="l22" class='ln'>22</a></td><td>						<a id="22c68" class="tk">rt_ODE8_C</a>[2] = 8.333333333333333E-2; \</td></tr>
+<tr name="23" id="23">
+<td><a id="l23" class='ln'>23</a></td><td>						<a id="23c111" class="tk">rt_ODE8_C</a>[3] = 1.25E-1; \</td></tr>
+<tr name="24" id="24">
+<td><a id="l24" class='ln'>24</a></td><td>						<a id="24c141" class="tk">rt_ODE8_C</a>[4] = 3.125E-1; \</td></tr>
+<tr name="25" id="25">
+<td><a id="l25" class='ln'>25</a></td><td>						<a id="25c172" class="tk">rt_ODE8_C</a>[5] = 3.75E-1; \</td></tr>
+<tr name="26" id="26">
+<td><a id="l26" class='ln'>26</a></td><td>						<a id="26c202" class="tk">rt_ODE8_C</a>[6] = 1.475E-1; \</td></tr>
+<tr name="27" id="27">
+<td><a id="l27" class='ln'>27</a></td><td>						<a id="27c233" class="tk">rt_ODE8_C</a>[7] = 4.65E-1; \</td></tr>
+<tr name="28" id="28">
+<td><a id="l28" class='ln'>28</a></td><td>						<a id="28c263" class="tk">rt_ODE8_C</a>[8] = 5.648654513822596E-1; \</td></tr>
+<tr name="29" id="29">
+<td><a id="l29" class='ln'>29</a></td><td>						<a id="29c306" class="tk">rt_ODE8_C</a>[9] = 6.5E-1; \</td></tr>
+<tr name="30" id="30">
+<td><a id="l30" class='ln'>30</a></td><td>						<a id="30c335" class="tk">rt_ODE8_C</a>[10] = 9.246562776405044E-1; \</td></tr>
+<tr name="31" id="31">
+<td><a id="l31" class='ln'>31</a></td><td>						<a id="31c379" class="tk">rt_ODE8_C</a>[11] = 1.0; \</td></tr>
+<tr name="32" id="32">
+<td><a id="l32" class='ln'>32</a></td><td>						<a id="32c406" class="tk">rt_ODE8_C</a>[12] = 1.0; \</td></tr>
+<tr name="33" id="33">
+<td><a id="l33" class='ln'>33</a></td><td>						<a id="33c433" class="tk">rt_ODE8_A</a>[1][0] = 5.555555555555556E-2; \</td></tr>
+<tr name="34" id="34">
+<td><a id="l34" class='ln'>34</a></td><td>						<a id="34c479" class="tk">rt_ODE8_A</a>[2][0] = 2.083333333333333E-2; \</td></tr>
+<tr name="35" id="35">
+<td><a id="l35" class='ln'>35</a></td><td>						<a id="35c525" class="tk">rt_ODE8_A</a>[2][1] = 6.25E-2; \</td></tr>
+<tr name="36" id="36">
+<td><a id="l36" class='ln'>36</a></td><td>						<a id="36c558" class="tk">rt_ODE8_A</a>[3][0] = 3.125E-2; \</td></tr>
+<tr name="37" id="37">
+<td><a id="l37" class='ln'>37</a></td><td>						<a id="37c592" class="tk">rt_ODE8_A</a>[3][2] = 9.375E-2; \</td></tr>
+<tr name="38" id="38">
+<td><a id="l38" class='ln'>38</a></td><td>						<a id="38c626" class="tk">rt_ODE8_A</a>[4][0] = 3.125E-1; \</td></tr>
+<tr name="39" id="39">
+<td><a id="l39" class='ln'>39</a></td><td>						<a id="39c660" class="tk">rt_ODE8_A</a>[4][2] = <a id="39c678" class="tk">-</a>1.171875; \</td></tr>
+<tr name="40" id="40">
+<td><a id="l40" class='ln'>40</a></td><td>						<a id="40c695" class="tk">rt_ODE8_A</a>[4][3] = 1.171875; \</td></tr>
+<tr name="41" id="41">
+<td><a id="l41" class='ln'>41</a></td><td>						<a id="41c729" class="tk">rt_ODE8_A</a>[5][0] = 3.75E-2; \</td></tr>
+<tr name="42" id="42">
+<td><a id="l42" class='ln'>42</a></td><td>						<a id="42c762" class="tk">rt_ODE8_A</a>[5][3] = 1.875E-1; \</td></tr>
+<tr name="43" id="43">
+<td><a id="l43" class='ln'>43</a></td><td>						<a id="43c796" class="tk">rt_ODE8_A</a>[5][4] = 1.5E-1; \</td></tr>
+<tr name="44" id="44">
+<td><a id="l44" class='ln'>44</a></td><td>						<a id="44c828" class="tk">rt_ODE8_A</a>[6][0] = 4.791013711111111E-2; \</td></tr>
+<tr name="45" id="45">
+<td><a id="l45" class='ln'>45</a></td><td>						<a id="45c874" class="tk">rt_ODE8_A</a>[6][3] = 1.122487127777778E-1; \</td></tr>
+<tr name="46" id="46">
+<td><a id="l46" class='ln'>46</a></td><td>						<a id="46c920" class="tk">rt_ODE8_A</a>[6][4] = <a id="46c938" class="tk">-</a>2.550567377777778E-2; \</td></tr>
+<tr name="47" id="47">
+<td><a id="l47" class='ln'>47</a></td><td>						<a id="47c967" class="tk">rt_ODE8_A</a>[6][5] = 1.284682388888889E-2; \</td></tr>
+<tr name="48" id="48">
+<td><a id="l48" class='ln'>48</a></td><td>						<a id="48c1013" class="tk">rt_ODE8_A</a>[7][0] = 1.691798978729228E-2; \</td></tr>
+<tr name="49" id="49">
+<td><a id="l49" class='ln'>49</a></td><td>						<a id="49c1059" class="tk">rt_ODE8_A</a>[7][3] = 3.878482784860432E-1; \</td></tr>
+<tr name="50" id="50">
+<td><a id="l50" class='ln'>50</a></td><td>						<a id="50c1105" class="tk">rt_ODE8_A</a>[7][4] = 3.597736985150033E-2; \</td></tr>
+<tr name="51" id="51">
+<td><a id="l51" class='ln'>51</a></td><td>						<a id="51c1151" class="tk">rt_ODE8_A</a>[7][5] = 1.969702142156661E-1; \</td></tr>
+<tr name="52" id="52">
+<td><a id="l52" class='ln'>52</a></td><td>						<a id="52c1197" class="tk">rt_ODE8_A</a>[7][6] = <a id="52c1215" class="tk">-</a>1.727138523405018E-1; \</td></tr>
+<tr name="53" id="53">
+<td><a id="l53" class='ln'>53</a></td><td>						<a id="53c1244" class="tk">rt_ODE8_A</a>[8][0] = 6.90957533591923E-2; \</td></tr>
+<tr name="54" id="54">
+<td><a id="l54" class='ln'>54</a></td><td>						<a id="54c1289" class="tk">rt_ODE8_A</a>[8][3] = <a id="54c1307" class="tk">-</a>6.342479767288542E-1; \</td></tr>
+<tr name="55" id="55">
+<td><a id="l55" class='ln'>55</a></td><td>						<a id="55c1336" class="tk">rt_ODE8_A</a>[8][4] = <a id="55c1354" class="tk">-</a>1.611975752246041E-1; \</td></tr>
+<tr name="56" id="56">
+<td><a id="l56" class='ln'>56</a></td><td>						<a id="56c1383" class="tk">rt_ODE8_A</a>[8][5] = 1.386503094588253E-1; \</td></tr>
+<tr name="57" id="57">
+<td><a id="l57" class='ln'>57</a></td><td>						<a id="57c1429" class="tk">rt_ODE8_A</a>[8][6] = 9.409286140357563E-1; \</td></tr>
+<tr name="58" id="58">
+<td><a id="l58" class='ln'>58</a></td><td>						<a id="58c1475" class="tk">rt_ODE8_A</a>[8][7] = 2.11636326481944E-1; \</td></tr>
+<tr name="59" id="59">
+<td><a id="l59" class='ln'>59</a></td><td>						<a id="59c1520" class="tk">rt_ODE8_A</a>[9][0] = 1.835569968390454E-1; \</td></tr>
+<tr name="60" id="60">
+<td><a id="l60" class='ln'>60</a></td><td>						<a id="60c1566" class="tk">rt_ODE8_A</a>[9][3] = <a id="60c1584" class="tk">-</a>2.468768084315592; \</td></tr>
+<tr name="61" id="61">
+<td><a id="l61" class='ln'>61</a></td><td>						<a id="61c1610" class="tk">rt_ODE8_A</a>[9][4] = <a id="61c1628" class="tk">-</a>2.912868878163005E-1; \</td></tr>
+<tr name="62" id="62">
+<td><a id="l62" class='ln'>62</a></td><td>						<a id="62c1657" class="tk">rt_ODE8_A</a>[9][5] = <a id="62c1675" class="tk">-</a>2.647302023311738E-2; \</td></tr>
+<tr name="63" id="63">
+<td><a id="l63" class='ln'>63</a></td><td>						<a id="63c1704" class="tk">rt_ODE8_A</a>[9][6] = 2.8478387641928; \</td></tr>
+<tr name="64" id="64">
+<td><a id="l64" class='ln'>64</a></td><td>						<a id="64c1745" class="tk">rt_ODE8_A</a>[9][7] = 2.813873314698498E-1; \</td></tr>
+<tr name="65" id="65">
+<td><a id="l65" class='ln'>65</a></td><td>						<a id="65c1791" class="tk">rt_ODE8_A</a>[9][8] = 1.237448998633147E-1; \</td></tr>
+<tr name="66" id="66">
+<td><a id="l66" class='ln'>66</a></td><td>						<a id="66c1837" class="tk">rt_ODE8_A</a>[10][0] = <a id="66c1856" class="tk">-</a>1.215424817395888; \</td></tr>
+<tr name="67" id="67">
+<td><a id="l67" class='ln'>67</a></td><td>						<a id="67c1882" class="tk">rt_ODE8_A</a>[10][3] = 1.667260866594577E1; \</td></tr>
+<tr name="68" id="68">
+<td><a id="l68" class='ln'>68</a></td><td>						<a id="68c1928" class="tk">rt_ODE8_A</a>[10][4] = 9.157418284168179E-1; \</td></tr>
+<tr name="69" id="69">
+<td><a id="l69" class='ln'>69</a></td><td>						<a id="69c1975" class="tk">rt_ODE8_A</a>[10][5] = <a id="69c1994" class="tk">-</a>6.056605804357471; \</td></tr>
+<tr name="70" id="70">
+<td><a id="l70" class='ln'>70</a></td><td>						<a id="70c2020" class="tk">rt_ODE8_A</a>[10][6] = <a id="70c2039" class="tk">-</a>1.600357359415618E1; \</td></tr>
+<tr name="71" id="71">
+<td><a id="l71" class='ln'>71</a></td><td>						<a id="71c2067" class="tk">rt_ODE8_A</a>[10][7] = 1.484930308629766E1; \</td></tr>
+<tr name="72" id="72">
+<td><a id="l72" class='ln'>72</a></td><td>						<a id="72c2113" class="tk">rt_ODE8_A</a>[10][8] = <a id="72c2132" class="tk">-</a>1.337157573528985E1; \</td></tr>
+<tr name="73" id="73">
+<td><a id="l73" class='ln'>73</a></td><td>						<a id="73c2160" class="tk">rt_ODE8_A</a>[10][9] = 5.134182648179638; \</td></tr>
+<tr name="74" id="74">
+<td><a id="l74" class='ln'>74</a></td><td>						<a id="74c2204" class="tk">rt_ODE8_A</a>[11][0] = 2.588609164382643E-1; \</td></tr>
+<tr name="75" id="75">
+<td><a id="l75" class='ln'>75</a></td><td>						<a id="75c2251" class="tk">rt_ODE8_A</a>[11][3] = <a id="75c2270" class="tk">-</a>4.774485785489205; \</td></tr>
+<tr name="76" id="76">
+<td><a id="l76" class='ln'>76</a></td><td>						<a id="76c2296" class="tk">rt_ODE8_A</a>[11][4] = <a id="76c2315" class="tk">-</a>4.350930137770325E-1; \</td></tr>
+<tr name="77" id="77">
+<td><a id="l77" class='ln'>77</a></td><td>						<a id="77c2344" class="tk">rt_ODE8_A</a>[11][5] = <a id="77c2363" class="tk">-</a>3.049483332072241; \</td></tr>
+<tr name="78" id="78">
+<td><a id="l78" class='ln'>78</a></td><td>						<a id="78c2389" class="tk">rt_ODE8_A</a>[11][6] = 5.577920039936099; \</td></tr>
+<tr name="79" id="79">
+<td><a id="l79" class='ln'>79</a></td><td>						<a id="79c2433" class="tk">rt_ODE8_A</a>[11][7] = 6.155831589861039; \</td></tr>
+<tr name="80" id="80">
+<td><a id="l80" class='ln'>80</a></td><td>						<a id="80c2477" class="tk">rt_ODE8_A</a>[11][8] = <a id="80c2496" class="tk">-</a>5.062104586736938; \</td></tr>
+<tr name="81" id="81">
+<td><a id="l81" class='ln'>81</a></td><td>						<a id="81c2522" class="tk">rt_ODE8_A</a>[11][9] = 2.193926173180679; \</td></tr>
+<tr name="82" id="82">
+<td><a id="l82" class='ln'>82</a></td><td>						<a id="82c2566" class="tk">rt_ODE8_A</a>[11][10] = 1.346279986593349E-1; \</td></tr>
+<tr name="83" id="83">
+<td><a id="l83" class='ln'>83</a></td><td>						<a id="83c2614" class="tk">rt_ODE8_A</a>[12][0] = 8.224275996265075E-1; \</td></tr>
+<tr name="84" id="84">
+<td><a id="l84" class='ln'>84</a></td><td>						<a id="84c2661" class="tk">rt_ODE8_A</a>[12][3] = <a id="84c2680" class="tk">-</a>1.165867325727766E1; \</td></tr>
+<tr name="85" id="85">
+<td><a id="l85" class='ln'>85</a></td><td>						<a id="85c2708" class="tk">rt_ODE8_A</a>[12][4] = <a id="85c2727" class="tk">-</a>7.576221166909362E-1; \</td></tr>
+<tr name="86" id="86">
+<td><a id="l86" class='ln'>86</a></td><td>						<a id="86c2756" class="tk">rt_ODE8_A</a>[12][5] = 7.139735881595818E-1; \</td></tr>
+<tr name="87" id="87">
+<td><a id="l87" class='ln'>87</a></td><td>						<a id="87c2803" class="tk">rt_ODE8_A</a>[12][6] = 1.207577498689006E1; \</td></tr>
+<tr name="88" id="88">
+<td><a id="l88" class='ln'>88</a></td><td>						<a id="88c2849" class="tk">rt_ODE8_A</a>[12][7] = <a id="88c2868" class="tk">-</a>2.127659113920403; \</td></tr>
+<tr name="89" id="89">
+<td><a id="l89" class='ln'>89</a></td><td>						<a id="89c2894" class="tk">rt_ODE8_A</a>[12][8] = 1.990166207048956; \</td></tr>
+<tr name="90" id="90">
+<td><a id="l90" class='ln'>90</a></td><td>						<a id="90c2938" class="tk">rt_ODE8_A</a>[12][9] = <a id="90c2957" class="tk">-</a>2.342864715440405E-1; \</td></tr>
+<tr name="91" id="91">
+<td><a id="l91" class='ln'>91</a></td><td>						<a id="91c2986" class="tk">rt_ODE8_A</a>[12][10] = 1.758985777079423E-1; \</td></tr>
+<tr name="92" id="92">
+<td><a id="l92" class='ln'>92</a></td><td>						<a id="92c3034" class="tk">rt_ODE8_B</a>[0] = 4.174749114153025E-2; \</td></tr>
+<tr name="93" id="93">
+<td><a id="l93" class='ln'>93</a></td><td>						<a id="93c3077" class="tk">rt_ODE8_B</a>[5] = <a id="93c3092" class="tk">-</a>5.54523286112393E-2; \</td></tr>
+<tr name="94" id="94">
+<td><a id="l94" class='ln'>94</a></td><td>						<a id="94c3120" class="tk">rt_ODE8_B</a>[6] = 2.393128072011801E-1; \</td></tr>
+<tr name="95" id="95">
+<td><a id="l95" class='ln'>95</a></td><td>						<a id="95c3163" class="tk">rt_ODE8_B</a>[7] = 7.03510669403443E-1; \</td></tr>
+<tr name="96" id="96">
+<td><a id="l96" class='ln'>96</a></td><td>						<a id="96c3205" class="tk">rt_ODE8_B</a>[8] = <a id="96c3220" class="tk">-</a>7.597596138144609E-1; \</td></tr>
+<tr name="97" id="97">
+<td><a id="l97" class='ln'>97</a></td><td>						<a id="97c3249" class="tk">rt_ODE8_B</a>[9] = 6.605630309222863E-1; \</td></tr>
+<tr name="98" id="98">
+<td><a id="l98" class='ln'>98</a></td><td>						<a id="98c3292" class="tk">rt_ODE8_B</a>[10] = 1.581874825101233E-1; \</td></tr>
+<tr name="99" id="99">
+<td><a id="l99" class='ln'>99</a></td><td>						<a id="99c3336" class="tk">rt_ODE8_B</a>[11] = <a id="99c3352" class="tk">-</a>2.381095387528628E-1; \</td></tr>
+<tr name="100" id="100">
+<td><a id="l100" class='ln'>100</a></td><td>						<a id="100c3381" class="tk">rt_ODE8_B</a>[12] = 2.5E-1;</td></tr>
+<tr name="101" id="101">
+<td><a id="l101" class='ln'>101</a></td><td></td></tr>
+<tr name="102" id="102">
+<td><a id="l102" class='ln'>102</a></td><td><span class="kw">static</span> <a id="102c8" class="tk">real_T</a> <a id="102c15" class="tk">rt_ODE8_B</a>[13] = <a id="102c31" class="tk">MAT13</a>;</td></tr>
+<tr name="103" id="103">
+<td><a id="l103" class='ln'>103</a></td><td></td></tr>
+<tr name="104" id="104">
+<td><a id="l104" class='ln'>104</a></td><td><span class="kw">static</span> <a id="104c8" class="tk">real_T</a> <a id="104c15" class="tk">rt_ODE8_C</a>[13] = <a id="104c31" class="tk">MAT13</a>;</td></tr>
+<tr name="105" id="105">
+<td><a id="l105" class='ln'>105</a></td><td></td></tr>
+<tr name="106" id="106">
+<td><a id="l106" class='ln'>106</a></td><td><span class="kw">static</span> <a id="106c8" class="tk">real_T</a> <a id="106c15" class="tk">rt_ODE8_A</a>[13][13] = <a id="106c35" class="tk">TWODMAT13</a>;</td></tr>
+<tr name="107" id="107">
+<td><a id="l107" class='ln'>107</a></td><td></td></tr>
+<tr name="108" id="108">
+<td><a id="l108" class='ln'>108</a></td><td><span class="kw">typedef</span> <span class="kw">struct</span> <a id="108c16" class="tk">IntgData_tag</a> <span class="br">{</span></td></tr>
+<tr name="109" id="109">
+<td><a id="l109" class='ln'>109</a></td><td>    <a id="109c5" class="tk">real_T</a> <a id="109c12" class="tk">*</a><a id="109c13" class="tk">deltaY</a>;</td></tr>
+<tr name="110" id="110">
+<td><a id="l110" class='ln'>110</a></td><td>    <a id="110c5" class="tk">real_T</a> <a id="110c12" class="tk">*</a><a id="110c13" class="tk">f</a>[13];</td></tr>
+<tr name="111" id="111">
+<td><a id="l111" class='ln'>111</a></td><td>	<a id="111c2" class="tk">real_T</a> <a id="111c9" class="tk">*</a><a id="111c10" class="tk">x0</a>;</td></tr>
+<tr name="112" id="112">
+<td><a id="l112" class='ln'>112</a></td><td><span class="br">}</span> <a id="112c3" class="tk">IntgData</a>;</td></tr>
+<tr name="113" id="113">
+<td><a id="l113" class='ln'>113</a></td><td></td></tr>
+<tr name="114" id="114">
+<td><a id="l114" class='ln'>114</a></td><td><span class="pp">#ifndef</span> <a id="114c9" class="tk">RT_MALLOC</a></td></tr>
+<tr name="115" id="115">
+<td><a id="l115" class='ln'>115</a></td><td>  <span class="ct">/* statically declare data */</span></td></tr>
+<tr name="116" id="116">
+<td><a id="l116" class='ln'>116</a></td><td>  <span class="kw">static</span> <a id="116c10" class="tk">real_T</a>   <a id="116c19" class="tk">rt_ODE8_DELTAY</a>[<a id="116c34" class="tk">NCSTATES</a>];</td></tr>
+<tr name="117" id="117">
+<td><a id="l117" class='ln'>117</a></td><td>  <span class="kw">static</span> <a id="117c10" class="tk">real_T</a>   <a id="117c19" class="tk">rt_ODE8_F</a>[13][<a id="117c33" class="tk">NCSTATES</a>];</td></tr>
+<tr name="118" id="118">
+<td><a id="l118" class='ln'>118</a></td><td>  <span class="kw">static</span> <a id="118c10" class="tk">real_T</a>   <a id="118c19" class="tk">rt_ODE8_X0</a>[<a id="118c30" class="tk">NCSTATES</a>];</td></tr>
+<tr name="119" id="119">
+<td><a id="l119" class='ln'>119</a></td><td>  <span class="kw">static</span> <a id="119c10" class="tk">IntgData</a> <a id="119c19" class="tk">rt_ODE8_IntgData</a> = <span class="br">{</span><a id="119c39" class="tk">rt_ODE8_DELTAY</a>,</td></tr>
+<tr name="120" id="120">
+<td><a id="l120" class='ln'>120</a></td><td>                                      <span class="br">{</span><a id="120c40" class="tk">rt_ODE8_F</a>[0],</td></tr>
+<tr name="121" id="121">
+<td><a id="l121" class='ln'>121</a></td><td>                                       <a id="121c40" class="tk">rt_ODE8_F</a>[1],</td></tr>
+<tr name="122" id="122">
+<td><a id="l122" class='ln'>122</a></td><td>                                       <a id="122c40" class="tk">rt_ODE8_F</a>[2],</td></tr>
+<tr name="123" id="123">
+<td><a id="l123" class='ln'>123</a></td><td>                                       <a id="123c40" class="tk">rt_ODE8_F</a>[3],</td></tr>
+<tr name="124" id="124">
+<td><a id="l124" class='ln'>124</a></td><td>                                       <a id="124c40" class="tk">rt_ODE8_F</a>[4],</td></tr>
+<tr name="125" id="125">
+<td><a id="l125" class='ln'>125</a></td><td>                                       <a id="125c40" class="tk">rt_ODE8_F</a>[5],</td></tr>
+<tr name="126" id="126">
+<td><a id="l126" class='ln'>126</a></td><td>									   <a id="126c13" class="tk">rt_ODE8_F</a>[6],</td></tr>
+<tr name="127" id="127">
+<td><a id="l127" class='ln'>127</a></td><td>									   <a id="127c13" class="tk">rt_ODE8_F</a>[7],</td></tr>
+<tr name="128" id="128">
+<td><a id="l128" class='ln'>128</a></td><td>									   <a id="128c13" class="tk">rt_ODE8_F</a>[8],</td></tr>
+<tr name="129" id="129">
+<td><a id="l129" class='ln'>129</a></td><td>									   <a id="129c13" class="tk">rt_ODE8_F</a>[9],</td></tr>
+<tr name="130" id="130">
+<td><a id="l130" class='ln'>130</a></td><td>									   <a id="130c13" class="tk">rt_ODE8_F</a>[10],</td></tr>
+<tr name="131" id="131">
+<td><a id="l131" class='ln'>131</a></td><td>									   <a id="131c13" class="tk">rt_ODE8_F</a>[11],</td></tr>
+<tr name="132" id="132">
+<td><a id="l132" class='ln'>132</a></td><td>									   <a id="132c13" class="tk">rt_ODE8_F</a>[12],</td></tr>
+<tr name="133" id="133">
+<td><a id="l133" class='ln'>133</a></td><td>									  <span class="br">}</span>,</td></tr>
+<tr name="134" id="134">
+<td><a id="l134" class='ln'>134</a></td><td>									  <a id="134c12" class="tk">rt_ODE8_X0</a></td></tr>
+<tr name="135" id="135">
+<td><a id="l135" class='ln'>135</a></td><td>									 <span class="br">}</span>;</td></tr>
+<tr name="136" id="136">
+<td><a id="l136" class='ln'>136</a></td><td></td></tr>
+<tr name="137" id="137">
+<td><a id="l137" class='ln'>137</a></td><td>  <span class="kw">void</span> <a id="137c8" class="tk">rt_ODECreateIntegrationData</a>(<a id="137c36" class="tk">RTWSolverInfo</a> <a id="137c50" class="tk">*</a><a id="137c51" class="tk">si</a>)</td></tr>
+<tr name="138" id="138">
+<td><a id="l138" class='ln'>138</a></td><td>  <span class="br">{</span></td></tr>
+<tr name="139" id="139">
+<td><a id="l139" class='ln'>139</a></td><td>	  <a id="139c4" class="tk">ODE8_CONSTANTS</a></td></tr>
+<tr name="140" id="140">
+<td><a id="l140" class='ln'>140</a></td><td>      <a id="140c7" class="tk">rtsiSetSolverData</a>(<a id="140c25" class="tk">si</a>,(<span class="kw">void</span> <a id="140c34" class="tk">*</a>)<a id="140c36" class="tk">&amp;</a><a id="140c37" class="tk">rt_ODE8_IntgData</a>);</td></tr>
+<tr name="141" id="141">
+<td><a id="l141" class='ln'>141</a></td><td>      <a id="141c7" class="tk">rtsiSetSolverName</a>(<a id="141c25" class="tk">si</a>,"ode8");</td></tr>
+<tr name="142" id="142">
+<td><a id="l142" class='ln'>142</a></td><td>  <span class="br">}</span></td></tr>
+<tr name="143" id="143">
+<td><a id="l143" class='ln'>143</a></td><td><span class="pp">#else</span></td></tr>
+<tr name="144" id="144">
+<td><a id="l144" class='ln'>144</a></td><td>  <span class="ct">/* dynamically allocated data */</span></td></tr>
+<tr name="145" id="145">
+<td><a id="l145" class='ln'>145</a></td><td></td></tr>
+<tr name="146" id="146">
+<td><a id="l146" class='ln'>146</a></td><td>  <span class="kw">void</span> <a id="146c8" class="tk">rt_ODECreateIntegrationData</a>(<a id="146c36" class="tk">RTWSolverInfo</a> <a id="146c50" class="tk">*</a><a id="146c51" class="tk">si</a>)</td></tr>
+<tr name="147" id="147">
+<td><a id="l147" class='ln'>147</a></td><td>  <span class="br">{</span></td></tr>
+<tr name="148" id="148">
+<td><a id="l148" class='ln'>148</a></td><td>      <a id="148c7" class="tk">int_T</a> <a id="148c13" class="tk">nX</a> = <a id="148c18" class="tk">rtsiGetNumContStates</a>(<a id="148c39" class="tk">si</a>);</td></tr>
+<tr name="149" id="149">
+<td><a id="l149" class='ln'>149</a></td><td>      <a id="149c7" class="tk">IntgData</a> <a id="149c16" class="tk">*</a><a id="149c17" class="tk">id</a> = (<a id="149c23" class="tk">IntgData</a> <a id="149c32" class="tk">*</a>) <a id="149c35" class="tk">malloc</a>(<span class="kw">sizeof</span>(<a id="149c49" class="tk">IntgData</a>));</td></tr>
+<tr name="150" id="150">
+<td><a id="l150" class='ln'>150</a></td><td>   </td></tr>
+<tr name="151" id="151">
+<td><a id="l151" class='ln'>151</a></td><td>	  <span class="kw">if</span>(<a id="151c7" class="tk">id</a> <a id="151c10" class="tk">==</a> <a id="151c13" class="tk">NULL</a>) <span class="br">{</span></td></tr>
+<tr name="152" id="152">
+<td><a id="l152" class='ln'>152</a></td><td>          <a id="152c11" class="tk">rtsiSetErrorStatus</a>(<a id="152c30" class="tk">si</a>, <a id="152c34" class="tk">RT_MEMORY_ALLOCATION_ERROR</a>);</td></tr>
+<tr name="153" id="153">
+<td><a id="l153" class='ln'>153</a></td><td>          <span class="kw">return</span>;</td></tr>
+<tr name="154" id="154">
+<td><a id="l154" class='ln'>154</a></td><td>      <span class="br">}</span></td></tr>
+<tr name="155" id="155">
+<td><a id="l155" class='ln'>155</a></td><td>      </td></tr>
+<tr name="156" id="156">
+<td><a id="l156" class='ln'>156</a></td><td>      <a id="156c7" class="tk">id</a>-&gt;<a id="156c11" class="tk">deltaY</a> = (<a id="156c21" class="tk">real_T</a> <a id="156c28" class="tk">*</a>) <a id="156c31" class="tk">malloc</a>(15<a id="156c40" class="tk">*</a><a id="156c41" class="tk">rtsiGetNumContStates</a>(<a id="156c62" class="tk">si</a>) <a id="156c66" class="tk">*</a> <span class="kw">sizeof</span>(<a id="156c75" class="tk">real_T</a>));</td></tr>
+<tr name="157" id="157">
+<td><a id="l157" class='ln'>157</a></td><td>      <span class="kw">if</span>(<a id="157c10" class="tk">id</a>-&gt;<a id="157c14" class="tk">deltaY</a> <a id="157c21" class="tk">==</a> <a id="157c24" class="tk">NULL</a>) <span class="br">{</span></td></tr>
+<tr name="158" id="158">
+<td><a id="l158" class='ln'>158</a></td><td>          <a id="158c11" class="tk">rtsiSetErrorStatus</a>(<a id="158c30" class="tk">si</a>, <a id="158c34" class="tk">RT_MEMORY_ALLOCATION_ERROR</a>);</td></tr>
+<tr name="159" id="159">
+<td><a id="l159" class='ln'>159</a></td><td>          <span class="kw">return</span>;</td></tr>
+<tr name="160" id="160">
+<td><a id="l160" class='ln'>160</a></td><td>      <span class="br">}</span></td></tr>
+<tr name="161" id="161">
+<td><a id="l161" class='ln'>161</a></td><td>      <a id="161c7" class="tk">id</a>-&gt;<a id="161c11" class="tk">f</a>[0]  = <a id="161c19" class="tk">id</a>-&gt;<a id="161c23" class="tk">deltaY</a><a id="161c29" class="tk">+</a> <a id="161c31" class="tk">nX</a>;</td></tr>
+<tr name="162" id="162">
+<td><a id="l162" class='ln'>162</a></td><td>      <a id="162c7" class="tk">id</a>-&gt;<a id="162c11" class="tk">f</a>[1]  = <a id="162c19" class="tk">id</a>-&gt;<a id="162c23" class="tk">f</a>[0]  <a id="162c29" class="tk">+</a> <a id="162c31" class="tk">nX</a>;</td></tr>
+<tr name="163" id="163">
+<td><a id="l163" class='ln'>163</a></td><td>      <a id="163c7" class="tk">id</a>-&gt;<a id="163c11" class="tk">f</a>[2]  = <a id="163c19" class="tk">id</a>-&gt;<a id="163c23" class="tk">f</a>[1]  <a id="163c29" class="tk">+</a> <a id="163c31" class="tk">nX</a>;</td></tr>
+<tr name="164" id="164">
+<td><a id="l164" class='ln'>164</a></td><td>      <a id="164c7" class="tk">id</a>-&gt;<a id="164c11" class="tk">f</a>[3]  = <a id="164c19" class="tk">id</a>-&gt;<a id="164c23" class="tk">f</a>[2]  <a id="164c29" class="tk">+</a> <a id="164c31" class="tk">nX</a>;</td></tr>
+<tr name="165" id="165">
+<td><a id="l165" class='ln'>165</a></td><td>      <a id="165c7" class="tk">id</a>-&gt;<a id="165c11" class="tk">f</a>[4]  = <a id="165c19" class="tk">id</a>-&gt;<a id="165c23" class="tk">f</a>[3]  <a id="165c29" class="tk">+</a> <a id="165c31" class="tk">nX</a>;</td></tr>
+<tr name="166" id="166">
+<td><a id="l166" class='ln'>166</a></td><td>      <a id="166c7" class="tk">id</a>-&gt;<a id="166c11" class="tk">f</a>[5]  = <a id="166c19" class="tk">id</a>-&gt;<a id="166c23" class="tk">f</a>[4]  <a id="166c29" class="tk">+</a> <a id="166c31" class="tk">nX</a>;</td></tr>
+<tr name="167" id="167">
+<td><a id="l167" class='ln'>167</a></td><td>	  <a id="167c4" class="tk">id</a>-&gt;<a id="167c8" class="tk">f</a>[6]  = <a id="167c16" class="tk">id</a>-&gt;<a id="167c20" class="tk">f</a>[5]  <a id="167c26" class="tk">+</a> <a id="167c28" class="tk">nX</a>;</td></tr>
+<tr name="168" id="168">
+<td><a id="l168" class='ln'>168</a></td><td>	  <a id="168c4" class="tk">id</a>-&gt;<a id="168c8" class="tk">f</a>[7]  = <a id="168c16" class="tk">id</a>-&gt;<a id="168c20" class="tk">f</a>[6]  <a id="168c26" class="tk">+</a> <a id="168c28" class="tk">nX</a>;</td></tr>
+<tr name="169" id="169">
+<td><a id="l169" class='ln'>169</a></td><td>	  <a id="169c4" class="tk">id</a>-&gt;<a id="169c8" class="tk">f</a>[8]  = <a id="169c16" class="tk">id</a>-&gt;<a id="169c20" class="tk">f</a>[7]  <a id="169c26" class="tk">+</a> <a id="169c28" class="tk">nX</a>;</td></tr>
+<tr name="170" id="170">
+<td><a id="l170" class='ln'>170</a></td><td>	  <a id="170c4" class="tk">id</a>-&gt;<a id="170c8" class="tk">f</a>[9]  = <a id="170c16" class="tk">id</a>-&gt;<a id="170c20" class="tk">f</a>[8]  <a id="170c26" class="tk">+</a> <a id="170c28" class="tk">nX</a>;</td></tr>
+<tr name="171" id="171">
+<td><a id="l171" class='ln'>171</a></td><td>	  <a id="171c4" class="tk">id</a>-&gt;<a id="171c8" class="tk">f</a>[10] = <a id="171c16" class="tk">id</a>-&gt;<a id="171c20" class="tk">f</a>[9]  <a id="171c26" class="tk">+</a> <a id="171c28" class="tk">nX</a>;</td></tr>
+<tr name="172" id="172">
+<td><a id="l172" class='ln'>172</a></td><td>	  <a id="172c4" class="tk">id</a>-&gt;<a id="172c8" class="tk">f</a>[11] = <a id="172c16" class="tk">id</a>-&gt;<a id="172c20" class="tk">f</a>[10] <a id="172c26" class="tk">+</a> <a id="172c28" class="tk">nX</a>;</td></tr>
+<tr name="173" id="173">
+<td><a id="l173" class='ln'>173</a></td><td>	  <a id="173c4" class="tk">id</a>-&gt;<a id="173c8" class="tk">f</a>[12] = <a id="173c16" class="tk">id</a>-&gt;<a id="173c20" class="tk">f</a>[11] <a id="173c26" class="tk">+</a> <a id="173c28" class="tk">nX</a>;</td></tr>
+<tr name="174" id="174">
+<td><a id="l174" class='ln'>174</a></td><td>	  <a id="174c4" class="tk">id</a>-&gt;<a id="174c8" class="tk">x0</a>    = <a id="174c16" class="tk">id</a>-&gt;<a id="174c20" class="tk">f</a>[12] <a id="174c26" class="tk">+</a> <a id="174c28" class="tk">nX</a>;</td></tr>
+<tr name="175" id="175">
+<td><a id="l175" class='ln'>175</a></td><td></td></tr>
+<tr name="176" id="176">
+<td><a id="l176" class='ln'>176</a></td><td>	  <a id="176c4" class="tk">ODE8_CONSTANTS</a></td></tr>
+<tr name="177" id="177">
+<td><a id="l177" class='ln'>177</a></td><td></td></tr>
+<tr name="178" id="178">
+<td><a id="l178" class='ln'>178</a></td><td>	  <a id="178c4" class="tk">rtsiSetSolverData</a>(<a id="178c22" class="tk">si</a>, (<span class="kw">void</span> <a id="178c32" class="tk">*</a>)<a id="178c34" class="tk">id</a>);</td></tr>
+<tr name="179" id="179">
+<td><a id="l179" class='ln'>179</a></td><td>      <a id="179c7" class="tk">rtsiSetSolverName</a>(<a id="179c25" class="tk">si</a>,"ode8");</td></tr>
+<tr name="180" id="180">
+<td><a id="l180" class='ln'>180</a></td><td>  <span class="br">}</span></td></tr>
+<tr name="181" id="181">
+<td><a id="l181" class='ln'>181</a></td><td></td></tr>
+<tr name="182" id="182">
+<td><a id="l182" class='ln'>182</a></td><td>  <span class="kw">void</span> <a id="182c8" class="tk">rt_ODEDestroyIntegrationData</a>(<a id="182c37" class="tk">RTWSolverInfo</a> <a id="182c51" class="tk">*</a><a id="182c52" class="tk">si</a>)</td></tr>
+<tr name="183" id="183">
+<td><a id="l183" class='ln'>183</a></td><td>  <span class="br">{</span></td></tr>
+<tr name="184" id="184">
+<td><a id="l184" class='ln'>184</a></td><td>      <a id="184c7" class="tk">IntgData</a> <a id="184c16" class="tk">*</a><a id="184c17" class="tk">id</a> = <a id="184c22" class="tk">rtsiGetSolverData</a>(<a id="184c40" class="tk">si</a>);</td></tr>
+<tr name="185" id="185">
+<td><a id="l185" class='ln'>185</a></td><td>      </td></tr>
+<tr name="186" id="186">
+<td><a id="l186" class='ln'>186</a></td><td>      <span class="kw">if</span> (<a id="186c11" class="tk">id</a> <a id="186c14" class="tk">!=</a> <a id="186c17" class="tk">NULL</a>) <span class="br">{</span></td></tr>
+<tr name="187" id="187">
+<td><a id="l187" class='ln'>187</a></td><td>          <span class="kw">if</span> (<a id="187c15" class="tk">id</a>-&gt;<a id="187c19" class="tk">deltaY</a> <a id="187c26" class="tk">!=</a> <a id="187c29" class="tk">NULL</a>) <span class="br">{</span></td></tr>
+<tr name="188" id="188">
+<td><a id="l188" class='ln'>188</a></td><td>              <a id="188c15" class="tk">free</a>(<a id="188c20" class="tk">id</a>-&gt;<a id="188c24" class="tk">deltaY</a>);</td></tr>
+<tr name="189" id="189">
+<td><a id="l189" class='ln'>189</a></td><td>          <span class="br">}</span></td></tr>
+<tr name="190" id="190">
+<td><a id="l190" class='ln'>190</a></td><td>          <a id="190c11" class="tk">free</a>(<a id="190c16" class="tk">id</a>);</td></tr>
+<tr name="191" id="191">
+<td><a id="l191" class='ln'>191</a></td><td>          <a id="191c11" class="tk">rtsiSetSolverData</a>(<a id="191c29" class="tk">si</a>, <a id="191c33" class="tk">NULL</a>);</td></tr>
+<tr name="192" id="192">
+<td><a id="l192" class='ln'>192</a></td><td>      <span class="br">}</span></td></tr>
+<tr name="193" id="193">
+<td><a id="l193" class='ln'>193</a></td><td>  <span class="br">}</span></td></tr>
+<tr name="194" id="194">
+<td><a id="l194" class='ln'>194</a></td><td><span class="pp">#endif</span></td></tr>
+<tr name="195" id="195">
+<td><a id="l195" class='ln'>195</a></td><td></td></tr>
+<tr name="196" id="196">
+<td><a id="l196" class='ln'>196</a></td><td><span class="kw">void</span> <a id="196c6" class="tk">rt_ODEUpdateContinuousStates</a>(<a id="196c35" class="tk">RTWSolverInfo</a> <a id="196c49" class="tk">*</a><a id="196c50" class="tk">si</a>)</td></tr>
+<tr name="197" id="197">
+<td><a id="l197" class='ln'>197</a></td><td><span class="br">{</span></td></tr>
+<tr name="198" id="198">
+<td><a id="l198" class='ln'>198</a></td><td>    <a id="198c5" class="tk">time_T</a>    <a id="198c15" class="tk">t</a>          = <a id="198c28" class="tk">rtsiGetT</a>(<a id="198c37" class="tk">si</a>);</td></tr>
+<tr name="199" id="199">
+<td><a id="l199" class='ln'>199</a></td><td>    <a id="199c5" class="tk">time_T</a>    <a id="199c15" class="tk">tnew</a>       = <a id="199c28" class="tk">rtsiGetSolverStopTime</a>(<a id="199c50" class="tk">si</a>);</td></tr>
+<tr name="200" id="200">
+<td><a id="l200" class='ln'>200</a></td><td>    <a id="200c5" class="tk">time_T</a>    <a id="200c15" class="tk">h</a>          = <a id="200c28" class="tk">rtsiGetStepSize</a>(<a id="200c44" class="tk">si</a>);</td></tr>
+<tr name="201" id="201">
+<td><a id="l201" class='ln'>201</a></td><td>    <a id="201c5" class="tk">real_T</a>    <a id="201c15" class="tk">*</a><a id="201c16" class="tk">x</a>         = <a id="201c28" class="tk">rtsiGetContStates</a>(<a id="201c46" class="tk">si</a>);</td></tr>
+<tr name="202" id="202">
+<td><a id="l202" class='ln'>202</a></td><td>    <a id="202c5" class="tk">IntgData</a>  <a id="202c15" class="tk">*</a><a id="202c16" class="tk">intgData</a>  = <a id="202c28" class="tk">rtsiGetSolverData</a>(<a id="202c46" class="tk">si</a>);</td></tr>
+<tr name="203" id="203">
+<td><a id="l203" class='ln'>203</a></td><td>    <a id="203c5" class="tk">real_T</a>    <a id="203c15" class="tk">*</a><a id="203c16" class="tk">deltaY</a>    = <a id="203c28" class="tk">intgData</a>-&gt;<a id="203c38" class="tk">deltaY</a>;</td></tr>
+<tr name="204" id="204">
+<td><a id="l204" class='ln'>204</a></td><td>	<a id="204c2" class="tk">real_T</a>    <a id="204c12" class="tk">*</a><a id="204c13" class="tk">x0</a>        = <a id="204c25" class="tk">intgData</a>-&gt;<a id="204c35" class="tk">x0</a>;</td></tr>
+<tr name="205" id="205">
+<td><a id="l205" class='ln'>205</a></td><td>	<a id="205c2" class="tk">real_T</a><a id="205c8" class="tk">*</a>	  <a id="205c12" class="tk">f</a>[<a id="205c14" class="tk">NSTAGES</a>];</td></tr>
+<tr name="206" id="206">
+<td><a id="l206" class='ln'>206</a></td><td>	<span class="kw">int</span> <a id="206c6" class="tk">idx</a>,<a id="206c10" class="tk">stagesIdx</a>,<a id="206c20" class="tk">statesIdx</a>;</td></tr>
+<tr name="207" id="207">
+<td><a id="l207" class='ln'>207</a></td><td>	<span class="kw">double</span> <a id="207c9" class="tk">deltaX</a>;</td></tr>
+<tr name="208" id="208">
+<td><a id="l208" class='ln'>208</a></td><td>    </td></tr>
+<tr name="209" id="209">
+<td><a id="l209" class='ln'>209</a></td><td><span class="pp">#ifdef</span> <a id="209c8" class="tk">NCSTATES</a></td></tr>
+<tr name="210" id="210">
+<td><a id="l210" class='ln'>210</a></td><td>    <a id="210c5" class="tk">int_T</a>     <a id="210c15" class="tk">nXc</a>        = <a id="210c28" class="tk">NCSTATES</a>;</td></tr>
+<tr name="211" id="211">
+<td><a id="l211" class='ln'>211</a></td><td><span class="pp">#else</span></td></tr>
+<tr name="212" id="212">
+<td><a id="l212" class='ln'>212</a></td><td>    <a id="212c5" class="tk">int_T</a>     <a id="212c15" class="tk">nXc</a>        = <a id="212c28" class="tk">rtsiGetNumContStates</a>(<a id="212c49" class="tk">si</a>);</td></tr>
+<tr name="213" id="213">
+<td><a id="l213" class='ln'>213</a></td><td><span class="pp">#endif</span></td></tr>
+<tr name="214" id="214">
+<td><a id="l214" class='ln'>214</a></td><td></td></tr>
+<tr name="215" id="215">
+<td><a id="l215" class='ln'>215</a></td><td>	<a id="215c2" class="tk">f</a>[0]        = <a id="215c16" class="tk">intgData</a>-&gt;<a id="215c26" class="tk">f</a>[0];</td></tr>
+<tr name="216" id="216">
+<td><a id="l216" class='ln'>216</a></td><td>    <a id="216c5" class="tk">f</a>[1]        = <a id="216c19" class="tk">intgData</a>-&gt;<a id="216c29" class="tk">f</a>[1];</td></tr>
+<tr name="217" id="217">
+<td><a id="l217" class='ln'>217</a></td><td>    <a id="217c5" class="tk">f</a>[2]        = <a id="217c19" class="tk">intgData</a>-&gt;<a id="217c29" class="tk">f</a>[2];</td></tr>
+<tr name="218" id="218">
+<td><a id="l218" class='ln'>218</a></td><td>    <a id="218c5" class="tk">f</a>[3]        = <a id="218c19" class="tk">intgData</a>-&gt;<a id="218c29" class="tk">f</a>[3];</td></tr>
+<tr name="219" id="219">
+<td><a id="l219" class='ln'>219</a></td><td>    <a id="219c5" class="tk">f</a>[4]        = <a id="219c19" class="tk">intgData</a>-&gt;<a id="219c29" class="tk">f</a>[4];</td></tr>
+<tr name="220" id="220">
+<td><a id="l220" class='ln'>220</a></td><td>    <a id="220c5" class="tk">f</a>[5]        = <a id="220c19" class="tk">intgData</a>-&gt;<a id="220c29" class="tk">f</a>[5];</td></tr>
+<tr name="221" id="221">
+<td><a id="l221" class='ln'>221</a></td><td>	<a id="221c2" class="tk">f</a>[6]        = <a id="221c16" class="tk">intgData</a>-&gt;<a id="221c26" class="tk">f</a>[6];</td></tr>
+<tr name="222" id="222">
+<td><a id="l222" class='ln'>222</a></td><td>	<a id="222c2" class="tk">f</a>[7]        = <a id="222c16" class="tk">intgData</a>-&gt;<a id="222c26" class="tk">f</a>[7];</td></tr>
+<tr name="223" id="223">
+<td><a id="l223" class='ln'>223</a></td><td>	<a id="223c2" class="tk">f</a>[8]        = <a id="223c16" class="tk">intgData</a>-&gt;<a id="223c26" class="tk">f</a>[8];</td></tr>
+<tr name="224" id="224">
+<td><a id="l224" class='ln'>224</a></td><td>	<a id="224c2" class="tk">f</a>[9]        = <a id="224c16" class="tk">intgData</a>-&gt;<a id="224c26" class="tk">f</a>[9];</td></tr>
+<tr name="225" id="225">
+<td><a id="l225" class='ln'>225</a></td><td>	<a id="225c2" class="tk">f</a>[10]       = <a id="225c16" class="tk">intgData</a>-&gt;<a id="225c26" class="tk">f</a>[10];</td></tr>
+<tr name="226" id="226">
+<td><a id="l226" class='ln'>226</a></td><td>	<a id="226c2" class="tk">f</a>[11]       = <a id="226c16" class="tk">intgData</a>-&gt;<a id="226c26" class="tk">f</a>[11];</td></tr>
+<tr name="227" id="227">
+<td><a id="l227" class='ln'>227</a></td><td>	<a id="227c2" class="tk">f</a>[12]       = <a id="227c16" class="tk">intgData</a>-&gt;<a id="227c26" class="tk">f</a>[12];</td></tr>
+<tr name="228" id="228">
+<td><a id="l228" class='ln'>228</a></td><td></td></tr>
+<tr name="229" id="229">
+<td><a id="l229" class='ln'>229</a></td><td>    <a id="229c5" class="tk">rtsiSetSimTimeStep</a>(<a id="229c24" class="tk">si</a>,<a id="229c27" class="tk">MINOR_TIME_STEP</a>);</td></tr>
+<tr name="230" id="230">
+<td><a id="l230" class='ln'>230</a></td><td></td></tr>
+<tr name="231" id="231">
+<td><a id="l231" class='ln'>231</a></td><td>    <span class="ct">/* Save the state values at time t in y, we'll use x as ynew. */</span></td></tr>
+<tr name="232" id="232">
+<td><a id="l232" class='ln'>232</a></td><td>    (<span class="kw">void</span>)<a id="232c11" class="tk">memset</a>(<a id="232c18" class="tk">deltaY</a>, 0, <a id="232c29" class="tk">nXc</a><a id="232c32" class="tk">*</a><span class="kw">sizeof</span>(<a id="232c40" class="tk">real_T</a>));</td></tr>
+<tr name="233" id="233">
+<td><a id="l233" class='ln'>233</a></td><td>	(<span class="kw">void</span>)<a id="233c8" class="tk">memcpy</a>(<a id="233c15" class="tk">x0</a>, <a id="233c19" class="tk">x</a>, <a id="233c22" class="tk">nXc</a><a id="233c25" class="tk">*</a><span class="kw">sizeof</span>(<a id="233c33" class="tk">real_T</a>));</td></tr>
+<tr name="234" id="234">
+<td><a id="l234" class='ln'>234</a></td><td></td></tr>
+<tr name="235" id="235">
+<td><a id="l235" class='ln'>235</a></td><td>    <span class="kw">for</span>(<a id="235c9" class="tk">stagesIdx</a>=0;<a id="235c21" class="tk">stagesIdx</a><a id="235c30" class="tk">&lt;</a><a id="235c31" class="tk">NSTAGES</a>;<a id="235c39" class="tk">stagesIdx</a><a id="235c48" class="tk">++</a>)</td></tr>
+<tr name="236" id="236">
+<td><a id="l236" class='ln'>236</a></td><td>	<span class="br">{</span></td></tr>
+<tr name="237" id="237">
+<td><a id="l237" class='ln'>237</a></td><td>		<a id="237c3" class="tk">memcpy</a>(<a id="237c10" class="tk">x</a>,<a id="237c12" class="tk">x0</a>,<a id="237c15" class="tk">nXc</a><a id="237c18" class="tk">*</a><span class="kw">sizeof</span>(<a id="237c26" class="tk">real_T</a>));</td></tr>
+<tr name="238" id="238">
+<td><a id="l238" class='ln'>238</a></td><td>		</td></tr>
+<tr name="239" id="239">
+<td><a id="l239" class='ln'>239</a></td><td>		<span class="kw">for</span>(<a id="239c7" class="tk">statesIdx</a>=0;<a id="239c19" class="tk">statesIdx</a><a id="239c28" class="tk">&lt;</a><a id="239c29" class="tk">nXc</a>;<a id="239c33" class="tk">statesIdx</a><a id="239c42" class="tk">++</a>)</td></tr>
+<tr name="240" id="240">
+<td><a id="l240" class='ln'>240</a></td><td>		<span class="br">{</span></td></tr>
+<tr name="241" id="241">
+<td><a id="l241" class='ln'>241</a></td><td>			<a id="241c4" class="tk">deltaX</a> = 0;</td></tr>
+<tr name="242" id="242">
+<td><a id="l242" class='ln'>242</a></td><td>			<span class="kw">for</span>(<a id="242c8" class="tk">idx</a>=0;<a id="242c14" class="tk">idx</a><a id="242c17" class="tk">&lt;</a><a id="242c18" class="tk">stagesIdx</a>;<a id="242c28" class="tk">idx</a><a id="242c31" class="tk">++</a>)</td></tr>
+<tr name="243" id="243">
+<td><a id="l243" class='ln'>243</a></td><td>			<span class="br">{</span></td></tr>
+<tr name="244" id="244">
+<td><a id="l244" class='ln'>244</a></td><td>				<a id="244c5" class="tk">deltaX</a> = <a id="244c14" class="tk">deltaX</a> <a id="244c21" class="tk">+</a> <a id="244c23" class="tk">h</a><a id="244c24" class="tk">*</a><a id="244c25" class="tk">rt_ODE8_A</a>[<a id="244c35" class="tk">stagesIdx</a>][<a id="244c46" class="tk">idx</a>]<a id="244c50" class="tk">*</a><a id="244c51" class="tk">f</a>[<a id="244c53" class="tk">idx</a>][<a id="244c58" class="tk">statesIdx</a>];</td></tr>
+<tr name="245" id="245">
+<td><a id="l245" class='ln'>245</a></td><td>			<span class="br">}</span></td></tr>
+<tr name="246" id="246">
+<td><a id="l246" class='ln'>246</a></td><td>			<a id="246c4" class="tk">x</a>[<a id="246c6" class="tk">statesIdx</a>] = <a id="246c19" class="tk">x0</a>[<a id="246c22" class="tk">statesIdx</a>] <a id="246c33" class="tk">+</a> <a id="246c35" class="tk">deltaX</a>;</td></tr>
+<tr name="247" id="247">
+<td><a id="l247" class='ln'>247</a></td><td>		<span class="br">}</span></td></tr>
+<tr name="248" id="248">
+<td><a id="l248" class='ln'>248</a></td><td>		</td></tr>
+<tr name="249" id="249">
+<td><a id="l249" class='ln'>249</a></td><td>        <span class="kw">if</span>(<a id="249c12" class="tk">stagesIdx</a><a id="249c21" class="tk">==</a>0)</td></tr>
+<tr name="250" id="250">
+<td><a id="l250" class='ln'>250</a></td><td>        <span class="br">{</span></td></tr>
+<tr name="251" id="251">
+<td><a id="l251" class='ln'>251</a></td><td>            <a id="251c13" class="tk">rtsiSetdX</a>(<a id="251c23" class="tk">si</a>, <a id="251c27" class="tk">f</a>[<a id="251c29" class="tk">stagesIdx</a>]);</td></tr>
+<tr name="252" id="252">
+<td><a id="l252" class='ln'>252</a></td><td>            <a id="252c13" class="tk">DERIVATIVES</a>(<a id="252c25" class="tk">si</a>);</td></tr>
+<tr name="253" id="253">
+<td><a id="l253" class='ln'>253</a></td><td>        <span class="br">}</span><span class="kw">else</span></td></tr>
+<tr name="254" id="254">
+<td><a id="l254" class='ln'>254</a></td><td>        <span class="br">{</span></td></tr>
+<tr name="255" id="255">
+<td><a id="l255" class='ln'>255</a></td><td>            (<a id="255c14" class="tk">stagesIdx</a><a id="255c23" class="tk">==</a><a id="255c25" class="tk">NSTAGES</a><a id="255c32" class="tk">-</a>1)<a id="255c35" class="tk">?</a> <a id="255c37" class="tk">rtsiSetT</a>(<a id="255c46" class="tk">si</a>, <a id="255c50" class="tk">tnew</a>) <a id="255c56" class="tk">:</a> <a id="255c58" class="tk">rtsiSetT</a>(<a id="255c67" class="tk">si</a>, <a id="255c71" class="tk">t</a> <a id="255c73" class="tk">+</a> <a id="255c75" class="tk">h</a><a id="255c76" class="tk">*</a><a id="255c77" class="tk">rt_ODE8_C</a>[<a id="255c87" class="tk">stagesIdx</a>]);</td></tr>
+<tr name="256" id="256">
+<td><a id="l256" class='ln'>256</a></td><td>            <a id="256c13" class="tk">rtsiSetdX</a>(<a id="256c23" class="tk">si</a>, <a id="256c27" class="tk">f</a>[<a id="256c29" class="tk">stagesIdx</a>]);</td></tr>
+<tr name="257" id="257">
+<td><a id="l257" class='ln'>257</a></td><td>            <a id="257c13" class="tk">OUTPUTS</a>(<a id="257c21" class="tk">si</a>,0);</td></tr>
+<tr name="258" id="258">
+<td><a id="l258" class='ln'>258</a></td><td>            <a id="258c13" class="tk">DERIVATIVES</a>(<a id="258c25" class="tk">si</a>);</td></tr>
+<tr name="259" id="259">
+<td><a id="l259" class='ln'>259</a></td><td>        <span class="br">}</span></td></tr>
+<tr name="260" id="260">
+<td><a id="l260" class='ln'>260</a></td><td>				</td></tr>
+<tr name="261" id="261">
+<td><a id="l261" class='ln'>261</a></td><td>		<span class="kw">for</span>(<a id="261c7" class="tk">statesIdx</a>=0;<a id="261c19" class="tk">statesIdx</a><a id="261c28" class="tk">&lt;</a><a id="261c29" class="tk">nXc</a>;<a id="261c33" class="tk">statesIdx</a><a id="261c42" class="tk">++</a>) </td></tr>
+<tr name="262" id="262">
+<td><a id="l262" class='ln'>262</a></td><td>		<span class="br">{</span></td></tr>
+<tr name="263" id="263">
+<td><a id="l263" class='ln'>263</a></td><td>			<a id="263c4" class="tk">deltaY</a>[<a id="263c11" class="tk">statesIdx</a>]  = <a id="263c25" class="tk">deltaY</a>[<a id="263c32" class="tk">statesIdx</a>] <a id="263c43" class="tk">+</a> <a id="263c45" class="tk">h</a><a id="263c46" class="tk">*</a><a id="263c47" class="tk">rt_ODE8_B</a>[<a id="263c57" class="tk">stagesIdx</a>]<a id="263c67" class="tk">*</a><a id="263c68" class="tk">f</a>[<a id="263c70" class="tk">stagesIdx</a>][<a id="263c81" class="tk">statesIdx</a>];</td></tr>
+<tr name="264" id="264">
+<td><a id="l264" class='ln'>264</a></td><td>		<span class="br">}</span></td></tr>
+<tr name="265" id="265">
+<td><a id="l265" class='ln'>265</a></td><td>	<span class="br">}</span></td></tr>
+<tr name="266" id="266">
+<td><a id="l266" class='ln'>266</a></td><td>	</td></tr>
+<tr name="267" id="267">
+<td><a id="l267" class='ln'>267</a></td><td>	<span class="kw">for</span>(<a id="267c6" class="tk">statesIdx</a>=0;<a id="267c18" class="tk">statesIdx</a><a id="267c27" class="tk">&lt;</a><a id="267c28" class="tk">nXc</a>;<a id="267c32" class="tk">statesIdx</a><a id="267c41" class="tk">++</a>) </td></tr>
+<tr name="268" id="268">
+<td><a id="l268" class='ln'>268</a></td><td>	<span class="br">{</span></td></tr>
+<tr name="269" id="269">
+<td><a id="l269" class='ln'>269</a></td><td>		<a id="269c3" class="tk">x</a>[<a id="269c5" class="tk">statesIdx</a>] = <a id="269c18" class="tk">x0</a>[<a id="269c21" class="tk">statesIdx</a>] <a id="269c32" class="tk">+</a> <a id="269c34" class="tk">deltaY</a>[<a id="269c41" class="tk">statesIdx</a>];</td></tr>
+<tr name="270" id="270">
+<td><a id="l270" class='ln'>270</a></td><td>	<span class="br">}</span></td></tr>
+<tr name="271" id="271">
+<td><a id="l271" class='ln'>271</a></td><td></td></tr>
+<tr name="272" id="272">
+<td><a id="l272" class='ln'>272</a></td><td>    <a id="272c5" class="tk">PROJECTION</a>(<a id="272c16" class="tk">si</a>);</td></tr>
+<tr name="273" id="273">
+<td><a id="l273" class='ln'>273</a></td><td>    <a id="273c5" class="tk">REDUCTION</a>(<a id="273c15" class="tk">si</a>);</td></tr>
+<tr name="274" id="274">
+<td><a id="l274" class='ln'>274</a></td><td></td></tr>
+<tr name="275" id="275">
+<td><a id="l275" class='ln'>275</a></td><td>    <a id="275c5" class="tk">rtsiSetSimTimeStep</a>(<a id="275c24" class="tk">si</a>,<a id="275c27" class="tk">MAJOR_TIME_STEP</a>);</td></tr>
+<tr name="276" id="276">
+<td><a id="l276" class='ln'>276</a></td><td><span class="br">}</span></td></tr>
+<tr name="277" id="277">
+<td><a id="l277" class='ln'>277</a></td><td></td></tr>
+<tr name="278" id="278">
+<td><a id="l278" class='ln'>278</a></td><td><span class="ct">/* [EOF] ode5.c */</span></td></tr>
+<tr name="279" id="279">
+<td><a id="l279" class='ln'>279</a></td><td></td></tr>
+</table>
+</pre>
+</body>
+</html>

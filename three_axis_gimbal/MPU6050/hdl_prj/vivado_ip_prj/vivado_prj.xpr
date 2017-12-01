@@ -6,7 +6,7 @@
 <Project Version="7" Minor="14" Path="F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="bfe78206b0614e4b880f8e4e5390b851"/>
+    <Option Name="Id" Val="2f2de2485cb94947b021622b0628ea00"/>
     <Option Name="Part" Val="xc7z020clg484-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -60,8 +60,8 @@
         <CompFileExtendedInfo CompFileName="system_top.bd" FileRelPathName="ip/system_top_clk_wiz_0_0/system_top_clk_wiz_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="system_top.bd" FileRelPathName="ip/system_top_axi_interconnect_0_0/system_top_axi_interconnect_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="system_top.bd" FileRelPathName="system_top_ooc.xdc"/>
-        <CompFileExtendedInfo CompFileName="system_top.bd" FileRelPathName="hw_handoff/system_top_bd.tcl"/>
         <CompFileExtendedInfo CompFileName="system_top.bd" FileRelPathName="hw_handoff/system_top.hwh"/>
+        <CompFileExtendedInfo CompFileName="system_top.bd" FileRelPathName="hw_handoff/system_top_bd.tcl"/>
         <CompFileExtendedInfo CompFileName="system_top.bd" FileRelPathName="hdl/system_top.hwdef"/>
       </File>
       <File Path="$PSRCDIR/sources_1/bd/system_top/hdl/system_top_wrapper.vhd">

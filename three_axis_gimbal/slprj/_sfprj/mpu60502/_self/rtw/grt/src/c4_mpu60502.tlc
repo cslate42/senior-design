@@ -1,0 +1,74 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  0 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   8 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "is_active_c4_mpu60502"\
+      Description  "StateIsActive"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_c4_mpu60502"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "addr"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "addr"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "bit_idx"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "bit_idx"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "data"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "data"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "rw"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "rw"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "reg_idx"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "reg_idx"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "rd_cnt"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "rd_cnt"\
+      SrcLocation  ""\
+    }\
+  }
+  %return ChartDataElements
+%endfunction

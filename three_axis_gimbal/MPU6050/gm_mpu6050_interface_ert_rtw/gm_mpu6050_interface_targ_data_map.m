@@ -189,35 +189,35 @@
 	  section.data(1).logicalSrcIdx = 0;
 	  section.data(1).dtTransOffset = 0;
 	
-	  ;% gm_mpu6050_interface_DW.obj_b
+	  ;% gm_mpu6050_interface_DW.obj_d
 	  section.data(2).logicalSrcIdx = 1;
 	  section.data(2).dtTransOffset = 1;
 	
-	  ;% gm_mpu6050_interface_DW.obj_n
+	  ;% gm_mpu6050_interface_DW.obj_i
 	  section.data(3).logicalSrcIdx = 2;
 	  section.data(3).dtTransOffset = 2;
 	
-	  ;% gm_mpu6050_interface_DW.obj_f
+	  ;% gm_mpu6050_interface_DW.obj_d1
 	  section.data(4).logicalSrcIdx = 3;
 	  section.data(4).dtTransOffset = 3;
 	
-	  ;% gm_mpu6050_interface_DW.obj_k
+	  ;% gm_mpu6050_interface_DW.obj_e
 	  section.data(5).logicalSrcIdx = 4;
 	  section.data(5).dtTransOffset = 4;
 	
-	  ;% gm_mpu6050_interface_DW.obj_kl
+	  ;% gm_mpu6050_interface_DW.obj_iy
 	  section.data(6).logicalSrcIdx = 5;
 	  section.data(6).dtTransOffset = 5;
 	
-	  ;% gm_mpu6050_interface_DW.obj_n1
+	  ;% gm_mpu6050_interface_DW.obj_j
 	  section.data(7).logicalSrcIdx = 6;
 	  section.data(7).dtTransOffset = 6;
 	
-	  ;% gm_mpu6050_interface_DW.obj_fu
+	  ;% gm_mpu6050_interface_DW.obj_d0
 	  section.data(8).logicalSrcIdx = 7;
 	  section.data(8).dtTransOffset = 7;
 	
-	  ;% gm_mpu6050_interface_DW.obj_f3
+	  ;% gm_mpu6050_interface_DW.obj_c
 	  section.data(9).logicalSrcIdx = 8;
 	  section.data(9).dtTransOffset = 8;
 	
@@ -228,7 +228,7 @@
       section.nData     = 1;
       section.data(1)  = dumData; %prealloc
       
-	  ;% gm_mpu6050_interface_DW.obj_k0
+	  ;% gm_mpu6050_interface_DW.obj_j2
 	  section.data(1).logicalSrcIdx = 9;
 	  section.data(1).dtTransOffset = 0;
 	
@@ -259,35 +259,35 @@
 	  section.data(5).logicalSrcIdx = 14;
 	  section.data(5).dtTransOffset = 7;
 	
-	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_k
+	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_l
 	  section.data(6).logicalSrcIdx = 15;
 	  section.data(6).dtTransOffset = 8;
 	
-	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_d
+	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_m
 	  section.data(7).logicalSrcIdx = 16;
 	  section.data(7).dtTransOffset = 9;
 	
-	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_g
+	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_j
 	  section.data(8).logicalSrcIdx = 17;
 	  section.data(8).dtTransOffset = 10;
 	
-	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_e
+	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_lw
 	  section.data(9).logicalSrcIdx = 18;
 	  section.data(9).dtTransOffset = 11;
 	
-	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_do
+	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_h
 	  section.data(10).logicalSrcIdx = 19;
 	  section.data(10).dtTransOffset = 12;
 	
-	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_c
+	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_e
 	  section.data(11).logicalSrcIdx = 20;
 	  section.data(11).dtTransOffset = 13;
 	
-	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_ca
+	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_k
 	  section.data(12).logicalSrcIdx = 21;
 	  section.data(12).dtTransOffset = 14;
 	
-	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_i
+	  ;% gm_mpu6050_interface_DW.AXI4InterfaceRead_PWORK_h0
 	  section.data(13).logicalSrcIdx = 22;
 	  section.data(13).dtTransOffset = 15;
 	

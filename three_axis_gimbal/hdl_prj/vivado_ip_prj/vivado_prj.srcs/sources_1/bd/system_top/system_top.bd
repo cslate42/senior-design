@@ -137,6 +137,26 @@
       </spirit:views>
       <spirit:ports>
         <spirit:port>
+          <spirit:name>DIPSwitches</spirit:name>
+          <spirit:wire>
+            <spirit:direction>in</spirit:direction>
+            <spirit:vector>
+              <spirit:left>7</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>SCL</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>0</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
           <spirit:name>SDA</spirit:name>
           <spirit:wire>
             <spirit:direction>inout</spirit:direction>
@@ -147,27 +167,7 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>CS</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-            <spirit:vector>
-              <spirit:left>0</spirit:left>
-              <spirit:right>0</spirit:right>
-            </spirit:vector>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
-          <spirit:name>ADDRALT</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-            <spirit:vector>
-              <spirit:left>0</spirit:left>
-              <spirit:right>0</spirit:right>
-            </spirit:vector>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
-          <spirit:name>PmodJA1</spirit:name>
+          <spirit:name>GPLEDs</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
             <spirit:vector>
@@ -200,12 +200,12 @@
         <spirit:componentRef spirit:library="ip" spirit:name="clk_wiz" spirit:vendor="xilinx.com" spirit:version="5.3"/>
         <spirit:configurableElementValues>
           <spirit:configurableElementValue spirit:referenceId="bd:xciName">system_top_clk_wiz_0_0</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_REQUESTED_OUT_FREQ">50.000</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_REQUESTED_OUT_FREQ">100.000</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="RESET_PORT">resetn</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="MMCM_DIVCLK_DIVIDE">1</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="MMCM_CLKOUT0_DIVIDE_F">20.000</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="MMCM_CLKOUT0_DIVIDE_F">10.000</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="RESET_TYPE">ACTIVE_LOW</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_JITTER">151.636</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_JITTER">130.958</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
@@ -453,10 +453,10 @@
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
-        <spirit:instanceName>I2C_MPU60_ip_0</spirit:instanceName>
-        <spirit:componentRef spirit:library="ip" spirit:name="I2C_MPU60_ip" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:instanceName>ADXL345_ip_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="ADXL345_ip" spirit:vendor="xilinx.com" spirit:version="1.0"/>
         <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">system_top_I2C_MPU60_ip_0_0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">system_top_ADXL345_ip_0_0</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
     </spirit:componentInstances>
@@ -468,7 +468,7 @@
       </spirit:interconnection>
       <spirit:interconnection>
         <spirit:name>axi_interconnect_0_M00_AXI</spirit:name>
-        <spirit:activeInterface spirit:busRef="AXI4_Lite" spirit:componentRef="I2C_MPU60_ip_0"/>
+        <spirit:activeInterface spirit:busRef="AXI4_Lite" spirit:componentRef="ADXL345_ip_0"/>
         <spirit:activeInterface spirit:busRef="M00_AXI" spirit:componentRef="axi_interconnect_0"/>
       </spirit:interconnection>
     </spirit:interconnections>
@@ -481,8 +481,8 @@
       <spirit:adHocConnection>
         <spirit:name>S00_ARESETN_1</spirit:name>
         <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="peripheral_aresetn"/>
-        <spirit:internalPortReference spirit:componentRef="I2C_MPU60_ip_0" spirit:portRef="AXI4_Lite_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="I2C_MPU60_ip_0" spirit:portRef="IPCORE_RESETN"/>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="AXI4_Lite_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="IPCORE_RESETN"/>
         <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M00_ARESETN"/>
         <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="S00_ARESETN"/>
       </spirit:adHocConnection>
@@ -491,8 +491,8 @@
         <spirit:internalPortReference spirit:componentRef="clk_wiz_0" spirit:portRef="clk_out1"/>
         <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="slowest_sync_clk"/>
         <spirit:internalPortReference spirit:componentRef="processing_system7_0" spirit:portRef="M_AXI_GP0_ACLK"/>
-        <spirit:internalPortReference spirit:componentRef="I2C_MPU60_ip_0" spirit:portRef="AXI4_Lite_ACLK"/>
-        <spirit:internalPortReference spirit:componentRef="I2C_MPU60_ip_0" spirit:portRef="IPCORE_CLK"/>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="AXI4_Lite_ACLK"/>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="IPCORE_CLK"/>
         <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="ACLK"/>
         <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M00_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="S00_ACLK"/>
@@ -514,24 +514,24 @@
         <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="ext_reset_in"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
+        <spirit:name>DIPSwitches_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="DIPSwitches"/>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="DIPSwitches"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>ADXL345_ip_0_SCL</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="SCL"/>
+        <spirit:externalPortReference spirit:portRef="SCL"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
         <spirit:name>Net</spirit:name>
         <spirit:externalPortReference spirit:portRef="SDA"/>
-        <spirit:internalPortReference spirit:componentRef="I2C_MPU60_ip_0" spirit:portRef="SDA"/>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="SDA"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>I2C_MPU60_ip_0_CS</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="I2C_MPU60_ip_0" spirit:portRef="CS"/>
-        <spirit:externalPortReference spirit:portRef="CS"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>I2C_MPU60_ip_0_ADDRALT</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="I2C_MPU60_ip_0" spirit:portRef="ADDRALT"/>
-        <spirit:externalPortReference spirit:portRef="ADDRALT"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>I2C_MPU60_ip_0_PmodJA1</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="I2C_MPU60_ip_0" spirit:portRef="PmodJA1"/>
-        <spirit:externalPortReference spirit:portRef="PmodJA1"/>
+        <spirit:name>ADXL345_ip_0_GPLEDs</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="GPLEDs"/>
+        <spirit:externalPortReference spirit:portRef="GPLEDs"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
@@ -1043,8 +1043,8 @@
         <spirit:width>32</spirit:width>
         <spirit:segments>
           <spirit:segment>
-            <spirit:name>SEG_I2C_MPU60_ip_0_reg0</spirit:name>
-            <spirit:displayName>/I2C_MPU60_ip_0/AXI4_Lite/reg0</spirit:displayName>
+            <spirit:name>SEG_ADXL345_ip_0_reg0</spirit:name>
+            <spirit:displayName>/ADXL345_ip_0/AXI4_Lite/reg0</spirit:displayName>
             <spirit:addressOffset>0x400D0000</spirit:addressOffset>
             <spirit:range>64K</spirit:range>
           </spirit:segment>

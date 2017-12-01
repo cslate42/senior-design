@@ -1,7 +1,7 @@
 --Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
---Date        : Sat Nov 18 14:35:46 2017
+--Date        : Fri Dec 01 17:12:46 2017
 --Host        : LAPTOP-BT7NMSMH running 64-bit major release  (build 9200)
 --Command     : generate_target system_top_wrapper.bd
 --Design      : system_top_wrapper
@@ -13,8 +13,6 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity system_top_wrapper is
   port (
-    ADDRALT : out STD_LOGIC_VECTOR ( 0 to 0 );
-    CS : out STD_LOGIC_VECTOR ( 0 to 0 );
     DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
     DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
     DDR_cas_n : inout STD_LOGIC;
@@ -30,13 +28,15 @@ entity system_top_wrapper is
     DDR_ras_n : inout STD_LOGIC;
     DDR_reset_n : inout STD_LOGIC;
     DDR_we_n : inout STD_LOGIC;
+    DIPSwitches : in STD_LOGIC_VECTOR ( 7 downto 0 );
     FIXED_IO_ddr_vrn : inout STD_LOGIC;
     FIXED_IO_ddr_vrp : inout STD_LOGIC;
     FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
     FIXED_IO_ps_clk : inout STD_LOGIC;
     FIXED_IO_ps_porb : inout STD_LOGIC;
     FIXED_IO_ps_srstb : inout STD_LOGIC;
-    PmodJA1 : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    GPLEDs : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    SCL : out STD_LOGIC_VECTOR ( 0 to 0 );
     SDA : inout STD_LOGIC_VECTOR ( 0 to 0 )
   );
 end system_top_wrapper;
@@ -65,17 +65,15 @@ architecture STRUCTURE of system_top_wrapper is
     FIXED_IO_ps_srstb : inout STD_LOGIC;
     FIXED_IO_ps_clk : inout STD_LOGIC;
     FIXED_IO_ps_porb : inout STD_LOGIC;
+    DIPSwitches : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    SCL : out STD_LOGIC_VECTOR ( 0 to 0 );
     SDA : inout STD_LOGIC_VECTOR ( 0 to 0 );
-    CS : out STD_LOGIC_VECTOR ( 0 to 0 );
-    ADDRALT : out STD_LOGIC_VECTOR ( 0 to 0 );
-    PmodJA1 : out STD_LOGIC_VECTOR ( 7 downto 0 )
+    GPLEDs : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component system_top;
 begin
 system_top_i: component system_top
      port map (
-      ADDRALT(0) => ADDRALT(0),
-      CS(0) => CS(0),
       DDR_addr(14 downto 0) => DDR_addr(14 downto 0),
       DDR_ba(2 downto 0) => DDR_ba(2 downto 0),
       DDR_cas_n => DDR_cas_n,
@@ -91,13 +89,15 @@ system_top_i: component system_top
       DDR_ras_n => DDR_ras_n,
       DDR_reset_n => DDR_reset_n,
       DDR_we_n => DDR_we_n,
+      DIPSwitches(7 downto 0) => DIPSwitches(7 downto 0),
       FIXED_IO_ddr_vrn => FIXED_IO_ddr_vrn,
       FIXED_IO_ddr_vrp => FIXED_IO_ddr_vrp,
       FIXED_IO_mio(53 downto 0) => FIXED_IO_mio(53 downto 0),
       FIXED_IO_ps_clk => FIXED_IO_ps_clk,
       FIXED_IO_ps_porb => FIXED_IO_ps_porb,
       FIXED_IO_ps_srstb => FIXED_IO_ps_srstb,
-      PmodJA1(7 downto 0) => PmodJA1(7 downto 0),
+      GPLEDs(7 downto 0) => GPLEDs(7 downto 0),
+      SCL(0) => SCL(0),
       SDA(0) => SDA(0)
     );
 end STRUCTURE;

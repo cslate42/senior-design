@@ -2,8 +2,8 @@
 # Vivado v2016.2 (64-bit)
 # SW Build 1577090 on Thu Jun  2 16:32:40 MDT 2016
 # IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
-# Start of session at: Thu Nov 30 20:43:40 2017
-# Process ID: 7028
+# Start of session at: Thu Nov 30 22:56:36 2017
+# Process ID: 7912
 # Current directory: F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/ipcore/ADXL345_ip_v1_0/prj_ip
 # Command line: vivado.exe -mode batch -source vivado_ip_package.tcl
 # Log file: F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/ipcore/ADXL345_ip_v1_0/prj_ip/vivado.log
@@ -54,7 +54,7 @@ INFO: [IP_Flow 19-4728] Bus Interface 'IPCORE_CLK': Added interface parameter 'A
 # set_property supported_families $IPSupportedFamily [ipx::current_core]
 # set_property taxonomy {{/HDL Coder Generated IP}} [ipx::current_core]
 # set_property description {HDL Coder generated IP} [ipx::current_core]
-# set_property core_revision 1711302043 [ipx::current_core]
+# set_property core_revision 1711302256 [ipx::current_core]
 # ipx::add_file {hdl/vhdl/i2c_bidir.vhd} [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]
 WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/i2c_bidir.vhd" already exists in file group "xilinx_anylanguagesynthesis", cannot add it again.
 # set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/i2c_bidir.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]]
@@ -227,6 +227,6 @@ WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/ADXL345_ip.vhd" already exists i
     ** Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 
 source F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/ipcore/ADXL345_ip_v1_0/prj_ip/prj_ip.hw/webtalk/labtool_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Thu Nov 30 20:43:54 2017...
+INFO: [Common 17-206] Exiting Webtalk at Thu Nov 30 22:56:50 2017...
 # exit
-INFO: [Common 17-206] Exiting Vivado at Thu Nov 30 20:43:55 2017...
+INFO: [Common 17-206] Exiting Vivado at Thu Nov 30 22:56:50 2017...

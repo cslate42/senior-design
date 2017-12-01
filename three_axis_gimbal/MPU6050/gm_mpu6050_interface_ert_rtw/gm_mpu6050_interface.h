@@ -6,9 +6,9 @@
  *
  * Code generated for Simulink model 'gm_mpu6050_interface'.
  *
- * Model version                  : 1.251
+ * Model version                  : 1.256
  * Simulink Coder version         : 8.12 (R2017a) 16-Feb-2017
- * C/C++ source code generated on : Thu Nov 30 21:19:59 2017
+ * C/C++ source code generated on : Thu Nov 30 23:13:13 2017
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -90,15 +90,15 @@ typedef struct {
 /* Block states (auto storage) for system '<Root>' */
 typedef struct {
   zynq_AXIRead_gm_mpu6050_inter_T obj; /* '<S13>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_b;/* '<S12>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_n;/* '<S11>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_f;/* '<S10>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_k;/* '<S9>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_kl;/* '<S8>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_n1;/* '<S7>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_fu;/* '<S6>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_f3;/* '<S5>/AXI4-Interface Read' */
-  zynq_AXIWrite_gm_mpu6050_inte_T obj_k0;/* '<S14>/AXI4-Interface Write' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_d;/* '<S12>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_i;/* '<S11>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_d1;/* '<S10>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_e;/* '<S9>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_iy;/* '<S8>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_j;/* '<S7>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_d0;/* '<S6>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_c;/* '<S5>/AXI4-Interface Read' */
+  zynq_AXIWrite_gm_mpu6050_inte_T obj_j2;/* '<S14>/AXI4-Interface Write' */
   struct {
     void *LoggedData[2];
   } Scope_PWORK;                       /* '<Root>/Scope' */
@@ -113,14 +113,14 @@ typedef struct {
 
   void *AXI4InterfaceWrite_PWORK;      /* '<S14>/AXI4-Interface Write' */
   void *AXI4InterfaceRead_PWORK;       /* '<S13>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_k;     /* '<S12>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_d;     /* '<S11>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_g;     /* '<S10>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_e;     /* '<S9>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_do;    /* '<S8>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_c;     /* '<S7>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_ca;    /* '<S6>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_i;     /* '<S5>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_l;     /* '<S12>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_m;     /* '<S11>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_j;     /* '<S10>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_lw;    /* '<S9>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_h;     /* '<S8>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_e;     /* '<S7>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_k;     /* '<S6>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_h0;    /* '<S5>/AXI4-Interface Read' */
 } DW_gm_mpu6050_interface_T;
 
 /* External inputs (root inport signals with auto storage) */

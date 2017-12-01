@@ -12,15 +12,15 @@ function TraceInfoFlag() {
     this.traceFlag["gm_mpu6050_interface.c:439c28"]=1;
     this.traceFlag["gm_mpu6050_interface.c:452c28"]=1;
     this.traceFlag["gm_mpu6050_interface.c:476c52"]=1;
-    this.traceFlag["gm_mpu6050_interface.c:487c52"]=1;
+    this.traceFlag["gm_mpu6050_interface.c:487c51"]=1;
     this.traceFlag["gm_mpu6050_interface.c:498c52"]=1;
-    this.traceFlag["gm_mpu6050_interface.c:509c52"]=1;
+    this.traceFlag["gm_mpu6050_interface.c:509c51"]=1;
     this.traceFlag["gm_mpu6050_interface.c:520c49"]=1;
     this.traceFlag["gm_mpu6050_interface.c:531c51"]=1;
     this.traceFlag["gm_mpu6050_interface.c:542c51"]=1;
     this.traceFlag["gm_mpu6050_interface.c:553c52"]=1;
     this.traceFlag["gm_mpu6050_interface.c:564c51"]=1;
-    this.traceFlag["gm_mpu6050_interface.c:575c51"]=1;
+    this.traceFlag["gm_mpu6050_interface.c:575c52"]=1;
 }
 top.TraceInfoFlag.instance = new TraceInfoFlag();
 function TraceInfoLineFlag() {

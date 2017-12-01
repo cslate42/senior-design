@@ -6,9 +6,9 @@
  *
  * Code generation for model "gm_mpu6050_interface".
  *
- * Model version              : 1.251
+ * Model version              : 1.256
  * Simulink Coder version : 8.12 (R2017a) 16-Feb-2017
- * C source code generated on : Thu Nov 30 21:19:59 2017
+ * C source code generated on : Thu Nov 30 23:13:13 2017
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -69,7 +69,7 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&gm_mpu6050_interface_DW.obj), 14, 0, 9 },
 
-  { (char_T *)(&gm_mpu6050_interface_DW.obj_k0), 15, 0, 1 },
+  { (char_T *)(&gm_mpu6050_interface_DW.obj_j2), 15, 0, 1 },
 
   { (char_T *)(&gm_mpu6050_interface_DW.Scope_PWORK.LoggedData[0]), 11, 0, 16 }
 };

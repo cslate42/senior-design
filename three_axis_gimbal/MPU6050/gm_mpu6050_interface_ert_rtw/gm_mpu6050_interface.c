@@ -6,9 +6,9 @@
  *
  * Code generated for Simulink model 'gm_mpu6050_interface'.
  *
- * Model version                  : 1.251
+ * Model version                  : 1.256
  * Simulink Coder version         : 8.12 (R2017a) 16-Feb-2017
- * C/C++ source code generated on : Thu Nov 30 21:19:59 2017
+ * C/C++ source code generated on : Thu Nov 30 23:13:13 2017
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -67,14 +67,14 @@ void gm_mpu6050_interface_step(void)
   /* Start for MATLABSystem: '<S14>/AXI4-Interface Write' incorporates:
    *  MATLABSystem: '<S14>/AXI4-Interface Write'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_k0.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_j2.DeviceState);
   AXI4LITE_WRITE(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                  gm_mpu_RegisterOffset_hljdmomxq, 4U);
 
   /* Start for MATLABSystem: '<S5>/AXI4-Interface Read' incorporates:
    *  MATLABSystem: '<S5>/AXI4-Interface Read'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_f3.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_c.DeviceState);
   AXI4LITE_READ(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                 gm_mpu6050_inter_RegisterOffset, 4U);
 
@@ -87,7 +87,7 @@ void gm_mpu6050_interface_step(void)
   /* Start for MATLABSystem: '<S6>/AXI4-Interface Read' incorporates:
    *  MATLABSystem: '<S6>/AXI4-Interface Read'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_fu.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_d0.DeviceState);
   AXI4LITE_READ(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                 gm_mpu6050_int_RegisterOffset_h, 4U);
 
@@ -100,7 +100,7 @@ void gm_mpu6050_interface_step(void)
   /* Start for MATLABSystem: '<S7>/AXI4-Interface Read' incorporates:
    *  MATLABSystem: '<S7>/AXI4-Interface Read'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_n1.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_j.DeviceState);
   AXI4LITE_READ(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                 gm_mpu6050_in_RegisterOffset_hl, 4U);
 
@@ -126,7 +126,7 @@ void gm_mpu6050_interface_step(void)
   /* Start for MATLABSystem: '<S12>/AXI4-Interface Read' incorporates:
    *  MATLABSystem: '<S12>/AXI4-Interface Read'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_b.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_d.DeviceState);
   AXI4LITE_READ(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                 gm_mpu60_RegisterOffset_hljdmom, 4U);
 
@@ -139,7 +139,7 @@ void gm_mpu6050_interface_step(void)
   /* Start for MATLABSystem: '<S11>/AXI4-Interface Read' incorporates:
    *  MATLABSystem: '<S11>/AXI4-Interface Read'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_n.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_i.DeviceState);
   AXI4LITE_READ(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                 gm_mpu605_RegisterOffset_hljdmo, 4U);
 
@@ -152,7 +152,7 @@ void gm_mpu6050_interface_step(void)
   /* Start for MATLABSystem: '<S8>/AXI4-Interface Read' incorporates:
    *  MATLABSystem: '<S8>/AXI4-Interface Read'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_kl.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_iy.DeviceState);
   AXI4LITE_READ(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                 gm_mpu6050_i_RegisterOffset_hlj, 4U);
 
@@ -165,7 +165,7 @@ void gm_mpu6050_interface_step(void)
   /* Start for MATLABSystem: '<S9>/AXI4-Interface Read' incorporates:
    *  MATLABSystem: '<S9>/AXI4-Interface Read'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_k.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_e.DeviceState);
   AXI4LITE_READ(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                 gm_mpu6050__RegisterOffset_hljd, 4U);
 
@@ -178,7 +178,7 @@ void gm_mpu6050_interface_step(void)
   /* Start for MATLABSystem: '<S10>/AXI4-Interface Read' incorporates:
    *  MATLABSystem: '<S10>/AXI4-Interface Read'
    */
-  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_f.DeviceState);
+  p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_d1.DeviceState);
   AXI4LITE_READ(p_state, &rtb_AXI4Lite_Write_RegAddr_DTC,
                 gm_mpu6050_RegisterOffset_hljdm, 4U);
 
@@ -329,54 +329,54 @@ void gm_mpu6050_interface_initialize(void)
       /* Start for Atomic SubSystem: '<Root>/I2C_MPU6050_IP' */
 
       /* Start for MATLABSystem: '<S14>/AXI4-Interface Write' */
-      gm_mpu6050_interface_DW.obj_k0.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_k0.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_k0.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_j2.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_j2.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_j2.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_k0.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_j2.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S14>/AXI4-Interface Write' */
 
       /* Start for MATLABSystem: '<S5>/AXI4-Interface Read' */
-      gm_mpu6050_interface_DW.obj_f3.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_f3.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_f3.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_c.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_c.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_c.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_f3.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_c.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S5>/AXI4-Interface Read' */
 
       /* Start for MATLABSystem: '<S6>/AXI4-Interface Read' */
-      gm_mpu6050_interface_DW.obj_fu.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_fu.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_fu.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_d0.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_d0.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_d0.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_fu.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_d0.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S6>/AXI4-Interface Read' */
 
       /* Start for MATLABSystem: '<S7>/AXI4-Interface Read' */
-      gm_mpu6050_interface_DW.obj_n1.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_n1.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_n1.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_j.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_j.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_j.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_n1.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_j.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S7>/AXI4-Interface Read' */
 
@@ -394,67 +394,67 @@ void gm_mpu6050_interface_initialize(void)
       /* End of Start for MATLABSystem: '<S13>/AXI4-Interface Read' */
 
       /* Start for MATLABSystem: '<S12>/AXI4-Interface Read' */
-      gm_mpu6050_interface_DW.obj_b.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_b.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_b.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_d.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_d.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_d.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_b.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_d.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S12>/AXI4-Interface Read' */
 
       /* Start for MATLABSystem: '<S11>/AXI4-Interface Read' */
-      gm_mpu6050_interface_DW.obj_n.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_n.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_n.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_i.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_i.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_i.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_n.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_i.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S11>/AXI4-Interface Read' */
 
       /* Start for MATLABSystem: '<S8>/AXI4-Interface Read' */
-      gm_mpu6050_interface_DW.obj_kl.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_kl.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_kl.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_iy.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_iy.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_iy.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_kl.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_iy.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S8>/AXI4-Interface Read' */
 
       /* Start for MATLABSystem: '<S9>/AXI4-Interface Read' */
-      gm_mpu6050_interface_DW.obj_k.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_k.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_k.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_e.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_e.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_e.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_k.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_e.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S9>/AXI4-Interface Read' */
 
       /* Start for MATLABSystem: '<S10>/AXI4-Interface Read' */
-      gm_mpu6050_interface_DW.obj_f.isInitialized = 0;
-      gm_mpu6050_interface_DW.obj_f.isInitialized = 1;
-      gm_mpu6050_interface_DW.obj_f.DeviceState = 0U;
+      gm_mpu6050_interface_DW.obj_d1.isInitialized = 0;
+      gm_mpu6050_interface_DW.obj_d1.isInitialized = 1;
+      gm_mpu6050_interface_DW.obj_d1.DeviceState = 0U;
       for (i = 0; i < 14; i++) {
         tmp_0[i] = tmp[i];
       }
 
       p_state = AXI4LITE_INIT(tmp_0);
-      gm_mpu6050_interface_DW.obj_f.DeviceState = (uint32_T)p_state;
+      gm_mpu6050_interface_DW.obj_d1.DeviceState = (uint32_T)p_state;
 
       /* End of Start for MATLABSystem: '<S10>/AXI4-Interface Read' */
 
@@ -473,9 +473,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S14>/AXI4-Interface Write' incorporates:
    *  Terminate for MATLABSystem: '<S14>/AXI4-Interface Write'
    */
-  if (gm_mpu6050_interface_DW.obj_k0.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_k0.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_k0.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_j2.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_j2.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_j2.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 
@@ -484,9 +484,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S5>/AXI4-Interface Read' incorporates:
    *  Terminate for MATLABSystem: '<S5>/AXI4-Interface Read'
    */
-  if (gm_mpu6050_interface_DW.obj_f3.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_f3.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_f3.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_c.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_c.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_c.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 
@@ -495,9 +495,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S6>/AXI4-Interface Read' incorporates:
    *  Terminate for MATLABSystem: '<S6>/AXI4-Interface Read'
    */
-  if (gm_mpu6050_interface_DW.obj_fu.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_fu.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_fu.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_d0.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_d0.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_d0.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 
@@ -506,9 +506,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S7>/AXI4-Interface Read' incorporates:
    *  Terminate for MATLABSystem: '<S7>/AXI4-Interface Read'
    */
-  if (gm_mpu6050_interface_DW.obj_n1.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_n1.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_n1.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_j.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_j.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_j.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 
@@ -528,9 +528,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S12>/AXI4-Interface Read' incorporates:
    *  Terminate for MATLABSystem: '<S12>/AXI4-Interface Read'
    */
-  if (gm_mpu6050_interface_DW.obj_b.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_b.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_b.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_d.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_d.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_d.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 
@@ -539,9 +539,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S11>/AXI4-Interface Read' incorporates:
    *  Terminate for MATLABSystem: '<S11>/AXI4-Interface Read'
    */
-  if (gm_mpu6050_interface_DW.obj_n.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_n.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_n.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_i.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_i.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_i.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 
@@ -550,9 +550,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S8>/AXI4-Interface Read' incorporates:
    *  Terminate for MATLABSystem: '<S8>/AXI4-Interface Read'
    */
-  if (gm_mpu6050_interface_DW.obj_kl.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_kl.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_kl.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_iy.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_iy.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_iy.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 
@@ -561,9 +561,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S9>/AXI4-Interface Read' incorporates:
    *  Terminate for MATLABSystem: '<S9>/AXI4-Interface Read'
    */
-  if (gm_mpu6050_interface_DW.obj_k.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_k.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_k.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_e.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_e.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_e.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 
@@ -572,9 +572,9 @@ void gm_mpu6050_interface_terminate(void)
   /* Start for MATLABSystem: '<S10>/AXI4-Interface Read' incorporates:
    *  Terminate for MATLABSystem: '<S10>/AXI4-Interface Read'
    */
-  if (gm_mpu6050_interface_DW.obj_f.isInitialized == 1) {
-    gm_mpu6050_interface_DW.obj_f.isInitialized = 2;
-    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_f.DeviceState);
+  if (gm_mpu6050_interface_DW.obj_d1.isInitialized == 1) {
+    gm_mpu6050_interface_DW.obj_d1.isInitialized = 2;
+    p_state = (AXI4_struct *)(gm_mpu6050_interface_DW.obj_d1.DeviceState);
     AXI4LITE_TERMINATE(p_state);
   }
 

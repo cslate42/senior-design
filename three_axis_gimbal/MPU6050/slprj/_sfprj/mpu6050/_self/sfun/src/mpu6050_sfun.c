@@ -349,7 +349,7 @@ unsigned int sf_mpu6050_third_party_uses_info( int nlhs, mxArray * plhs[], int
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(tpChksum, "sImoxbGWtIfGUf4hUyZ1FFB") == 0) {
+        if (strcmp(tpChksum, "s8cVaPRgGC6Bjz4agJEzGPF") == 0) {
           extern mxArray *sf_c1_mpu6050_third_party_uses_info(void);
           plhs[0] = sf_c1_mpu6050_third_party_uses_info();
           break;
@@ -404,7 +404,7 @@ unsigned int sf_mpu6050_jit_fallback_info( int nlhs, mxArray * plhs[], int nrhs,
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(tpChksum, "sImoxbGWtIfGUf4hUyZ1FFB") == 0) {
+        if (strcmp(tpChksum, "s8cVaPRgGC6Bjz4agJEzGPF") == 0) {
           extern mxArray *sf_c1_mpu6050_jit_fallback_info(void);
           plhs[0] = sf_c1_mpu6050_jit_fallback_info();
           break;
@@ -459,7 +459,7 @@ unsigned int sf_mpu6050_updateBuildInfo_args_info( int nlhs, mxArray * plhs[],
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(tpChksum, "sImoxbGWtIfGUf4hUyZ1FFB") == 0) {
+        if (strcmp(tpChksum, "s8cVaPRgGC6Bjz4agJEzGPF") == 0) {
           extern mxArray *sf_c1_mpu6050_updateBuildInfo_args_info(void);
           plhs[0] = sf_c1_mpu6050_updateBuildInfo_args_info();
           break;

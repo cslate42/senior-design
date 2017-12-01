@@ -47,7 +47,7 @@
 -- DO NOT MODIFY THIS FILE.
 
 -- IP VLNV: xilinx.com:ip:ADXL345_ip:1.0
--- IP Revision: 1711302043
+-- IP Revision: 1711302256
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
@@ -120,7 +120,7 @@ ARCHITECTURE system_top_ADXL345_ip_0_0_arch OF system_top_ADXL345_ip_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF system_top_ADXL345_ip_0_0_arch : ARCHITECTURE IS "system_top_ADXL345_ip_0_0,ADXL345_ip,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF system_top_ADXL345_ip_0_0_arch: ARCHITECTURE IS "system_top_ADXL345_ip_0_0,ADXL345_ip,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=ADXL345_ip,x_ipVersion=1.0,x_ipCoreRevision=1711302043,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED}";
+  ATTRIBUTE CORE_GENERATION_INFO OF system_top_ADXL345_ip_0_0_arch: ARCHITECTURE IS "system_top_ADXL345_ip_0_0,ADXL345_ip,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=ADXL345_ip,x_ipVersion=1.0,x_ipCoreRevision=1711302256,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED}";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_INFO OF IPCORE_CLK: SIGNAL IS "xilinx.com:signal:clock:1.0 IPCORE_CLK CLK";
   ATTRIBUTE X_INTERFACE_INFO OF IPCORE_RESETN: SIGNAL IS "xilinx.com:signal:reset:1.0 IPCORE_RESETN RST";

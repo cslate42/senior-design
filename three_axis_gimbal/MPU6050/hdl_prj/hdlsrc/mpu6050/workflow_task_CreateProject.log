@@ -1410,7 +1410,7 @@ DADDR_13: 00c0	-CLKOUT6 Register 2
 
 DADDR_12: 1041	-CLKOUT6 Register 1
 DADDR_13: 00c0	-CLKOUT6 Register 2
-create_bd_cell: Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 419.250 ; gain = 107.813
+create_bd_cell: Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 420.055 ; gain = 108.699
 DADDR_08: 128a	-CLKOUT0 Register 1
 DADDR_09: 0000	-CLKOUT0 Register 2
 DADDR_08: 128a	-CLKOUT0 Register 1
@@ -1678,11 +1678,11 @@ Wrote  : <F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.s
     ** Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 
 source F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.hw/webtalk/labtool_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Thu Nov 30 20:44:43 2017...
+INFO: [Common 17-206] Exiting Webtalk at Thu Nov 30 22:58:10 2017...
 # exit
-INFO: [Common 17-206] Exiting Vivado at Thu Nov 30 20:44:43 2017...
+INFO: [Common 17-206] Exiting Vivado at Thu Nov 30 22:58:10 2017...
 
-Elapsed time is 41.6245 seconds.
+Elapsed time is 47.8711 seconds.
 
 ****** Vivado v2016.2 (64-bit)
   **** SW Build 1577090 on Thu Jun  2 16:32:40 MDT 2016
@@ -1710,6 +1710,7 @@ Adding cell -- xilinx.com:ip:clk_wiz:5.3 - clk_wiz_0
 Adding cell -- xilinx.com:ip:proc_sys_reset:5.0 - proc_sys_reset_0
 Adding cell -- xilinx.com:ip:processing_system7:5.5 - processing_system7_0
 Successfully read diagram <system_top> from BD file <F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/system_top.bd>
+open_bd_design: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 422.313 ; gain = 138.938
 # create_bd_cell -type ip -vlnv $HDLCODERIPVLNV $HDLCODERIPINST
 # connect_bd_net -net [get_bd_nets -of_objects [get_bd_pins clk_wiz_0/clk_out1]] [get_bd_pins $HDLCODERIPINST/AXI4_Lite_ACLK] [get_bd_pins clk_wiz_0/clk_out1]
 # connect_bd_net -net [get_bd_nets -of_objects [get_bd_pins proc_sys_reset_0/peripheral_aresetn]] [get_bd_pins $HDLCODERIPINST/AXI4_Lite_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
@@ -1731,7 +1732,7 @@ WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter 
 VHDL Output written to : F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/hdl/system_top.vhd
 VHDL Output written to : F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/hdl/system_top_wrapper.vhd
 Wrote  : <F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/system_top.bd> 
-make_wrapper: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 514.289 ; gain = 91.383
+make_wrapper: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 514.363 ; gain = 92.051
 # regsub -all "system_top.vhd" [get_files system_top.vhd] "system_top_wrapper.vhd" TOPFILEPATH
 # add_files -norecurse $TOPFILEPATH
 # update_compile_order -fileset sources_1
@@ -1741,8 +1742,8 @@ INFO: [BD 5-320] Validate design is not run, since the design is already validat
 # add_files -fileset constrs_1 -norecurse ADXL345_ip_src_I2C_MPU6050_IP_top.xdc
 # close_project
 # exit
-INFO: [Common 17-206] Exiting Vivado at Thu Nov 30 20:45:04 2017...
+INFO: [Common 17-206] Exiting Vivado at Thu Nov 30 22:58:38 2017...
 
-Elapsed time is 20.6424 seconds.
+Elapsed time is 28.0737 seconds.
 
 

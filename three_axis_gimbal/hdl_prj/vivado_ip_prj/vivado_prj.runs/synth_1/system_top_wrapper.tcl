@@ -33,8 +33,8 @@ read_vhdl -library xil_defaultlib F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_
 foreach dcp [get_files -quiet -all *.dcp] {
   set_property used_in_implementation false $dcp
 }
-read_xdc F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/I2C_MPU60_ip_src_I2C_MPU6050_IP_top.xdc
-set_property used_in_implementation false [get_files F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/I2C_MPU60_ip_src_I2C_MPU6050_IP_top.xdc]
+read_xdc F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/ADXL345_ip_src_I2C_MPU6050_IP_top.xdc
+set_property used_in_implementation false [get_files F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/ADXL345_ip_src_I2C_MPU6050_IP_top.xdc]
 
 read_xdc dont_touch.xdc
 set_property used_in_implementation false [get_files dont_touch.xdc]

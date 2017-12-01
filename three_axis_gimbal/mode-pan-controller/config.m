@@ -10,3 +10,7 @@ open_system('hdl_delaybalancing');
 open_system('dslrtExtDIOInt')
 
 %https://www.mathworks.com/videos/hdl-coder-clock-rate-pipelining-part-1-introduction-120117.html
+
+function a = () {
+    
+}

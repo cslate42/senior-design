@@ -1,0 +1,46 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  1 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   4 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "is_c1_mpu60502"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "cnt"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "cnt"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "tempVal"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "tempVal"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "selfInit"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "selfInit"\
+      SrcLocation  ""\
+    }\
+  }
+  %return ChartDataElements
+%endfunction
