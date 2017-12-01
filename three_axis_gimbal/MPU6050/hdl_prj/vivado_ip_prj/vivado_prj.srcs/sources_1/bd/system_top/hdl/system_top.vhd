@@ -1,7 +1,7 @@
 --Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
---Date        : Sat Nov 18 15:04:56 2017
+--Date        : Thu Nov 30 20:47:11 2017
 --Host        : LAPTOP-BT7NMSMH running 64-bit major release  (build 9200)
 --Command     : generate_target system_top.bd
 --Design      : system_top
@@ -593,6 +593,7 @@ entity system_top is
     DDR_ras_n : inout STD_LOGIC;
     DDR_reset_n : inout STD_LOGIC;
     DDR_we_n : inout STD_LOGIC;
+    DIPSwitches : in STD_LOGIC_VECTOR ( 7 downto 0 );
     FIXED_IO_ddr_vrn : inout STD_LOGIC;
     FIXED_IO_ddr_vrp : inout STD_LOGIC;
     FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
@@ -600,7 +601,7 @@ entity system_top is
     FIXED_IO_ps_porb : inout STD_LOGIC;
     FIXED_IO_ps_srstb : inout STD_LOGIC;
     GPLEDs : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    PmodJA1 : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    SCL : out STD_LOGIC_VECTOR ( 0 to 0 );
     SDA : inout STD_LOGIC_VECTOR ( 0 to 0 )
   );
   attribute CORE_GENERATION_INFO : string;
@@ -708,6 +709,7 @@ architecture STRUCTURE of system_top is
   port (
     IPCORE_CLK : in STD_LOGIC;
     IPCORE_RESETN : in STD_LOGIC;
+    DIPSwitches : in STD_LOGIC_VECTOR ( 7 downto 0 );
     AXI4_Lite_ACLK : in STD_LOGIC;
     AXI4_Lite_ARESETN : in STD_LOGIC;
     AXI4_Lite_AWADDR : in STD_LOGIC_VECTOR ( 15 downto 0 );
@@ -719,9 +721,9 @@ architecture STRUCTURE of system_top is
     AXI4_Lite_ARADDR : in STD_LOGIC_VECTOR ( 15 downto 0 );
     AXI4_Lite_ARVALID : in STD_LOGIC;
     AXI4_Lite_RREADY : in STD_LOGIC;
+    SCL : out STD_LOGIC;
     SDA : inout STD_LOGIC;
     GPLEDs : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    PmodJA1 : out STD_LOGIC_VECTOR ( 7 downto 0 );
     AXI4_Lite_AWREADY : out STD_LOGIC;
     AXI4_Lite_WREADY : out STD_LOGIC;
     AXI4_Lite_BRESP : out STD_LOGIC_VECTOR ( 1 downto 0 );
@@ -733,8 +735,9 @@ architecture STRUCTURE of system_top is
   );
   end component system_top_ADXL345_ip_0_0;
   signal ADXL345_ip_0_GPLEDs : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal ADXL345_ip_0_PmodJA1 : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal ADXL345_ip_0_SCL : STD_LOGIC;
   signal ARESETN_1 : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal DIPSwitches_1 : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal Net : STD_LOGIC_VECTOR ( 0 to 0 );
   signal S00_ARESETN_1 : STD_LOGIC_VECTOR ( 0 to 0 );
   signal axi_interconnect_0_M00_AXI_ARADDR : STD_LOGIC_VECTOR ( 31 downto 0 );
@@ -826,8 +829,9 @@ architecture STRUCTURE of system_top is
   signal NLW_processing_system7_0_USB0_VBUS_PWRSELECT_UNCONNECTED : STD_LOGIC;
   signal NLW_processing_system7_0_USB0_PORT_INDCTL_UNCONNECTED : STD_LOGIC_VECTOR ( 1 downto 0 );
 begin
+  DIPSwitches_1(7 downto 0) <= DIPSwitches(7 downto 0);
   GPLEDs(7 downto 0) <= ADXL345_ip_0_GPLEDs(7 downto 0);
-  PmodJA1(7 downto 0) <= ADXL345_ip_0_PmodJA1(7 downto 0);
+  SCL(0) <= ADXL345_ip_0_SCL;
 ADXL345_ip_0: component system_top_ADXL345_ip_0_0
      port map (
       AXI4_Lite_ACLK => clk_wiz_0_clk_out1,
@@ -849,10 +853,11 @@ ADXL345_ip_0: component system_top_ADXL345_ip_0_0
       AXI4_Lite_WREADY => axi_interconnect_0_M00_AXI_WREADY,
       AXI4_Lite_WSTRB(3 downto 0) => axi_interconnect_0_M00_AXI_WSTRB(3 downto 0),
       AXI4_Lite_WVALID => axi_interconnect_0_M00_AXI_WVALID,
+      DIPSwitches(7 downto 0) => DIPSwitches_1(7 downto 0),
       GPLEDs(7 downto 0) => ADXL345_ip_0_GPLEDs(7 downto 0),
       IPCORE_CLK => clk_wiz_0_clk_out1,
       IPCORE_RESETN => S00_ARESETN_1(0),
-      PmodJA1(7 downto 0) => ADXL345_ip_0_PmodJA1(7 downto 0),
+      SCL => ADXL345_ip_0_SCL,
       SDA => SDA(0)
     );
 axi_interconnect_0: entity work.system_top_axi_interconnect_0_0

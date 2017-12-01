@@ -13,7 +13,7 @@ foreach ipCore $ipList {
 }
 update_ip_catalog
 source vivado_custom_block_design.tcl
-set_property -dict [list CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {50.000}] [get_bd_cells clk_wiz_0]
+set_property -dict [list CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {100.000}] [get_bd_cells clk_wiz_0]
 validate_bd_design
 save_bd_design
 close_project

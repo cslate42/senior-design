@@ -106,7 +106,7 @@ thead.reportTableHeader {
 <tr>
 <td>Model version
 </td>
-<td class="summaryTableSndColEvenRow">1.170
+<td class="summaryTableSndColEvenRow">1.251
 </td>
 </tr>
 <tr>
@@ -118,7 +118,7 @@ thead.reportTableHeader {
 <tr>
 <td>IP core generated on
 </td>
-<td class="summaryTableSndColEvenRow">18-Nov-2017 15:02:22
+<td class="summaryTableSndColEvenRow">30-Nov-2017 20:43:39
 </td>
 </tr>
 <tr>
@@ -176,9 +176,33 @@ Target platform interface table:
 </td>
 <td class="distinctCellColor">boolean
 </td>
-<td class="distinctCellColor">AXI4-Lite
+<td class="distinctCellColor">DIP Switches [0:7]
 </td>
-<td class="distinctCellColor">x"100"
+<td class="distinctCellColor">[7]
+</td>
+</tr>
+<tr>
+<td><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:190')">updateSw0</a>
+</td>
+<td>Inport
+</td>
+<td>boolean
+</td>
+<td>DIP Switches [0:7]
+</td>
+<td>[0]
+</td>
+</tr>
+<tr>
+<td class="distinctCellColor"><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:191')">modeSw1</a>
+</td>
+<td class="distinctCellColor">Inport
+</td>
+<td class="distinctCellColor">boolean
+</td>
+<td class="distinctCellColor">DIP Switches [0:7]
+</td>
+<td class="distinctCellColor">[1]
 </td>
 </tr>
 <tr>
@@ -188,9 +212,9 @@ Target platform interface table:
 </td>
 <td>boolean
 </td>
-<td>Pmod Connector JA1 [0:7]
+<td>External Port
 </td>
-<td>[0]
+<td>{'AA11'}
 </td>
 </tr>
 <tr>
@@ -202,7 +226,7 @@ Target platform interface table:
 </td>
 <td class="distinctCellColor">External Port
 </td>
-<td class="distinctCellColor">{'AA11'}
+<td class="distinctCellColor">{'Y10'}
 </td>
 </tr>
 <tr>
@@ -214,7 +238,7 @@ Target platform interface table:
 </td>
 <td>AXI4-Lite
 </td>
-<td>x"104"
+<td>x"108"
 </td>
 </tr>
 <tr>
@@ -226,7 +250,7 @@ Target platform interface table:
 </td>
 <td class="distinctCellColor">AXI4-Lite
 </td>
-<td class="distinctCellColor">x"108"
+<td class="distinctCellColor">x"10C"
 </td>
 </tr>
 <tr>
@@ -238,7 +262,7 @@ Target platform interface table:
 </td>
 <td>AXI4-Lite
 </td>
-<td>x"10C"
+<td>x"110"
 </td>
 </tr>
 <tr>
@@ -250,7 +274,7 @@ Target platform interface table:
 </td>
 <td class="distinctCellColor">AXI4-Lite
 </td>
-<td class="distinctCellColor">x"110"
+<td class="distinctCellColor">x"118"
 </td>
 </tr>
 <tr>
@@ -262,7 +286,7 @@ Target platform interface table:
 </td>
 <td>AXI4-Lite
 </td>
-<td>x"118"
+<td>x"11C"
 </td>
 </tr>
 <tr>
@@ -272,9 +296,9 @@ Target platform interface table:
 </td>
 <td class="distinctCellColor">boolean
 </td>
-<td class="distinctCellColor">LEDs General Purpose [0:7]
+<td class="distinctCellColor">No Interface Specified
 </td>
-<td class="distinctCellColor">[0]
+<td class="distinctCellColor">
 </td>
 </tr>
 <tr>
@@ -284,9 +308,9 @@ Target platform interface table:
 </td>
 <td>boolean
 </td>
-<td>LEDs General Purpose [0:7]
+<td>No Interface Specified
 </td>
-<td>[1]
+<td>
 </td>
 </tr>
 <tr>
@@ -298,7 +322,7 @@ Target platform interface table:
 </td>
 <td class="distinctCellColor">AXI4-Lite
 </td>
-<td class="distinctCellColor">x"11C"
+<td class="distinctCellColor">x"120"
 </td>
 </tr>
 <tr>
@@ -310,7 +334,7 @@ Target platform interface table:
 </td>
 <td>AXI4-Lite
 </td>
-<td>x"120"
+<td>x"124"
 </td>
 </tr>
 <tr>
@@ -322,7 +346,7 @@ Target platform interface table:
 </td>
 <td class="distinctCellColor">AXI4-Lite
 </td>
-<td class="distinctCellColor">x"124"
+<td class="distinctCellColor">x"128"
 </td>
 </tr>
 <tr>
@@ -334,7 +358,103 @@ Target platform interface table:
 </td>
 <td>AXI4-Lite
 </td>
-<td>x"128"
+<td>x"12C"
+</td>
+</tr>
+<tr>
+<td class="distinctCellColor"><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:170')">led0</a>
+</td>
+<td class="distinctCellColor">Outport
+</td>
+<td class="distinctCellColor">boolean
+</td>
+<td class="distinctCellColor">LEDs General Purpose [0:7]
+</td>
+<td class="distinctCellColor">[0]
+</td>
+</tr>
+<tr>
+<td><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:183')">led1</a>
+</td>
+<td>Outport
+</td>
+<td>boolean
+</td>
+<td>LEDs General Purpose [0:7]
+</td>
+<td>[1]
+</td>
+</tr>
+<tr>
+<td class="distinctCellColor"><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:184')">led2</a>
+</td>
+<td class="distinctCellColor">Outport
+</td>
+<td class="distinctCellColor">boolean
+</td>
+<td class="distinctCellColor">LEDs General Purpose [0:7]
+</td>
+<td class="distinctCellColor">[2]
+</td>
+</tr>
+<tr>
+<td><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:185')">led3</a>
+</td>
+<td>Outport
+</td>
+<td>boolean
+</td>
+<td>LEDs General Purpose [0:7]
+</td>
+<td>[3]
+</td>
+</tr>
+<tr>
+<td class="distinctCellColor"><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:186')">led4</a>
+</td>
+<td class="distinctCellColor">Outport
+</td>
+<td class="distinctCellColor">boolean
+</td>
+<td class="distinctCellColor">LEDs General Purpose [0:7]
+</td>
+<td class="distinctCellColor">[5]
+</td>
+</tr>
+<tr>
+<td><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:187')">led5</a>
+</td>
+<td>Outport
+</td>
+<td>boolean
+</td>
+<td>LEDs General Purpose [0:7]
+</td>
+<td>[4]
+</td>
+</tr>
+<tr>
+<td class="distinctCellColor"><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:188')">led6</a>
+</td>
+<td class="distinctCellColor">Outport
+</td>
+<td class="distinctCellColor">boolean
+</td>
+<td class="distinctCellColor">LEDs General Purpose [0:7]
+</td>
+<td class="distinctCellColor">[6]
+</td>
+</tr>
+<tr>
+<td><a class="code2model" id="code2model" href="matlab:Simulink.ID.hilite('mpu6050:189')">led7</a>
+</td>
+<td>Outport
+</td>
+<td>boolean
+</td>
+<td>LEDs General Purpose [0:7]
+</td>
+<td>[7]
 </td>
 </tr>
 </tbody>
@@ -373,43 +493,27 @@ The following AXI4-Lite bus accessible registers were generated for this IP core
 </td>
 </tr>
 <tr>
-<td>ConfigDevice_Data
-</td>
-<td>0x100
-</td>
-<td>data register for Inport ConfigDevice
-</td>
-</tr>
-<tr>
-<td class="distinctCellColor">AccelX_Data
-</td>
-<td class="distinctCellColor">0x104
-</td>
-<td class="distinctCellColor">data register for Outport AccelX
-</td>
-</tr>
-<tr>
-<td>AccelY_Data
+<td>AccelX_Data
 </td>
 <td>0x108
 </td>
-<td>data register for Outport AccelY
+<td>data register for Outport AccelX
 </td>
 </tr>
 <tr>
-<td class="distinctCellColor">AccelZ_Data
+<td class="distinctCellColor">AccelY_Data
 </td>
 <td class="distinctCellColor">0x10C
 </td>
-<td class="distinctCellColor">data register for Outport AccelZ
+<td class="distinctCellColor">data register for Outport AccelY
 </td>
 </tr>
 <tr>
-<td>validout_Data
+<td>AccelZ_Data
 </td>
 <td>0x110
 </td>
-<td>data register for Outport validout
+<td>data register for Outport AccelZ
 </td>
 </tr>
 <tr>
@@ -421,43 +525,51 @@ The following AXI4-Lite bus accessible registers were generated for this IP core
 </td>
 </tr>
 <tr>
-<td>deviceID_Data
+<td>validout_Data
 </td>
 <td>0x118
 </td>
-<td>data register for Outport deviceID
+<td>data register for Outport validout
 </td>
 </tr>
 <tr>
-<td class="distinctCellColor">RegData_Data
+<td class="distinctCellColor">deviceID_Data
 </td>
 <td class="distinctCellColor">0x11C
 </td>
-<td class="distinctCellColor">data register for Outport RegData
+<td class="distinctCellColor">data register for Outport deviceID
 </td>
 </tr>
 <tr>
-<td>GyroX_Data
+<td>RegData_Data
 </td>
 <td>0x120
 </td>
-<td>data register for Outport GyroX
+<td>data register for Outport RegData
 </td>
 </tr>
 <tr>
-<td class="distinctCellColor">GyroY_Data
+<td class="distinctCellColor">GyroX_Data
 </td>
 <td class="distinctCellColor">0x124
 </td>
-<td class="distinctCellColor">data register for Outport GyroY
+<td class="distinctCellColor">data register for Outport GyroX
 </td>
 </tr>
 <tr>
-<td>GyroZ_Data
+<td>GyroY_Data
 </td>
 <td>0x128
 </td>
-<td>data register for Outport GyroZ
+<td>data register for Outport GyroY
+</td>
+</tr>
+<tr>
+<td class="distinctCellColor">GyroZ_Data
+</td>
+<td class="distinctCellColor">0x12C
+</td>
+<td class="distinctCellColor">data register for Outport GyroZ
 </td>
 </tr>
 </tbody>
@@ -542,6 +654,8 @@ Following files are generated under this folder:
 <a href="matlab:edit('hdl_prj\ipcore\ADXL345_ip_v1_0\hdl\vhdl\ADXL345_ip_src_i2c_mstr.vhd')">hdl\vhdl\ADXL345_ip_src_i2c_mstr.vhd</a>
 <br/>
 <a href="matlab:edit('hdl_prj\ipcore\ADXL345_ip_v1_0\hdl\vhdl\ADXL345_ip_src_I2C_MasterController.vhd')">hdl\vhdl\ADXL345_ip_src_I2C_MasterController.vhd</a>
+<br/>
+<a href="matlab:edit('hdl_prj\ipcore\ADXL345_ip_v1_0\hdl\vhdl\ADXL345_ip_src_MATLAB_Function.vhd')">hdl\vhdl\ADXL345_ip_src_MATLAB_Function.vhd</a>
 <br/>
 <a href="matlab:edit('hdl_prj\ipcore\ADXL345_ip_v1_0\hdl\vhdl\ADXL345_ip_src_MPU6050_Interface.vhd')">hdl\vhdl\ADXL345_ip_src_MPU6050_Interface.vhd</a>
 <br/>

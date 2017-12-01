@@ -137,6 +137,26 @@
       </spirit:views>
       <spirit:ports>
         <spirit:port>
+          <spirit:name>DIPSwitches</spirit:name>
+          <spirit:wire>
+            <spirit:direction>in</spirit:direction>
+            <spirit:vector>
+              <spirit:left>7</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>SCL</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>0</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
           <spirit:name>SDA</spirit:name>
           <spirit:wire>
             <spirit:direction>inout</spirit:direction>
@@ -148,16 +168,6 @@
         </spirit:port>
         <spirit:port>
           <spirit:name>GPLEDs</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-            <spirit:vector>
-              <spirit:left>7</spirit:left>
-              <spirit:right>0</spirit:right>
-            </spirit:vector>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
-          <spirit:name>PmodJA1</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
             <spirit:vector>
@@ -190,12 +200,12 @@
         <spirit:componentRef spirit:library="ip" spirit:name="clk_wiz" spirit:vendor="xilinx.com" spirit:version="5.3"/>
         <spirit:configurableElementValues>
           <spirit:configurableElementValue spirit:referenceId="bd:xciName">system_top_clk_wiz_0_0</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_REQUESTED_OUT_FREQ">50.000</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_REQUESTED_OUT_FREQ">100.000</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="RESET_PORT">resetn</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="MMCM_DIVCLK_DIVIDE">1</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="MMCM_CLKOUT0_DIVIDE_F">20.000</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="MMCM_CLKOUT0_DIVIDE_F">10.000</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="RESET_TYPE">ACTIVE_LOW</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_JITTER">151.636</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_JITTER">130.958</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
@@ -504,6 +514,16 @@
         <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="ext_reset_in"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
+        <spirit:name>DIPSwitches_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="DIPSwitches"/>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="DIPSwitches"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>ADXL345_ip_0_SCL</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="SCL"/>
+        <spirit:externalPortReference spirit:portRef="SCL"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
         <spirit:name>Net</spirit:name>
         <spirit:externalPortReference spirit:portRef="SDA"/>
         <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="SDA"/>
@@ -512,11 +532,6 @@
         <spirit:name>ADXL345_ip_0_GPLEDs</spirit:name>
         <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="GPLEDs"/>
         <spirit:externalPortReference spirit:portRef="GPLEDs"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>ADXL345_ip_0_PmodJA1</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="PmodJA1"/>
-        <spirit:externalPortReference spirit:portRef="PmodJA1"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>

@@ -16,6 +16,16 @@ unsigned int sf_process_check_sum_call( int nlhs, mxArray * plhs[], int nrhs,
   return 0;
 }
 
+unsigned int sf_process_testpoint_info_call( int nlhs, mxArray * plhs[], int
+  nrhs, const mxArray * prhs[] )
+{
+  extern unsigned int sf_mpu6050_process_testpoint_info_call( int nlhs, mxArray *
+    plhs[], int nrhs, const mxArray * prhs[] );
+  if (sf_mpu6050_process_testpoint_info_call(nlhs,plhs,nrhs,prhs))
+    return 1;
+  return 0;
+}
+
 unsigned int sf_process_autoinheritance_call( int nlhs, mxArray * plhs[], int
   nrhs, const mxArray * prhs[] )
 {
@@ -199,6 +209,8 @@ static unsigned int ProcessMexSfunctionCmdLineCall(int nlhs, mxArray * plhs[],
   int nrhs, const mxArray * prhs[])
 {
   if (sf_debug_api_wrapper(nlhs,plhs,nrhs,prhs))
+    return 1;
+  if (sf_process_testpoint_info_call(nlhs,plhs,nrhs,prhs))
     return 1;
   if (sf_process_check_sum_call(nlhs,plhs,nrhs,prhs))
     return 1;
