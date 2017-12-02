@@ -1,4 +1,0 @@
-Task "Program Target Device" unsuccessful. See log for details.
-Generated logfile: 
-Programming target FPGA device over Ethernet ...
-Cannot identify hdl_prj\vivado_ip_prj\vivado_prj.runs\impl_1\system_top_wrapper.bit. No such file or directory.

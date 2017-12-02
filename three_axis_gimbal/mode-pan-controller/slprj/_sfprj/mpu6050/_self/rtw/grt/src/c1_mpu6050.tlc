@@ -1,0 +1,120 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  1 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   13 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "sfEvent"\
+      Description  "ActiveChartEvent"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "tp_init"\
+      Description  "StateTestPoint"\
+      SFName       "init"\
+      Path         "init"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "tp_idle"\
+      Description  "StateTestPoint"\
+      SFName       "idle"\
+      Path         "idle"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "tp_setPwrMode"\
+      Description  "StateTestPoint"\
+      SFName       "setPwrMode"\
+      Path         "Configuration.setPwrMode"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "tp_waitforNotBusy2"\
+      Description  "StateTestPoint"\
+      SFName       "waitforNotBusy2"\
+      Path         "Configuration.waitforNotBusy2"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "tp_cfgDone"\
+      Description  "StateTestPoint"\
+      SFName       "cfgDone"\
+      Path         "Configuration.cfgDone"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "tp_Valid"\
+      Description  "StateTestPoint"\
+      SFName       "Valid"\
+      Path         "Valid"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "doneDoubleBufferReInit"\
+      Description  "DoubleBufferInitCheck"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_active_c1_mpu6050"\
+      Description  "StateIsActive"\
+      SFName       "is_active_c1_mpu6050"\
+      Path         "is_active_c1_mpu6050"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "is_c1_mpu6050"\
+      Description  "StateActiveChild"\
+      SFName       "is_c1_mpu6050"\
+      Path         "is_c1_mpu6050"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "cnt"\
+      Description  "ChartLocal"\
+      SFName       "cnt"\
+      Path         "cnt"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "tempVal"\
+      Description  "ChartLocal"\
+      SFName       "tempVal"\
+      Path         "tempVal"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "selfInit"\
+      Description  "ChartLocal"\
+      SFName       "selfInit"\
+      Path         "selfInit"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+  }
+  %return ChartDataElements
+%endfunction

@@ -225,6 +225,7 @@ static void enable_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance);
 static void disable_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_update_debugger_state_c2_mpu6050(SFc2_mpu6050InstanceStruct
   *chartInstance);
+static void ext_mode_exec_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance);
 static const mxArray *get_sim_state_c2_mpu6050(SFc2_mpu6050InstanceStruct
   *chartInstance);
 static void set_sim_state_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance,
@@ -241,6 +242,7 @@ static void c2_idle(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_ready(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_mastr_ack_data_cnf1(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_mastr_ack_data_cnf(SFc2_mpu6050InstanceStruct *chartInstance);
+static void c2_enter_atomic_scl_ext_n(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_mastr_ack_data(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_enter_atomic_cmd_slave_addr_n(SFc2_mpu6050InstanceStruct
   *chartInstance);
@@ -269,7 +271,6 @@ static void c2_cmd_reg_addr_n(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_repeat_strt_n(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_ready_repeated(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_cmd_reg_addr_p(SFc2_mpu6050InstanceStruct *chartInstance);
-static void c2_repeat_strt_p(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_ready_repeated_dummy(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_ack_addr_m(SFc2_mpu6050InstanceStruct *chartInstance);
 static void c2_ack_recv_wr1(SFc2_mpu6050InstanceStruct *chartInstance);
@@ -308,7 +309,7 @@ static void c2_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
 static const mxArray *c2_d_sf_marshallOut(void *chartInstanceVoid, void
   *c2_inData);
 static uint8_T c2_e_emlrt_marshallIn(SFc2_mpu6050InstanceStruct *chartInstance,
-  const mxArray *c2_b_tp_idle, const char_T *c2_identifier);
+  const mxArray *c2_b_bit_cnt, const char_T *c2_identifier);
 static uint8_T c2_f_emlrt_marshallIn(SFc2_mpu6050InstanceStruct *chartInstance,
   const mxArray *c2_u, const emlrtMsgIdentifier *c2_parentId);
 static void c2_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
@@ -353,59 +354,12 @@ static void initialize_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
     chart_debug_initialize_data_addresses(chartInstance->S);
   }
 
-  chartInstance->c2_sfEvent = CALL_EVENT;
+  *chartInstance->c2_sfEvent = CALL_EVENT;
   _sfTime_ = sf_get_time(chartInstance->S);
   chartInstance->c2_doSetSimStateSideEffects = 0U;
   chartInstance->c2_setSimStateSideEffectsInfo = NULL;
-  chartInstance->c2_tp_Increment_Byte_count1 = 0U;
-  chartInstance->c2_tp_ack_addr_m = 0U;
-  chartInstance->c2_tp_ack_addr_m_cnf = 0U;
-  chartInstance->c2_tp_ack_addrm1 = 0U;
-  chartInstance->c2_tp_ack_data = 0U;
-  chartInstance->c2_tp_ack_end = 0U;
-  chartInstance->c2_tp_ack_end1 = 0U;
-  chartInstance->c2_tp_ack_recv_wr = 0U;
-  chartInstance->c2_tp_ack_recv_wr1 = 0U;
-  chartInstance->c2_tp_ack_recv_wr2 = 0U;
-  chartInstance->c2_tp_ack_recv_wr3 = 0U;
-  chartInstance->c2_tp_ack_slv = 0U;
-  chartInstance->c2_tp_ack_slv1 = 0U;
-  chartInstance->c2_tp_ack_slv_cnf1 = 0U;
-  chartInstance->c2_tp_ack_wr_p = 0U;
-  chartInstance->c2_tp_ack_wr_p2 = 0U;
-  chartInstance->c2_tp_cmd_reg_addr_n = 0U;
-  chartInstance->c2_tp_cmd_reg_addr_p = 0U;
-  chartInstance->c2_tp_cmd_reg_data_n = 0U;
-  chartInstance->c2_tp_cmd_reg_data_p = 0U;
-  chartInstance->c2_tp_cmd_reg_read_data_n = 0U;
-  chartInstance->c2_tp_cmd_reg_read_data_p = 0U;
-  chartInstance->c2_tp_cmd_slave_addr_n = 0U;
-  chartInstance->c2_tp_cmd_slave_addr_n1 = 0U;
-  chartInstance->c2_tp_cmd_slave_addr_p = 0U;
-  chartInstance->c2_tp_cmd_slave_addr_p1 = 0U;
-  chartInstance->c2_tp_delay = 0U;
-  chartInstance->c2_tp_error_ack = 0U;
-  chartInstance->c2_tp_idle = 0U;
-  chartInstance->c2_tp_mastr_ack_data = 0U;
-  chartInstance->c2_tp_mastr_ack_data_cnf = 0U;
-  chartInstance->c2_tp_mastr_ack_data_cnf1 = 0U;
-  chartInstance->c2_tp_read_n = 0U;
-  chartInstance->c2_tp_read_p = 0U;
-  chartInstance->c2_tp_ready = 0U;
-  chartInstance->c2_tp_ready_repeated = 0U;
-  chartInstance->c2_tp_ready_repeated_dummy = 0U;
-  chartInstance->c2_tp_repeat_strt_n = 0U;
-  chartInstance->c2_tp_repeat_strt_p = 0U;
-  chartInstance->c2_tp_scl_ext_n = 0U;
-  chartInstance->c2_tp_scl_ext_p = 0U;
-  chartInstance->c2_tp_start_n = 0U;
-  chartInstance->c2_tp_start_p = 0U;
-  chartInstance->c2_tp_stop = 0U;
-  chartInstance->c2_tp_stop_ext = 0U;
-  chartInstance->c2_tp_write_n = 0U;
-  chartInstance->c2_tp_write_p = 0U;
-  chartInstance->c2_is_active_c2_mpu6050 = 0U;
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_NO_ACTIVE_CHILD;
+  *chartInstance->c2_is_active_c2_mpu6050 = 0U;
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_NO_ACTIVE_CHILD;
   sf_mex_assign(&c2_b_eml_mx, sf_mex_call_debug(sfGlobalDebugInstanceStruct,
     "numerictype", 1U, 14U, 15, "SignednessBool", 3, false, 15, "Signedness", 15,
     "Unsigned", 15, "WordLength", 6, 8.0, 15, "FractionLength", 6, 0.0, 15,
@@ -423,16 +377,15 @@ static void initialize_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
     "ProductSlopeAdjustmentFactor", 6, 1.0, 15, "ProductBias", 6, 0.0, 15,
     "CastBeforeSum", 3, true, 15, "SumSlope", 6, 9.3132257461547852E-10, 15,
     "ProductSlope", 6, 9.3132257461547852E-10), true);
-  _SFD_CC_CALL(CHART_ENTER_ENTRY_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_active_c2_mpu6050 = 1U;
-  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
-  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 15U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_idle;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 28U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_idle = 1U;
+  _SFD_CC_CALL(CHART_ENTER_ENTRY_FUNCTION_TAG, 1U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_active_c2_mpu6050 = 1U;
+  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, *chartInstance->c2_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 1U, *chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 15U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_idle;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 28U, *chartInstance->c2_sfEvent);
   c2_enter_atomic_idle(chartInstance);
-  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
+  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, *chartInstance->c2_sfEvent);
   _SFD_CHECK_FOR_STATE_INCONSISTENCY(_mpu6050MachineNumber_,
     chartInstance->chartNumber, chartInstance->instanceNumber);
 }
@@ -460,295 +413,300 @@ static void c2_update_debugger_state_c2_mpu6050(SFc2_mpu6050InstanceStruct
   c2_prevAniVal = _SFD_GET_ANIMATION();
   _SFD_SET_ANIMATION(0U);
   _SFD_SET_HONOR_BREAKPOINTS(0U);
-  if (chartInstance->c2_is_active_c2_mpu6050 == 1U) {
-    _SFD_CC_CALL(CHART_ACTIVE_TAG, 1U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_active_c2_mpu6050 == 1U) {
+    _SFD_CC_CALL(CHART_ACTIVE_TAG, 1U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_idle) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 28U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_idle) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 28U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 28U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 28U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_stop_ext) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 44U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_stop_ext) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 44U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 44U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 44U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ready) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 34U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ready) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 34U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 34U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 34U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_stop) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 43U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_stop) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 43U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 43U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 43U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_start_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 41U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_start_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 41U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 41U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 41U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data_cnf1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 31U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data_cnf1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 31U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 31U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 31U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data_cnf) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 30U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data_cnf) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 30U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 30U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 30U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_scl_ext_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 40U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_scl_ext_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 40U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 40U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 40U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_start_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 42U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_start_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 42U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 42U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 42U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_scl_ext_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 39U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_scl_ext_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 39U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 39U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 39U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 29U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 29U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 29U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 29U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 22U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 22U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 22U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 22U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_Increment_Byte_count1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 0U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_Increment_Byte_count1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 0U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 0U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 0U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 24U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 24U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 24U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 24U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_write_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 45U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_write_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 45U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 45U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 45U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_end1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 6U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_end1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 6U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 6U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 6U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_read_data_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 21U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_read_data_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 21U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 21U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 21U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_end) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 5U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_end) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 5U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 5U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 5U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_write_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 46U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_write_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 46U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 46U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 46U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr3) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 10U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr3) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 10U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 10U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 10U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_data) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 4U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_data) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 4U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 4U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 4U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_slv) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 11U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_slv) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 11U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 11U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 11U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_read_data_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 20U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_read_data_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 20U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 20U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 20U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 7U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 7U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 7U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 7U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_data_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 19U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_data_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 19U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 19U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 19U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_addr_m_cnf) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 2U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_addr_m_cnf) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 2U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 2U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 2U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_wr_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 14U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_wr_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 14U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 14U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 14U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_error_ack) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_error_ack) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 27U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 27U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_data_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 18U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_data_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 18U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 18U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 18U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_delay) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 26U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_delay) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 26U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 26U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 26U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_addr_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 16U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_addr_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 16U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 16U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 16U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_repeat_strt_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 37U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_repeat_strt_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 37U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 37U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 37U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ready_repeated) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 35U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ready_repeated) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 35U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 35U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 35U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_addr_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 17U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_addr_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 17U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 17U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 17U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_repeat_strt_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 38U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_repeat_strt_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 38U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 38U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 38U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ready_repeated_dummy) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 36U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ready_repeated_dummy) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 36U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 36U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 36U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_addr_m) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 1U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_addr_m) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 1U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 1U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 1U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 8U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 8U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 8U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 8U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr2) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 9U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr2) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 9U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 9U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 9U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_n1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 23U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_n1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 23U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 23U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 23U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_p1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 25U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_p1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 25U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 25U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 25U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_addrm1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 3U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_addrm1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 3U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 3U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 3U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_read_n) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 32U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_read_n) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 32U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 32U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 32U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_wr_p2) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 15U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_wr_p2) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 15U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 15U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 15U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_read_p) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 33U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_read_p) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 33U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 33U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 33U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_slv1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 12U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_slv1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 12U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 12U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 12U, *chartInstance->c2_sfEvent);
   }
 
-  if (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_slv_cnf1) {
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 13U, chartInstance->c2_sfEvent);
+  if (*chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_slv_cnf1) {
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 13U, *chartInstance->c2_sfEvent);
   } else {
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 13U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 13U, *chartInstance->c2_sfEvent);
   }
 
   _SFD_SET_ANIMATION(c2_prevAniVal);
   _SFD_SET_HONOR_BREAKPOINTS(1U);
   _SFD_ANIMATE();
+}
+
+static void ext_mode_exec_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
+{
+  c2_update_debugger_state_c2_mpu6050(chartInstance);
 }
 
 static const mxArray *get_sim_state_c2_mpu6050(SFc2_mpu6050InstanceStruct
@@ -840,27 +798,27 @@ static const mxArray *get_sim_state_c2_mpu6050(SFc2_mpu6050InstanceStruct
   sf_mex_assign(&c2_k_y, sf_mex_create("y", &c2_i_hoistedGlobal, 11, 0U, 0U, 0U,
     0), false);
   sf_mex_setcell(c2_y, 8, c2_k_y);
-  c2_j_hoistedGlobal = chartInstance->c2_bit_cnt;
+  c2_j_hoistedGlobal = *chartInstance->c2_bit_cnt;
   c2_l_y = NULL;
   sf_mex_assign(&c2_l_y, sf_mex_create("y", &c2_j_hoistedGlobal, 3, 0U, 0U, 0U,
     0), false);
   sf_mex_setcell(c2_y, 9, c2_l_y);
-  c2_k_hoistedGlobal = chartInstance->c2_reg_byte_cnt;
+  c2_k_hoistedGlobal = *chartInstance->c2_reg_byte_cnt;
   c2_m_y = NULL;
   sf_mex_assign(&c2_m_y, sf_mex_create("y", &c2_k_hoistedGlobal, 3, 0U, 0U, 0U,
     0), false);
   sf_mex_setcell(c2_y, 10, c2_m_y);
-  c2_l_hoistedGlobal = chartInstance->c2_temp_data;
+  c2_l_hoistedGlobal = *chartInstance->c2_temp_data;
   c2_n_y = NULL;
   sf_mex_assign(&c2_n_y, sf_mex_create("y", &c2_l_hoistedGlobal, 3, 0U, 0U, 0U,
     0), false);
   sf_mex_setcell(c2_y, 11, c2_n_y);
-  c2_m_hoistedGlobal = chartInstance->c2_is_active_c2_mpu6050;
+  c2_m_hoistedGlobal = *chartInstance->c2_is_active_c2_mpu6050;
   c2_o_y = NULL;
   sf_mex_assign(&c2_o_y, sf_mex_create("y", &c2_m_hoistedGlobal, 3, 0U, 0U, 0U,
     0), false);
   sf_mex_setcell(c2_y, 12, c2_o_y);
-  c2_n_hoistedGlobal = chartInstance->c2_is_c2_mpu6050;
+  c2_n_hoistedGlobal = *chartInstance->c2_is_c2_mpu6050;
   c2_p_y = NULL;
   sf_mex_assign(&c2_p_y, sf_mex_create("y", &c2_n_hoistedGlobal, 3, 0U, 0U, 0U,
     0), false);
@@ -879,7 +837,7 @@ static void set_sim_state_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance,
   const mxArray *c2_u;
   boolean_T c2_bv0[12];
   int32_T c2_i0;
-  chartInstance->c2_doneDoubleBufferReInit = true;
+  *chartInstance->c2_doneDoubleBufferReInit = true;
   c2_u = sf_mex_dup(c2_st);
   *chartInstance->c2_ack = c2_b_emlrt_marshallIn(chartInstance, sf_mex_dup
     (sf_mex_getcell("ack", c2_u, 0)), "ack");
@@ -899,16 +857,16 @@ static void set_sim_state_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance,
     (sf_mex_getcell("scl", c2_u, 7)), "scl");
   *chartInstance->c2_sda = c2_b_emlrt_marshallIn(chartInstance, sf_mex_dup
     (sf_mex_getcell("sda", c2_u, 8)), "sda");
-  chartInstance->c2_bit_cnt = c2_e_emlrt_marshallIn(chartInstance, sf_mex_dup
+  *chartInstance->c2_bit_cnt = c2_e_emlrt_marshallIn(chartInstance, sf_mex_dup
     (sf_mex_getcell("bit_cnt", c2_u, 9)), "bit_cnt");
-  chartInstance->c2_reg_byte_cnt = c2_e_emlrt_marshallIn(chartInstance,
+  *chartInstance->c2_reg_byte_cnt = c2_e_emlrt_marshallIn(chartInstance,
     sf_mex_dup(sf_mex_getcell("reg_byte_cnt", c2_u, 10)), "reg_byte_cnt");
-  chartInstance->c2_temp_data = c2_e_emlrt_marshallIn(chartInstance, sf_mex_dup
+  *chartInstance->c2_temp_data = c2_e_emlrt_marshallIn(chartInstance, sf_mex_dup
     (sf_mex_getcell("temp_data", c2_u, 11)), "temp_data");
-  chartInstance->c2_is_active_c2_mpu6050 = c2_e_emlrt_marshallIn(chartInstance,
+  *chartInstance->c2_is_active_c2_mpu6050 = c2_e_emlrt_marshallIn(chartInstance,
     sf_mex_dup(sf_mex_getcell("is_active_c2_mpu6050", c2_u, 12)),
     "is_active_c2_mpu6050");
-  chartInstance->c2_is_c2_mpu6050 = c2_e_emlrt_marshallIn(chartInstance,
+  *chartInstance->c2_is_c2_mpu6050 = c2_e_emlrt_marshallIn(chartInstance,
     sf_mex_dup(sf_mex_getcell("is_c2_mpu6050", c2_u, 13)), "is_c2_mpu6050");
   c2_i_emlrt_marshallIn(chartInstance, sf_mex_dup(sf_mex_getcell(
     "dataWrittenToVector", c2_u, 14)), "dataWrittenToVector", c2_bv0);
@@ -930,100 +888,6 @@ static void c2_set_sim_state_side_effects_c2_mpu6050(SFc2_mpu6050InstanceStruct 
   chartInstance)
 {
   if (chartInstance->c2_doSetSimStateSideEffects != 0) {
-    chartInstance->c2_tp_Increment_Byte_count1 = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_Increment_Byte_count1);
-    chartInstance->c2_tp_ack_addr_m = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_addr_m);
-    chartInstance->c2_tp_ack_addr_m_cnf = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_addr_m_cnf);
-    chartInstance->c2_tp_ack_addrm1 = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_addrm1);
-    chartInstance->c2_tp_ack_data = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_data);
-    chartInstance->c2_tp_ack_end = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_end);
-    chartInstance->c2_tp_ack_end1 = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_end1);
-    chartInstance->c2_tp_ack_recv_wr = (uint8_T)(chartInstance->c2_is_c2_mpu6050
-      == c2_IN_ack_recv_wr);
-    chartInstance->c2_tp_ack_recv_wr1 = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr1);
-    chartInstance->c2_tp_ack_recv_wr2 = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr2);
-    chartInstance->c2_tp_ack_recv_wr3 = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_recv_wr3);
-    chartInstance->c2_tp_ack_slv = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_slv);
-    chartInstance->c2_tp_ack_slv1 = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_slv1);
-    chartInstance->c2_tp_ack_slv_cnf1 = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_ack_slv_cnf1);
-    chartInstance->c2_tp_ack_wr_p = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_wr_p);
-    chartInstance->c2_tp_ack_wr_p2 = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ack_wr_p2);
-    chartInstance->c2_tp_cmd_reg_addr_n = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_addr_n);
-    chartInstance->c2_tp_cmd_reg_addr_p = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_addr_p);
-    chartInstance->c2_tp_cmd_reg_data_n = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_data_n);
-    chartInstance->c2_tp_cmd_reg_data_p = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_data_p);
-    chartInstance->c2_tp_cmd_reg_read_data_n = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_read_data_n);
-    chartInstance->c2_tp_cmd_reg_read_data_p = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_reg_read_data_p);
-    chartInstance->c2_tp_cmd_slave_addr_n = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_n);
-    chartInstance->c2_tp_cmd_slave_addr_n1 = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_n1);
-    chartInstance->c2_tp_cmd_slave_addr_p = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_p);
-    chartInstance->c2_tp_cmd_slave_addr_p1 = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_cmd_slave_addr_p1);
-    chartInstance->c2_tp_delay = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_delay);
-    chartInstance->c2_tp_error_ack = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_error_ack);
-    chartInstance->c2_tp_idle = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_idle);
-    chartInstance->c2_tp_mastr_ack_data = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data);
-    chartInstance->c2_tp_mastr_ack_data_cnf = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data_cnf);
-    chartInstance->c2_tp_mastr_ack_data_cnf1 = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_mastr_ack_data_cnf1);
-    chartInstance->c2_tp_read_n = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_read_n);
-    chartInstance->c2_tp_read_p = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_read_p);
-    chartInstance->c2_tp_ready = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_ready);
-    chartInstance->c2_tp_ready_repeated = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_ready_repeated);
-    chartInstance->c2_tp_ready_repeated_dummy = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_ready_repeated_dummy);
-    chartInstance->c2_tp_repeat_strt_n = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_repeat_strt_n);
-    chartInstance->c2_tp_repeat_strt_p = (uint8_T)
-      (chartInstance->c2_is_c2_mpu6050 == c2_IN_repeat_strt_p);
-    chartInstance->c2_tp_scl_ext_n = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_scl_ext_n);
-    chartInstance->c2_tp_scl_ext_p = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_scl_ext_p);
-    chartInstance->c2_tp_start_n = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_start_n);
-    chartInstance->c2_tp_start_p = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_start_p);
-    chartInstance->c2_tp_stop = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_stop);
-    chartInstance->c2_tp_stop_ext = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_stop_ext);
-    chartInstance->c2_tp_write_n = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_write_n);
-    chartInstance->c2_tp_write_p = (uint8_T)(chartInstance->c2_is_c2_mpu6050 ==
-      c2_IN_write_p);
     chartInstance->c2_doSetSimStateSideEffects = 0U;
   }
 }
@@ -1040,24 +904,24 @@ static void sf_gateway_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
   c2_set_sim_state_side_effects_c2_mpu6050(chartInstance);
   _SFD_SYMBOL_SCOPE_PUSH(0U, 0U);
   _sfTime_ = sf_get_time(chartInstance->S);
-  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 1U, *chartInstance->c2_sfEvent);
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda_in, 10U, 1U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_data, 9U, 1U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_addr_burstIn, 8U, 1U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_addr, 7U, 1U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_slv_addr, 6U, 1U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mode, 5U, 1U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_rd_wr, 4U, 1U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_enb, 3U, 1U, 0U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_sfEvent = CALL_EVENT;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_sfEvent = CALL_EVENT;
   c2_chartstep_c2_mpu6050(chartInstance);
   _SFD_SYMBOL_SCOPE_POP();
   _SFD_CHECK_FOR_STATE_INCONSISTENCY(_mpu6050MachineNumber_,
@@ -1084,8 +948,8 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_f_nargin = 0.0;
   real_T c2_e_nargout = 0.0;
   real_T c2_f_nargout = 0.0;
-  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
-  switch (chartInstance->c2_is_c2_mpu6050) {
+  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 1U, *chartInstance->c2_sfEvent);
+  switch (*chartInstance->c2_is_c2_mpu6050) {
    case c2_IN_Increment_Byte_count1:
     CV_CHART_EVAL(1, 0, 1);
     c2_Increment_Byte_count1(chartInstance);
@@ -1278,21 +1142,24 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
 
    case c2_IN_repeat_strt_p:
     CV_CHART_EVAL(1, 0, 39);
-    c2_repeat_strt_p(chartInstance);
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 40U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 38U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_n1;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 23U, *chartInstance->c2_sfEvent);
+    c2_enter_atomic_cmd_slave_addr_n1(chartInstance);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 38U, *chartInstance->c2_sfEvent);
     break;
 
    case c2_IN_scl_ext_n:
     CV_CHART_EVAL(1, 0, 40);
-    *chartInstance->c2_mstr_ack = false;
-    chartInstance->c2_dataWrittenToVector[9U] = true;
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 26U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_scl_ext_n = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 39U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_p;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 40U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_scl_ext_p = 1U;
+    *chartInstance->c2_mstr_ack = false;
+    chartInstance->c2_dataWrittenToVector[9U] = true;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 26U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 39U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_p;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 40U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_h_debug_family_names,
       c2_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_e_nargin, 0U, c2_sf_marshallOut,
@@ -1302,29 +1169,27 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 40U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = false;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 40U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = false;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 40U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
-    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 39U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 39U, *chartInstance->c2_sfEvent);
     break;
 
    case c2_IN_scl_ext_p:
     CV_CHART_EVAL(1, 0, 41);
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 12U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_scl_ext_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 40U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_stop;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 43U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_stop = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 12U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 40U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_stop;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 43U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_d_debug_family_names,
       c2_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -1334,23 +1199,21 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_sda = false;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 43U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
-    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 40U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 40U, *chartInstance->c2_sfEvent);
     break;
 
    case c2_IN_start_n:
     CV_CHART_EVAL(1, 0, 42);
-    *chartInstance->c2_busy = true;
-    chartInstance->c2_dataWrittenToVector[0U] = true;
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 13U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_start_n = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 41U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_start_p;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 42U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_start_p = 1U;
+    *chartInstance->c2_busy = true;
+    chartInstance->c2_dataWrittenToVector[0U] = true;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 13U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 41U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_start_p;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 42U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_i_debug_family_names,
       c2_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_f_nargin, 0U, c2_sf_marshallOut,
@@ -1360,31 +1223,27 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_sda = false;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 42U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
-    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 41U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 41U, *chartInstance->c2_sfEvent);
     break;
 
    case c2_IN_start_p:
     CV_CHART_EVAL(1, 0, 43);
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 55U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_start_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 42U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_n;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 22U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_slave_addr_n = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 55U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 42U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_n;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 22U, *chartInstance->c2_sfEvent);
     c2_enter_atomic_cmd_slave_addr_n(chartInstance);
-    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 42U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 42U, *chartInstance->c2_sfEvent);
     break;
 
    case c2_IN_stop:
     CV_CHART_EVAL(1, 0, 44);
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 53U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_stop = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 43U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_stop_ext;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 44U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_stop_ext = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 53U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 43U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_stop_ext;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 44U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_b_debug_family_names,
       c2_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -1394,43 +1253,39 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 44U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 44U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = false;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 44U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
-    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 43U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 43U, *chartInstance->c2_sfEvent);
     break;
 
    case c2_IN_stop_ext:
     CV_CHART_EVAL(1, 0, 45);
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 16U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_stop_ext = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 44U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_idle;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 28U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_idle = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 16U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 44U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_idle;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 28U, *chartInstance->c2_sfEvent);
     c2_enter_atomic_idle(chartInstance);
-    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 44U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 44U, *chartInstance->c2_sfEvent);
     break;
 
    case c2_IN_write_n:
     CV_CHART_EVAL(1, 0, 46);
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 23U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_write_n = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 45U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_write_p;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 46U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_write_p = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 23U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 45U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_write_p;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 46U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_s_debug_family_names,
       c2_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -1440,25 +1295,23 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 46U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = false;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 46U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
-    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 45U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 45U, *chartInstance->c2_sfEvent);
     break;
 
    case c2_IN_write_p:
     CV_CHART_EVAL(1, 0, 47);
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 18U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_write_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 46U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_slv;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 11U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_slv = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 18U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 46U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_slv;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 11U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_v_debug_family_names,
       c2_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_d_nargin, 0U, c2_sf_marshallOut,
@@ -1468,29 +1321,29 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 11U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = true;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 11U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 11U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
-    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 46U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 46U, *chartInstance->c2_sfEvent);
     break;
 
    default:
     CV_CHART_EVAL(1, 0, 0);
 
     /* Unreachable state, for coverage only */
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_NO_ACTIVE_CHILD;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 0U, chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_NO_ACTIVE_CHILD;
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 0U, *chartInstance->c2_sfEvent);
     break;
   }
 
-  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
+  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, *chartInstance->c2_sfEvent);
 }
 
 static void initSimStructsc2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -1512,23 +1365,23 @@ static void c2_enter_atomic_idle(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 28U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 28U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_busy = false;
   chartInstance->c2_dataWrittenToVector[0U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_busy, 11U, 4U, 28U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_reg_data_burst = false;
   chartInstance->c2_dataWrittenToVector[7U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_data_burst, 16U, 4U, 28U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_temp_data = 0U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_temp_data = 0U;
   chartInstance->c2_dataWrittenToVector[11U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_temp_data, 2U, 4U, 28U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_temp_data, 2U, 4U, 28U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
 }
 
@@ -1541,11 +1394,11 @@ static void c2_idle(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_b_debug_family_var_map[2];
   real_T c2_b_nargin = 0.0;
   real_T c2_b_nargout = 0.0;
-  *chartInstance->c2_busy = false;
-  chartInstance->c2_dataWrittenToVector[0U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 30U, chartInstance->c2_sfEvent);
+  *chartInstance->c2_busy = false;
+  chartInstance->c2_dataWrittenToVector[0U] = true;
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 30U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_wb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -1558,12 +1411,10 @@ static void c2_idle(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_enb, 1.0, -1, 0U, (int32_T)*chartInstance->c2_enb));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 30U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_idle = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 28U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ready;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 34U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ready = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 30U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 28U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ready;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 34U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_c_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -1573,21 +1424,22 @@ static void c2_idle(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 34U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 34U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_data_out = 0U;
     chartInstance->c2_dataWrittenToVector[10U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_data_out, 19U, 4U, 34U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   } else {
-    _SFD_CS_CALL(STATE_ENTER_DURING_FUNCTION_TAG, 28U, chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_ENTER_DURING_FUNCTION_TAG, 28U,
+                 *chartInstance->c2_sfEvent);
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 28U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 28U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ready(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -1597,12 +1449,10 @@ static void c2_ready(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 54U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ready = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 34U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_start_n;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 41U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_start_n = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 54U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 34U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_start_n;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 41U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_e_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -1612,74 +1462,47 @@ static void c2_ready(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 41U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = false;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 41U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_bit_cnt = 7U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_bit_cnt = 7U;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 41U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 41U,
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_busy = true;
   chartInstance->c2_dataWrittenToVector[0U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_busy, 11U, 4U, 41U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_reg_byte_cnt = 1U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_reg_byte_cnt = 1U;
   chartInstance->c2_dataWrittenToVector[6U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_reg_byte_cnt, 1U, 4U, 41U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_byte_cnt, 1U, 4U, 41U,
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_data_out = 0U;
   chartInstance->c2_dataWrittenToVector[10U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_data_out, 19U, 4U, 41U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 34U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 34U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_mastr_ack_data_cnf1(SFc2_mpu6050InstanceStruct *chartInstance)
 {
-  uint32_T c2_debug_family_var_map[2];
-  real_T c2_nargin = 0.0;
-  real_T c2_nargout = 0.0;
-  *chartInstance->c2_mstr_ack = true;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 50U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_mastr_ack_data_cnf1 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 31U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_n;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 39U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_scl_ext_n = 1U;
-  _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_j_debug_family_names,
-    c2_debug_family_var_map);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
-    c2_sf_marshallIn);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargout, 1U, c2_sf_marshallOut,
-    c2_sf_marshallIn);
-  *chartInstance->c2_scl = false;
-  chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 39U,
-                        chartInstance->c2_sfEvent, false);
-  *chartInstance->c2_sda = false;
-  chartInstance->c2_dataWrittenToVector[3U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 39U,
-                        chartInstance->c2_sfEvent, false);
-  *chartInstance->c2_ack = false;
-  chartInstance->c2_dataWrittenToVector[4U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 39U,
-                        chartInstance->c2_sfEvent, false);
-  *chartInstance->c2_mstr_ack = false;
+  *chartInstance->c2_mstr_ack = true;
   chartInstance->c2_dataWrittenToVector[9U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mstr_ack, 18U, 4U, 39U,
-                        chartInstance->c2_sfEvent, false);
-  _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 31U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 50U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 31U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_n;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 39U, *chartInstance->c2_sfEvent);
+  c2_enter_atomic_scl_ext_n(chartInstance);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 31U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_mastr_ack_data_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -1687,16 +1510,14 @@ static void c2_mastr_ack_data_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_debug_family_var_map[2];
   real_T c2_nargin = 0.0;
   real_T c2_nargout = 0.0;
-  *chartInstance->c2_mstr_ack = true;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 14U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_mastr_ack_data_cnf = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 30U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_Increment_Byte_count1;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 0U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_Increment_Byte_count1 = 1U;
+  *chartInstance->c2_mstr_ack = true;
+  chartInstance->c2_dataWrittenToVector[9U] = true;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 14U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 30U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_Increment_Byte_count1;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 0U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_m_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -1706,29 +1527,59 @@ static void c2_mastr_ack_data_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 0U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_bit_cnt = 8U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_bit_cnt = 8U;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 0U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 0U,
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_mstr_ack = false;
   chartInstance->c2_dataWrittenToVector[9U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mstr_ack, 18U, 4U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_reg_data_burst = true;
   chartInstance->c2_dataWrittenToVector[7U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_data_burst, 16U, 4U, 0U,
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_data_burst, 16U, 4U, 0U, *
                         chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 0U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 30U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 30U, *chartInstance->c2_sfEvent);
+}
+
+static void c2_enter_atomic_scl_ext_n(SFc2_mpu6050InstanceStruct *chartInstance)
+{
+  uint32_T c2_debug_family_var_map[2];
+  real_T c2_nargin = 0.0;
+  real_T c2_nargout = 0.0;
+  _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_j_debug_family_names,
+    c2_debug_family_var_map);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
+    c2_sf_marshallIn);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargout, 1U, c2_sf_marshallOut,
+    c2_sf_marshallIn);
+  *chartInstance->c2_scl = false;
+  chartInstance->c2_dataWrittenToVector[2U] = true;
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 39U,
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_sda = false;
+  chartInstance->c2_dataWrittenToVector[3U] = true;
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 39U,
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_ack = false;
+  chartInstance->c2_dataWrittenToVector[4U] = true;
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 39U,
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_mstr_ack = false;
+  chartInstance->c2_dataWrittenToVector[9U] = true;
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mstr_ack, 18U, 4U, 39U,
+                        *chartInstance->c2_sfEvent, false);
+  _SFD_SYMBOL_SCOPE_POP();
 }
 
 static void c2_mastr_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -1742,11 +1593,11 @@ static void c2_mastr_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_c_nargin = 0.0;
   real_T c2_b_nargout = 0.0;
   real_T c2_c_nargout = 0.0;
-  *chartInstance->c2_mstr_ack = true;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 22U, chartInstance->c2_sfEvent);
+  *chartInstance->c2_mstr_ack = true;
+  chartInstance->c2_dataWrittenToVector[9U] = true;
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 22U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_xb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -1759,12 +1610,10 @@ static void c2_mastr_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_mode, 1.0, -1, 0U, (int32_T)*chartInstance->c2_mode));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 22U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_mastr_ack_data = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 29U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_mastr_ack_data_cnf;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 30U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_mastr_ack_data_cnf = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 22U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 29U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_mastr_ack_data_cnf;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 30U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_g_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -1774,23 +1623,21 @@ static void c2_mastr_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 30U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = false;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 30U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_mstr_ack = true;
     chartInstance->c2_dataWrittenToVector[9U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mstr_ack, 18U, 4U, 30U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 52U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_mastr_ack_data = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 29U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_mastr_ack_data_cnf1;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 31U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_mastr_ack_data_cnf1 = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 52U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 29U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_mastr_ack_data_cnf1;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 31U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_f_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -1800,19 +1647,19 @@ static void c2_mastr_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 31U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 31U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_mstr_ack = true;
     chartInstance->c2_dataWrittenToVector[9U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mstr_ack, 18U, 4U, 31U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 29U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 29U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_enter_atomic_cmd_slave_addr_n(SFc2_mpu6050InstanceStruct
@@ -1853,14 +1700,14 @@ static void c2_enter_atomic_cmd_slave_addr_n(SFc2_mpu6050InstanceStruct
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 22U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 22U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 22U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_hoistedGlobal = *chartInstance->c2_slv_addr;
-  c2_b_hoistedGlobal = chartInstance->c2_bit_cnt;
+  c2_b_hoistedGlobal = *chartInstance->c2_bit_cnt;
   c2_a = c2_hoistedGlobal;
   c2_bit = c2_b_hoistedGlobal;
   c2_x = c2_bit;
@@ -1913,7 +1760,7 @@ static void c2_enter_atomic_cmd_slave_addr_n(SFc2_mpu6050InstanceStruct
   *chartInstance->c2_sda = (c2_c != 0);
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 22U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
 }
 
@@ -1927,12 +1774,10 @@ static void c2_cmd_slave_addr_n(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_u1;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 44U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_slave_addr_n = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 22U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_p;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 24U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_slave_addr_p = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 44U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 22U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_p;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 24U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_n_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -1942,13 +1787,13 @@ static void c2_cmd_slave_addr_n(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 24U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 24U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 24U, *chartInstance->c2_sfEvent,
       false);
   }
 
-  c2_q0 = chartInstance->c2_bit_cnt;
+  c2_q0 = *chartInstance->c2_bit_cnt;
   c2_qY = c2_q0 - 1U;
   if (CV_SATURATION_EVAL(4, 24, 0, 0, c2_qY > c2_q0)) {
     c2_qY = 0U;
@@ -1959,16 +1804,16 @@ static void c2_cmd_slave_addr_n(SFc2_mpu6050InstanceStruct *chartInstance)
     c2_u1 = 255U;
   }
 
-  chartInstance->c2_bit_cnt = (uint8_T)c2_u1;
+  *chartInstance->c2_bit_cnt = (uint8_T)c2_u1;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 24U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 24U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 22U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 22U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_Increment_Byte_count1(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -1976,16 +1821,14 @@ static void c2_Increment_Byte_count1(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_debug_family_var_map[2];
   real_T c2_nargin = 0.0;
   real_T c2_nargout = 0.0;
-  *chartInstance->c2_mstr_ack = false;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 48U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_Increment_Byte_count1 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 0U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_n;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 20U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_read_data_n = 1U;
+  *chartInstance->c2_mstr_ack = false;
+  chartInstance->c2_dataWrittenToVector[9U] = true;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 48U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 0U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_n;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 20U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_w_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -1995,13 +1838,13 @@ static void c2_Increment_Byte_count1(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 20U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 20U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 0U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 0U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_cmd_slave_addr_p(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2015,7 +1858,7 @@ static void c2_cmd_slave_addr_p(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_b_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 19U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 19U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_yb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2025,29 +1868,25 @@ static void c2_cmd_slave_addr_p(SFc2_mpu6050InstanceStruct *chartInstance)
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_out, 2U, c2_b_sf_marshallOut,
     c2_b_sf_marshallIn);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 19U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 19U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_out = CV_EML_IF(19, 0, 0, CV_RELATIONAL_EVAL(5U, 19U, 0, (real_T)
-    chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)chartInstance->c2_bit_cnt >
+    *chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)*chartInstance->c2_bit_cnt >
     0.0));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 19U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_slave_addr_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 24U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_n;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 22U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_slave_addr_n = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 19U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 24U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_n;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 22U, *chartInstance->c2_sfEvent);
     c2_enter_atomic_cmd_slave_addr_n(chartInstance);
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 1U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_slave_addr_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 24U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_write_n;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 45U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_write_n = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 1U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 24U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_write_n;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 45U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_o_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -2057,15 +1896,15 @@ static void c2_cmd_slave_addr_p(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 45U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = false;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 45U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 24U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 24U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_end1(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2075,12 +1914,10 @@ static void c2_ack_end1(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 60U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_end1 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 6U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_end;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 5U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_end = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 60U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 6U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_end;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 5U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_r_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2090,17 +1927,17 @@ static void c2_ack_end1(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 5U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 5U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 5U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 6U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 6U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_cmd_reg_read_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2116,7 +1953,7 @@ static void c2_cmd_reg_read_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_c_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 31U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 31U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_dc_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2126,21 +1963,19 @@ static void c2_cmd_reg_read_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_out, 2U, c2_b_sf_marshallOut,
     c2_b_sf_marshallIn);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 31U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 31U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_out = CV_EML_IF(31, 0, 0, CV_RELATIONAL_EVAL(5U, 31U, 0, (real_T)
-    chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)chartInstance->c2_bit_cnt >
+    *chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)*chartInstance->c2_bit_cnt >
     0.0));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 31U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_read_data_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 21U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_n;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 20U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_read_data_n = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 31U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 21U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_n;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 20U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_w_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -2150,19 +1985,17 @@ static void c2_cmd_reg_read_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 20U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = true;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 20U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 32U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_read_data_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 21U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_mastr_ack_data;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 29U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_mastr_ack_data = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 32U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 21U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_mastr_ack_data;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 29U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_k_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -2172,46 +2005,46 @@ static void c2_cmd_reg_read_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 29U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     if (CV_EML_IF(29, 1, 0, CV_RELATIONAL_EVAL(4U, 29U, 0, (real_T)
           *chartInstance->c2_mode, 1.0, -1, 0U, (int32_T)*chartInstance->c2_mode)))
     {
       *chartInstance->c2_sda = false;
       chartInstance->c2_dataWrittenToVector[3U] = true;
       _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 29U,
-                            chartInstance->c2_sfEvent, false);
+                            *chartInstance->c2_sfEvent, false);
     } else {
       *chartInstance->c2_sda = true;
       chartInstance->c2_dataWrittenToVector[3U] = true;
       _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 29U,
-                            chartInstance->c2_sfEvent, false);
+                            *chartInstance->c2_sfEvent, false);
     }
 
     *chartInstance->c2_mstr_ack = true;
     chartInstance->c2_dataWrittenToVector[9U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mstr_ack, 18U, 4U, 29U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = false;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 29U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     if (!chartInstance->c2_dataWrittenToVector[11U]) {
-      _SFD_DATA_READ_BEFORE_WRITE_ERROR(2U, 4U, 29U, chartInstance->c2_sfEvent,
+      _SFD_DATA_READ_BEFORE_WRITE_ERROR(2U, 4U, 29U, *chartInstance->c2_sfEvent,
         false);
     }
 
-    *chartInstance->c2_data_out = chartInstance->c2_temp_data;
+    *chartInstance->c2_data_out = *chartInstance->c2_temp_data;
     chartInstance->c2_dataWrittenToVector[10U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_data_out, 19U, 4U, 29U,
-                          chartInstance->c2_sfEvent, false);
-    chartInstance->c2_temp_data = 0U;
+                          *chartInstance->c2_sfEvent, false);
+    *chartInstance->c2_temp_data = 0U;
     chartInstance->c2_dataWrittenToVector[11U] = true;
-    _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_temp_data, 2U, 4U, 29U,
-                          chartInstance->c2_sfEvent, false);
+    _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_temp_data, 2U, 4U, 29U,
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 21U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 21U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_end(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2221,18 +2054,16 @@ static void c2_ack_end(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 1.0;
   boolean_T c2_out;
   real_T c2_b_nargin = 0.0;
-  real_T c2_b_nargout = 1.0;
-  boolean_T c2_b_out;
   uint32_T c2_b_debug_family_var_map[2];
+  real_T c2_b_nargout = 1.0;
   real_T c2_c_nargin = 0.0;
+  boolean_T c2_b_out;
   real_T c2_c_nargout = 0.0;
   real_T c2_d_nargin = 0.0;
   real_T c2_d_nargout = 0.0;
-  real_T c2_e_nargin = 0.0;
-  real_T c2_e_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 36U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 36U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_ac_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2245,9 +2076,9 @@ static void c2_ack_end(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_sda_in, 0.0, -1, 0U, !*chartInstance->c2_sda_in));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 36U, chartInstance->c2_sfEvent);
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 36U, *chartInstance->c2_sfEvent);
     _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 38U,
-                 chartInstance->c2_sfEvent);
+                 *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_bc_debug_family_names,
       c2_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -2259,74 +2090,46 @@ static void c2_ack_end(SFc2_mpu6050InstanceStruct *chartInstance)
     c2_b_out = CV_EML_IF(38, 0, 0, *chartInstance->c2_mode);
     _SFD_SYMBOL_SCOPE_POP();
     if (c2_b_out) {
-      _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 38U, chartInstance->c2_sfEvent);
+      _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 38U, *chartInstance->c2_sfEvent);
       _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_cc_debug_family_names,
         c2_b_debug_family_var_map);
       _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_d_nargin, 0U, c2_sf_marshallOut,
         c2_sf_marshallIn);
       _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_d_nargout, 1U, c2_sf_marshallOut,
         c2_sf_marshallIn);
-      chartInstance->c2_bit_cnt = 8U;
+      *chartInstance->c2_bit_cnt = 8U;
       chartInstance->c2_dataWrittenToVector[1U] = true;
       ssLoggerUpdateTimeseries(chartInstance->S,
         chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-        &chartInstance->c2_bit_cnt);
+        chartInstance->c2_bit_cnt);
       chartInstance->c2_dataWrittenToVector[1U] = true;
-      _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 5U, 38U,
-                            chartInstance->c2_sfEvent, false);
+      _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 5U, 38U,
+                            *chartInstance->c2_sfEvent, false);
       *chartInstance->c2_reg_data_burst = true;
       chartInstance->c2_dataWrittenToVector[7U] = true;
       _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_data_burst, 16U, 5U,
-                            38U, chartInstance->c2_sfEvent, false);
+                            38U, *chartInstance->c2_sfEvent, false);
       *chartInstance->c2_ack = false;
       chartInstance->c2_dataWrittenToVector[4U] = true;
       _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 5U, 38U,
-                            chartInstance->c2_sfEvent, false);
+                            *chartInstance->c2_sfEvent, false);
       _SFD_SYMBOL_SCOPE_POP();
-      chartInstance->c2_tp_ack_end = 0U;
-      _SFD_CS_CALL(STATE_INACTIVE_TAG, 5U, chartInstance->c2_sfEvent);
-      chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_data_n;
-      _SFD_CS_CALL(STATE_ACTIVE_TAG, 18U, chartInstance->c2_sfEvent);
-      chartInstance->c2_tp_cmd_reg_data_n = 1U;
+      _SFD_CS_CALL(STATE_INACTIVE_TAG, 5U, *chartInstance->c2_sfEvent);
+      *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_data_n;
+      _SFD_CS_CALL(STATE_ACTIVE_TAG, 18U, *chartInstance->c2_sfEvent);
       c2_enter_atomic_cmd_reg_data_n(chartInstance);
     } else {
-      _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 58U, chartInstance->c2_sfEvent);
-      chartInstance->c2_tp_ack_end = 0U;
-      _SFD_CS_CALL(STATE_INACTIVE_TAG, 5U, chartInstance->c2_sfEvent);
-      chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_n;
-      _SFD_CS_CALL(STATE_ACTIVE_TAG, 39U, chartInstance->c2_sfEvent);
-      chartInstance->c2_tp_scl_ext_n = 1U;
-      _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_j_debug_family_names,
-        c2_b_debug_family_var_map);
-      _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_e_nargin, 0U, c2_sf_marshallOut,
-        c2_sf_marshallIn);
-      _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_e_nargout, 1U, c2_sf_marshallOut,
-        c2_sf_marshallIn);
-      *chartInstance->c2_scl = false;
-      chartInstance->c2_dataWrittenToVector[2U] = true;
-      _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 39U,
-                            chartInstance->c2_sfEvent, false);
-      *chartInstance->c2_sda = false;
-      chartInstance->c2_dataWrittenToVector[3U] = true;
-      _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 39U,
-                            chartInstance->c2_sfEvent, false);
-      *chartInstance->c2_ack = false;
-      chartInstance->c2_dataWrittenToVector[4U] = true;
-      _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 39U,
-                            chartInstance->c2_sfEvent, false);
-      *chartInstance->c2_mstr_ack = false;
-      chartInstance->c2_dataWrittenToVector[9U] = true;
-      _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mstr_ack, 18U, 4U, 39U,
-                            chartInstance->c2_sfEvent, false);
-      _SFD_SYMBOL_SCOPE_POP();
+      _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 58U, *chartInstance->c2_sfEvent);
+      _SFD_CS_CALL(STATE_INACTIVE_TAG, 5U, *chartInstance->c2_sfEvent);
+      *chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_n;
+      _SFD_CS_CALL(STATE_ACTIVE_TAG, 39U, *chartInstance->c2_sfEvent);
+      c2_enter_atomic_scl_ext_n(chartInstance);
     }
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 20U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_end = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 5U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_error_ack;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_error_ack = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 20U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 5U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_error_ack;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_cb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -2336,19 +2139,19 @@ static void c2_ack_end(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_n_ack = true;
     chartInstance->c2_dataWrittenToVector[5U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_n_ack, 15U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 5U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 5U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_recv_wr3(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2358,12 +2161,10 @@ static void c2_ack_recv_wr3(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 61U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_recv_wr3 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 10U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_recv_wr;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 7U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_recv_wr = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 61U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 10U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_recv_wr;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 7U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_x_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2373,25 +2174,25 @@ static void c2_ack_recv_wr3(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 7U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 7U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 7U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_bit_cnt = 8U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_bit_cnt = 8U;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 7U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 7U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 10U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 10U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2401,12 +2202,10 @@ static void c2_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 47U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_data = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 4U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_end1;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 6U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_end1 = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 47U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 4U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_end1;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 6U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_p_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2416,17 +2215,17 @@ static void c2_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 6U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 6U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 6U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 4U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 4U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_slv(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2436,12 +2235,10 @@ static void c2_ack_slv(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 46U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_slv = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 11U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_recv_wr3;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 10U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_recv_wr3 = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 46U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 11U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_recv_wr3;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 10U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_t_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2451,17 +2248,17 @@ static void c2_ack_slv(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 10U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 10U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 10U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 11U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 11U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_cmd_reg_read_data_n(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2497,12 +2294,10 @@ static void c2_cmd_reg_read_data_n(SFc2_mpu6050InstanceStruct *chartInstance)
   uint8_T c2_c;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 33U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_read_data_n = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 20U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_p;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 21U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_read_data_p = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 33U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 20U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_p;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 21U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_q_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2512,12 +2307,12 @@ static void c2_cmd_reg_read_data_n(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 21U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (CV_EML_IF(21, 1, 0, CV_RELATIONAL_EVAL(4U, 21U, 0, (real_T)
         *chartInstance->c2_sda_in, 1.0, -1, 0U, (int32_T)
         *chartInstance->c2_sda_in))) {
-    c2_hoistedGlobal = chartInstance->c2_temp_data;
-    c2_b_hoistedGlobal = chartInstance->c2_bit_cnt;
+    c2_hoistedGlobal = *chartInstance->c2_temp_data;
+    c2_b_hoistedGlobal = *chartInstance->c2_bit_cnt;
     c2_a = c2_hoistedGlobal;
     c2_bit = c2_b_hoistedGlobal;
     c2_x = c2_bit;
@@ -2567,28 +2362,28 @@ static void c2_cmd_reg_read_data_n(SFc2_mpu6050InstanceStruct *chartInstance)
                         (sfGlobalDebugInstanceStruct, chartInstance->S, 2179U,
                          71, 25, "", (int32_T)(uint8_T)c2_u3, 0, 7));
     c2_c = (uint8_T)(c2_a | c2_mask);
-    chartInstance->c2_temp_data = c2_c;
+    *chartInstance->c2_temp_data = c2_c;
     chartInstance->c2_dataWrittenToVector[11U] = true;
-    _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_temp_data, 2U, 4U, 21U,
-                          chartInstance->c2_sfEvent, false);
+    _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_temp_data, 2U, 4U, 21U,
+                          *chartInstance->c2_sfEvent, false);
   } else {
     if (!chartInstance->c2_dataWrittenToVector[1U]) {
-      _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 21U, chartInstance->c2_sfEvent,
+      _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 21U, *chartInstance->c2_sfEvent,
         false);
     }
 
     if (!chartInstance->c2_dataWrittenToVector[11U]) {
-      _SFD_DATA_READ_BEFORE_WRITE_ERROR(2U, 4U, 21U, chartInstance->c2_sfEvent,
+      _SFD_DATA_READ_BEFORE_WRITE_ERROR(2U, 4U, 21U, *chartInstance->c2_sfEvent,
         false);
     }
   }
 
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 21U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 21U, *chartInstance->c2_sfEvent,
       false);
   }
 
-  c2_q0 = chartInstance->c2_bit_cnt;
+  c2_q0 = *chartInstance->c2_bit_cnt;
   c2_qY = c2_q0 - 1U;
   if (CV_SATURATION_EVAL(4, 21, 0, 0, c2_qY > c2_q0)) {
     c2_qY = 0U;
@@ -2599,16 +2394,16 @@ static void c2_cmd_reg_read_data_n(SFc2_mpu6050InstanceStruct *chartInstance)
     c2_u2 = 255U;
   }
 
-  chartInstance->c2_bit_cnt = (uint8_T)c2_u2;
+  *chartInstance->c2_bit_cnt = (uint8_T)c2_u2;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 21U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 21U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 20U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 20U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_recv_wr(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2624,7 +2419,7 @@ static void c2_ack_recv_wr(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_c_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 21U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 21U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_fc_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2637,12 +2432,10 @@ static void c2_ack_recv_wr(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_sda_in, 0.0, -1, 0U, !*chartInstance->c2_sda_in));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 21U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_recv_wr = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 7U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_wr_p;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 14U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_wr_p = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 21U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 7U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_wr_p;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 14U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_bb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -2652,31 +2445,29 @@ static void c2_ack_recv_wr(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 14U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = false;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 14U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = false;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 14U,
-                          chartInstance->c2_sfEvent, false);
-    chartInstance->c2_bit_cnt = 8U;
+                          *chartInstance->c2_sfEvent, false);
+    *chartInstance->c2_bit_cnt = 8U;
     chartInstance->c2_dataWrittenToVector[1U] = true;
     ssLoggerUpdateTimeseries(chartInstance->S,
       chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-      &chartInstance->c2_bit_cnt);
+      chartInstance->c2_bit_cnt);
     chartInstance->c2_dataWrittenToVector[1U] = true;
-    _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 14U,
-                          chartInstance->c2_sfEvent, false);
+    _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 14U,
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 17U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_recv_wr = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 7U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_error_ack;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_error_ack = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 17U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 7U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_error_ack;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_cb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -2686,19 +2477,19 @@ static void c2_ack_recv_wr(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_n_ack = true;
     chartInstance->c2_dataWrittenToVector[5U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_n_ack, 15U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 7U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 7U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_cmd_reg_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2712,7 +2503,7 @@ static void c2_cmd_reg_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_b_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 0U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 0U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_ec_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2722,29 +2513,25 @@ static void c2_cmd_reg_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_out, 2U, c2_b_sf_marshallOut,
     c2_b_sf_marshallIn);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 0U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 0U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_out = CV_EML_IF(0, 0, 0, CV_RELATIONAL_EVAL(5U, 0U, 0, (real_T)
-    chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)chartInstance->c2_bit_cnt >
+    *chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)*chartInstance->c2_bit_cnt >
     0.0));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 0U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_data_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 19U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_data_n;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 18U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_data_n = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 0U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 19U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_data_n;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 18U, *chartInstance->c2_sfEvent);
     c2_enter_atomic_cmd_reg_data_n(chartInstance);
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 28U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_data_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 19U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_data;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 4U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_data = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 28U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 19U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_data;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 4U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_u_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -2754,19 +2541,19 @@ static void c2_cmd_reg_data_p(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 4U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 4U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = true;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 4U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 19U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 19U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_addr_m_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -2783,7 +2570,7 @@ static void c2_ack_addr_m_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_c_nargout = 0.0;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 4U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 4U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_gc_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -2796,16 +2583,14 @@ static void c2_ack_addr_m_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_rd_wr, 0.0, -1, 0U, !*chartInstance->c2_rd_wr));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 4U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_addr_m_cnf = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 2U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_data_n;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 18U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_data_n = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 4U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 2U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_data_n;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 18U, *chartInstance->c2_sfEvent);
     c2_enter_atomic_cmd_reg_data_n(chartInstance);
   } else {
     _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 11U,
-                 chartInstance->c2_sfEvent);
+                 *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_ic_debug_family_names,
       c2_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -2818,12 +2603,10 @@ static void c2_ack_addr_m_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
       *chartInstance->c2_rd_wr, 1.0, -1, 0U, (int32_T)*chartInstance->c2_rd_wr));
     _SFD_SYMBOL_SCOPE_POP();
     if (c2_b_out) {
-      _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 11U, chartInstance->c2_sfEvent);
-      chartInstance->c2_tp_ack_addr_m_cnf = 0U;
-      _SFD_CS_CALL(STATE_INACTIVE_TAG, 2U, chartInstance->c2_sfEvent);
-      chartInstance->c2_is_c2_mpu6050 = c2_IN_delay;
-      _SFD_CS_CALL(STATE_ACTIVE_TAG, 26U, chartInstance->c2_sfEvent);
-      chartInstance->c2_tp_delay = 1U;
+      _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 11U, *chartInstance->c2_sfEvent);
+      _SFD_CS_CALL(STATE_INACTIVE_TAG, 2U, *chartInstance->c2_sfEvent);
+      *chartInstance->c2_is_c2_mpu6050 = c2_IN_delay;
+      _SFD_CS_CALL(STATE_ACTIVE_TAG, 26U, *chartInstance->c2_sfEvent);
       _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_eb_debug_family_names,
         c2_b_debug_family_var_map);
       _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -2833,74 +2616,45 @@ static void c2_ack_addr_m_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
       *chartInstance->c2_scl = false;
       chartInstance->c2_dataWrittenToVector[2U] = true;
       _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 26U,
-                            chartInstance->c2_sfEvent, false);
+                            *chartInstance->c2_sfEvent, false);
       *chartInstance->c2_sda = true;
       chartInstance->c2_dataWrittenToVector[3U] = true;
       _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 26U,
-                            chartInstance->c2_sfEvent, false);
+                            *chartInstance->c2_sfEvent, false);
       _SFD_SYMBOL_SCOPE_POP();
     } else {
       _SFD_CS_CALL(STATE_ENTER_DURING_FUNCTION_TAG, 2U,
-                   chartInstance->c2_sfEvent);
+                   *chartInstance->c2_sfEvent);
     }
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 2U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 2U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_wr_p(SFc2_mpu6050InstanceStruct *chartInstance)
 {
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 56U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_wr_p = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 14U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_addr_n;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 16U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_addr_n = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 56U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 14U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_addr_n;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 16U, *chartInstance->c2_sfEvent);
   c2_enter_atomic_cmd_reg_addr_n(chartInstance);
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 14U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 14U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_error_ack(SFc2_mpu6050InstanceStruct *chartInstance)
 {
-  uint32_T c2_debug_family_var_map[2];
-  real_T c2_nargin = 0.0;
-  real_T c2_nargout = 0.0;
   *chartInstance->c2_n_ack = true;
   chartInstance->c2_dataWrittenToVector[5U] = true;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 2U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_error_ack = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 27U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_n;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 39U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_scl_ext_n = 1U;
-  _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_j_debug_family_names,
-    c2_debug_family_var_map);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
-    c2_sf_marshallIn);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargout, 1U, c2_sf_marshallOut,
-    c2_sf_marshallIn);
-  *chartInstance->c2_scl = false;
-  chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 39U,
-                        chartInstance->c2_sfEvent, false);
-  *chartInstance->c2_sda = false;
-  chartInstance->c2_dataWrittenToVector[3U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 39U,
-                        chartInstance->c2_sfEvent, false);
-  *chartInstance->c2_ack = false;
-  chartInstance->c2_dataWrittenToVector[4U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 39U,
-                        chartInstance->c2_sfEvent, false);
-  *chartInstance->c2_mstr_ack = false;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_mstr_ack, 18U, 4U, 39U,
-                        chartInstance->c2_sfEvent, false);
-  _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 27U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 2U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 27U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_n;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 39U, *chartInstance->c2_sfEvent);
+  c2_enter_atomic_scl_ext_n(chartInstance);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 27U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_enter_atomic_cmd_reg_data_n(SFc2_mpu6050InstanceStruct
@@ -2941,22 +2695,22 @@ static void c2_enter_atomic_cmd_reg_data_n(SFc2_mpu6050InstanceStruct
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 18U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = false;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 18U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_reg_data_burst = false;
   chartInstance->c2_dataWrittenToVector[7U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_data_burst, 16U, 4U, 18U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 18U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 18U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_hoistedGlobal = *chartInstance->c2_reg_data;
-  c2_b_hoistedGlobal = chartInstance->c2_bit_cnt;
+  c2_b_hoistedGlobal = *chartInstance->c2_bit_cnt;
   c2_a = c2_hoistedGlobal;
   c2_bit = c2_b_hoistedGlobal;
   c2_x = c2_bit;
@@ -3009,7 +2763,7 @@ static void c2_enter_atomic_cmd_reg_data_n(SFc2_mpu6050InstanceStruct
   *chartInstance->c2_sda = (c2_c != 0);
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 18U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
 }
 
@@ -3023,12 +2777,10 @@ static void c2_cmd_reg_data_n(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_u5;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 3U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_data_n = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 18U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_data_p;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 19U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_data_p = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 3U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 18U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_data_p;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 19U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_y_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3038,13 +2790,13 @@ static void c2_cmd_reg_data_n(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 19U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 19U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 19U, *chartInstance->c2_sfEvent,
       false);
   }
 
-  c2_q0 = chartInstance->c2_bit_cnt;
+  c2_q0 = *chartInstance->c2_bit_cnt;
   c2_qY = c2_q0 - 1U;
   if (CV_SATURATION_EVAL(4, 19, 0, 0, c2_qY > c2_q0)) {
     c2_qY = 0U;
@@ -3055,16 +2807,16 @@ static void c2_cmd_reg_data_n(SFc2_mpu6050InstanceStruct *chartInstance)
     c2_u5 = 255U;
   }
 
-  chartInstance->c2_bit_cnt = (uint8_T)c2_u5;
+  *chartInstance->c2_bit_cnt = (uint8_T)c2_u5;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 19U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 19U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 18U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 18U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_delay(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3074,12 +2826,10 @@ static void c2_delay(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 57U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_delay = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 26U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ready_repeated;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 35U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ready_repeated = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 57U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 26U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ready_repeated;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 35U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_hb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3089,13 +2839,13 @@ static void c2_delay(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 35U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 35U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 26U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 26U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_enter_atomic_cmd_reg_addr_n(SFc2_mpu6050InstanceStruct
@@ -3136,18 +2886,18 @@ static void c2_enter_atomic_cmd_reg_addr_n(SFc2_mpu6050InstanceStruct
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 16U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = false;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 16U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 16U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 16U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_hoistedGlobal = *chartInstance->c2_reg_addr;
-  c2_b_hoistedGlobal = chartInstance->c2_bit_cnt;
+  c2_b_hoistedGlobal = *chartInstance->c2_bit_cnt;
   c2_a = c2_hoistedGlobal;
   c2_bit = c2_b_hoistedGlobal;
   c2_x = c2_bit;
@@ -3200,11 +2950,11 @@ static void c2_enter_atomic_cmd_reg_addr_n(SFc2_mpu6050InstanceStruct
   *chartInstance->c2_sda = (c2_c != 0);
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 16U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_reg_addr_burst = false;
   chartInstance->c2_dataWrittenToVector[8U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_addr_burst, 17U, 4U, 16U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
 }
 
@@ -3220,12 +2970,10 @@ static void c2_cmd_reg_addr_n(SFc2_mpu6050InstanceStruct *chartInstance)
   chartInstance->c2_dataWrittenToVector[8U] = true;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 25U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_addr_n = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 16U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_addr_p;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 17U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_addr_p = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 25U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 16U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_addr_p;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 17U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_ib_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3235,13 +2983,13 @@ static void c2_cmd_reg_addr_n(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 17U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 17U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 17U, *chartInstance->c2_sfEvent,
       false);
   }
 
-  c2_q0 = chartInstance->c2_bit_cnt;
+  c2_q0 = *chartInstance->c2_bit_cnt;
   c2_qY = c2_q0 - 1U;
   if (CV_SATURATION_EVAL(4, 17, 0, 0, c2_qY > c2_q0)) {
     c2_qY = 0U;
@@ -3252,16 +3000,16 @@ static void c2_cmd_reg_addr_n(SFc2_mpu6050InstanceStruct *chartInstance)
     c2_u7 = 255U;
   }
 
-  chartInstance->c2_bit_cnt = (uint8_T)c2_u7;
+  *chartInstance->c2_bit_cnt = (uint8_T)c2_u7;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 17U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 17U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 16U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 16U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_repeat_strt_n(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3269,16 +3017,14 @@ static void c2_repeat_strt_n(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_debug_family_var_map[2];
   real_T c2_nargin = 0.0;
   real_T c2_nargout = 0.0;
-  *chartInstance->c2_busy = true;
-  chartInstance->c2_dataWrittenToVector[0U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 41U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_repeat_strt_n = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 37U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_repeat_strt_p;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 38U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_repeat_strt_p = 1U;
+  *chartInstance->c2_busy = true;
+  chartInstance->c2_dataWrittenToVector[0U] = true;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 41U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 37U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_repeat_strt_p;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 38U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_jb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3288,9 +3034,9 @@ static void c2_repeat_strt_n(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_sda = false;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 38U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 37U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 37U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ready_repeated(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3300,12 +3046,10 @@ static void c2_ready_repeated(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 37U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ready_repeated = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 35U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ready_repeated_dummy;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 36U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ready_repeated_dummy = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 37U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 35U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ready_repeated_dummy;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 36U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_kb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3315,13 +3059,13 @@ static void c2_ready_repeated(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 36U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 36U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 35U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 35U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_cmd_reg_addr_p(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3335,7 +3079,7 @@ static void c2_cmd_reg_addr_p(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_b_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 24U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 24U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_jc_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3345,29 +3089,25 @@ static void c2_cmd_reg_addr_p(SFc2_mpu6050InstanceStruct *chartInstance)
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_out, 2U, c2_b_sf_marshallOut,
     c2_b_sf_marshallIn);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 24U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 24U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_out = CV_EML_IF(24, 0, 0, CV_RELATIONAL_EVAL(5U, 24U, 0, (real_T)
-    chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)chartInstance->c2_bit_cnt >
+    *chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)*chartInstance->c2_bit_cnt >
     0.0));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 24U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_addr_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 17U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_addr_n;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 16U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_addr_n = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 24U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 17U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_addr_n;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 16U, *chartInstance->c2_sfEvent);
     c2_enter_atomic_cmd_reg_addr_n(chartInstance);
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 29U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_reg_addr_p = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 17U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_addr_m;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 1U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_addr_m = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 29U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 17U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_addr_m;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 1U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_lb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -3377,31 +3117,19 @@ static void c2_cmd_reg_addr_p(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 1U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = true;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 1U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 1U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 17U, chartInstance->c2_sfEvent);
-}
-
-static void c2_repeat_strt_p(SFc2_mpu6050InstanceStruct *chartInstance)
-{
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 40U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_repeat_strt_p = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 38U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_n1;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 23U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_slave_addr_n1 = 1U;
-  c2_enter_atomic_cmd_slave_addr_n1(chartInstance);
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 38U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 17U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ready_repeated_dummy(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3411,12 +3139,10 @@ static void c2_ready_repeated_dummy(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 5U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ready_repeated_dummy = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 36U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_repeat_strt_n;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 37U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_repeat_strt_n = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 5U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 36U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_repeat_strt_n;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 37U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_gb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3426,29 +3152,29 @@ static void c2_ready_repeated_dummy(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 37U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = false;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 37U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_bit_cnt = 7U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_bit_cnt = 7U;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 37U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 37U,
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_busy = true;
   chartInstance->c2_dataWrittenToVector[0U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_busy, 11U, 4U, 37U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_reg_byte_cnt = 1U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_reg_byte_cnt = 1U;
   chartInstance->c2_dataWrittenToVector[6U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_reg_byte_cnt, 1U, 4U, 37U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_byte_cnt, 1U, 4U, 37U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 36U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 36U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_addr_m(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3464,7 +3190,7 @@ static void c2_ack_addr_m(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_c_nargout = 0.0;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 39U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 39U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_kc_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3478,12 +3204,10 @@ static void c2_ack_addr_m(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_reg_addr_burstIn));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 39U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_addr_m = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 1U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_addrm1;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 3U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_addrm1 = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 39U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 1U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_addrm1;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 3U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_qb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -3493,31 +3217,29 @@ static void c2_ack_addr_m(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 3U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = false;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 3U,
-                          chartInstance->c2_sfEvent, false);
-    chartInstance->c2_bit_cnt = 8U;
+                          *chartInstance->c2_sfEvent, false);
+    *chartInstance->c2_bit_cnt = 8U;
     chartInstance->c2_dataWrittenToVector[1U] = true;
     ssLoggerUpdateTimeseries(chartInstance->S,
       chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-      &chartInstance->c2_bit_cnt);
+      chartInstance->c2_bit_cnt);
     chartInstance->c2_dataWrittenToVector[1U] = true;
-    _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 3U,
-                          chartInstance->c2_sfEvent, false);
+    _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 3U,
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_reg_addr_burst = true;
     chartInstance->c2_dataWrittenToVector[8U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_reg_addr_burst, 17U, 4U, 3U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 51U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_addr_m = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 1U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_recv_wr1;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 8U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_recv_wr1 = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 51U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 1U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_recv_wr1;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 8U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_mb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -3527,19 +3249,19 @@ static void c2_ack_addr_m(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 8U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 8U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = true;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 8U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_recv_wr1(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3549,12 +3271,10 @@ static void c2_ack_recv_wr1(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 59U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_recv_wr1 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 8U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_recv_wr2;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 9U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_recv_wr2 = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 59U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 8U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_recv_wr2;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 9U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_nb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3564,17 +3284,17 @@ static void c2_ack_recv_wr1(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 9U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 9U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 9U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 8U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 8U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_recv_wr2(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3590,7 +3310,7 @@ static void c2_ack_recv_wr2(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_c_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 10U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 10U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_hc_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3603,12 +3323,10 @@ static void c2_ack_recv_wr2(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_sda_in, 0.0, -1, 0U, !*chartInstance->c2_sda_in));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 10U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_recv_wr2 = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 9U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_addr_m_cnf;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 2U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_addr_m_cnf = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 10U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 9U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_addr_m_cnf;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 2U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_ab_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -3618,41 +3336,39 @@ static void c2_ack_recv_wr2(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 2U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     if (CV_EML_IF(2, 1, 0, CV_RELATIONAL_EVAL(4U, 2U, 0, (real_T)
           *chartInstance->c2_rd_wr, 1.0, -1, 0U, (int32_T)
           *chartInstance->c2_rd_wr))) {
       *chartInstance->c2_sda = true;
       chartInstance->c2_dataWrittenToVector[3U] = true;
       _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 2U,
-                            chartInstance->c2_sfEvent, false);
+                            *chartInstance->c2_sfEvent, false);
     } else {
       *chartInstance->c2_sda = false;
       chartInstance->c2_dataWrittenToVector[3U] = true;
       _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 2U,
-                            chartInstance->c2_sfEvent, false);
+                            *chartInstance->c2_sfEvent, false);
     }
 
-    chartInstance->c2_bit_cnt = 8U;
+    *chartInstance->c2_bit_cnt = 8U;
     chartInstance->c2_dataWrittenToVector[1U] = true;
     ssLoggerUpdateTimeseries(chartInstance->S,
       chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-      &chartInstance->c2_bit_cnt);
+      chartInstance->c2_bit_cnt);
     chartInstance->c2_dataWrittenToVector[1U] = true;
-    _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 2U,
-                          chartInstance->c2_sfEvent, false);
+    _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 2U,
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = false;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 2U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 27U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_recv_wr2 = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 9U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_error_ack;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_error_ack = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 27U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 9U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_error_ack;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_cb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -3662,19 +3378,19 @@ static void c2_ack_recv_wr2(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_n_ack = true;
     chartInstance->c2_dataWrittenToVector[5U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_n_ack, 15U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 9U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 9U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_enter_atomic_cmd_slave_addr_n1(SFc2_mpu6050InstanceStruct
@@ -3715,14 +3431,14 @@ static void c2_enter_atomic_cmd_slave_addr_n1(SFc2_mpu6050InstanceStruct
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 23U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 23U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 23U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_hoistedGlobal = *chartInstance->c2_slv_addr;
-  c2_b_hoistedGlobal = chartInstance->c2_bit_cnt;
+  c2_b_hoistedGlobal = *chartInstance->c2_bit_cnt;
   c2_a = c2_hoistedGlobal;
   c2_bit = c2_b_hoistedGlobal;
   c2_x = c2_bit;
@@ -3775,7 +3491,7 @@ static void c2_enter_atomic_cmd_slave_addr_n1(SFc2_mpu6050InstanceStruct
   *chartInstance->c2_sda = (c2_c != 0);
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 23U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
 }
 
@@ -3789,12 +3505,10 @@ static void c2_cmd_slave_addr_n1(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_u9;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 42U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_slave_addr_n1 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 23U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_p1;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 25U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_slave_addr_p1 = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 42U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 23U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_p1;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 25U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_pb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3804,13 +3518,13 @@ static void c2_cmd_slave_addr_n1(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 25U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 25U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 4U, 25U, *chartInstance->c2_sfEvent,
       false);
   }
 
-  c2_q0 = chartInstance->c2_bit_cnt;
+  c2_q0 = *chartInstance->c2_bit_cnt;
   c2_qY = c2_q0 - 1U;
   if (CV_SATURATION_EVAL(4, 25, 0, 0, c2_qY > c2_q0)) {
     c2_qY = 0U;
@@ -3821,16 +3535,16 @@ static void c2_cmd_slave_addr_n1(SFc2_mpu6050InstanceStruct *chartInstance)
     c2_u9 = 255U;
   }
 
-  chartInstance->c2_bit_cnt = (uint8_T)c2_u9;
+  *chartInstance->c2_bit_cnt = (uint8_T)c2_u9;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 25U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 25U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 23U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 23U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_cmd_slave_addr_p1(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3844,7 +3558,7 @@ static void c2_cmd_slave_addr_p1(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_b_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 6U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 6U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_lc_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3854,29 +3568,25 @@ static void c2_cmd_slave_addr_p1(SFc2_mpu6050InstanceStruct *chartInstance)
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_out, 2U, c2_b_sf_marshallOut,
     c2_b_sf_marshallIn);
   if (!chartInstance->c2_dataWrittenToVector[1U]) {
-    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 6U, chartInstance->c2_sfEvent,
+    _SFD_DATA_READ_BEFORE_WRITE_ERROR(0U, 5U, 6U, *chartInstance->c2_sfEvent,
       false);
   }
 
   c2_out = CV_EML_IF(6, 0, 0, CV_RELATIONAL_EVAL(5U, 6U, 0, (real_T)
-    chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)chartInstance->c2_bit_cnt >
+    *chartInstance->c2_bit_cnt, 0.0, -1, 4U, (real_T)*chartInstance->c2_bit_cnt >
     0.0));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 6U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_slave_addr_p1 = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 25U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_n1;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 23U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_slave_addr_n1 = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 6U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 25U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_slave_addr_n1;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 23U, *chartInstance->c2_sfEvent);
     c2_enter_atomic_cmd_slave_addr_n1(chartInstance);
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 43U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_cmd_slave_addr_p1 = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 25U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_read_n;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 32U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_read_n = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 43U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 25U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_read_n;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 32U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_rb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -3886,15 +3596,15 @@ static void c2_cmd_slave_addr_p1(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 32U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 32U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 25U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 25U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_addrm1(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3903,14 +3613,12 @@ static void c2_ack_addrm1(SFc2_mpu6050InstanceStruct *chartInstance)
   chartInstance->c2_dataWrittenToVector[8U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 8U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_addrm1 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 3U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_addr_n;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 16U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_addr_n = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 8U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 3U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_addr_n;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 16U, *chartInstance->c2_sfEvent);
   c2_enter_atomic_cmd_reg_addr_n(chartInstance);
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 3U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 3U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_read_n(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3920,12 +3628,10 @@ static void c2_read_n(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 7U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_read_n = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 32U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_read_p;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 33U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_read_p = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 7U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 32U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_read_p;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 33U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_tb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3935,21 +3641,21 @@ static void c2_read_n(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 33U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 33U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_bit_cnt = 8U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_bit_cnt = 8U;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 33U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 33U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 32U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 32U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_wr_p2(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3959,12 +3665,10 @@ static void c2_ack_wr_p2(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 49U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_wr_p2 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 15U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_n;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 20U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_cmd_reg_read_data_n = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 49U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 15U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_n;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 20U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_w_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -3974,13 +3678,13 @@ static void c2_ack_wr_p2(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 20U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 20U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 15U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 15U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_read_p(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -3990,12 +3694,10 @@ static void c2_read_p(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 9U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_read_p = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 33U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_slv1;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 12U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_slv1 = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 9U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 33U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_slv1;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 12U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_ub_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -4005,17 +3707,17 @@ static void c2_read_p(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 12U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 12U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_sda = true;
   chartInstance->c2_dataWrittenToVector[3U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 12U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 33U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 33U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_slv1(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -4025,12 +3727,10 @@ static void c2_ack_slv1(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_nargout = 0.0;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 45U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_slv1 = 0U;
-  _SFD_CS_CALL(STATE_INACTIVE_TAG, 12U, chartInstance->c2_sfEvent);
-  chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_slv_cnf1;
-  _SFD_CS_CALL(STATE_ACTIVE_TAG, 13U, chartInstance->c2_sfEvent);
-  chartInstance->c2_tp_ack_slv_cnf1 = 1U;
+  _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 45U, *chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(STATE_INACTIVE_TAG, 12U, *chartInstance->c2_sfEvent);
+  *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_slv_cnf1;
+  _SFD_CS_CALL(STATE_ACTIVE_TAG, 13U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_vb_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -4040,21 +3740,21 @@ static void c2_ack_slv1(SFc2_mpu6050InstanceStruct *chartInstance)
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 13U,
-                        chartInstance->c2_sfEvent, false);
+                        *chartInstance->c2_sfEvent, false);
   *chartInstance->c2_ack = true;
   chartInstance->c2_dataWrittenToVector[4U] = true;
   _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 13U,
-                        chartInstance->c2_sfEvent, false);
-  chartInstance->c2_bit_cnt = 8U;
+                        *chartInstance->c2_sfEvent, false);
+  *chartInstance->c2_bit_cnt = 8U;
   chartInstance->c2_dataWrittenToVector[1U] = true;
   ssLoggerUpdateTimeseries(chartInstance->S,
     chartInstance->c2_dataSetLogObjVector[0], 0, _sfTime_, (char_T *)
-    &chartInstance->c2_bit_cnt);
+    chartInstance->c2_bit_cnt);
   chartInstance->c2_dataWrittenToVector[1U] = true;
-  _SFD_DATA_RANGE_CHECK((real_T)chartInstance->c2_bit_cnt, 0U, 4U, 13U,
-                        chartInstance->c2_sfEvent, false);
+  _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_bit_cnt, 0U, 4U, 13U,
+                        *chartInstance->c2_sfEvent, false);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 12U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 12U, *chartInstance->c2_sfEvent);
 }
 
 static void c2_ack_slv_cnf1(SFc2_mpu6050InstanceStruct *chartInstance)
@@ -4070,7 +3770,7 @@ static void c2_ack_slv_cnf1(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_c_nargout = 0.0;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
-  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 35U, chartInstance->c2_sfEvent);
+  _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 35U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_mc_debug_family_names,
     c2_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_nargin, 0U, c2_sf_marshallOut,
@@ -4083,12 +3783,10 @@ static void c2_ack_slv_cnf1(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_sda_in, 0.0, -1, 0U, !*chartInstance->c2_sda_in));
   _SFD_SYMBOL_SCOPE_POP();
   if (c2_out) {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 35U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_slv_cnf1 = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 13U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_wr_p2;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 15U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_wr_p2 = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 35U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 13U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_ack_wr_p2;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 15U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_sb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_c_nargin, 0U, c2_sf_marshallOut,
@@ -4098,23 +3796,21 @@ static void c2_ack_slv_cnf1(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 15U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_ack = true;
     chartInstance->c2_dataWrittenToVector[4U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_ack, 14U, 4U, 15U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 15U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   } else {
-    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 34U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_ack_slv_cnf1 = 0U;
-    _SFD_CS_CALL(STATE_INACTIVE_TAG, 13U, chartInstance->c2_sfEvent);
-    chartInstance->c2_is_c2_mpu6050 = c2_IN_error_ack;
-    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, chartInstance->c2_sfEvent);
-    chartInstance->c2_tp_error_ack = 1U;
+    _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 34U, *chartInstance->c2_sfEvent);
+    _SFD_CS_CALL(STATE_INACTIVE_TAG, 13U, *chartInstance->c2_sfEvent);
+    *chartInstance->c2_is_c2_mpu6050 = c2_IN_error_ack;
+    _SFD_CS_CALL(STATE_ACTIVE_TAG, 27U, *chartInstance->c2_sfEvent);
     _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 2U, 2U, c2_cb_debug_family_names,
       c2_b_debug_family_var_map);
     _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c2_b_nargin, 0U, c2_sf_marshallOut,
@@ -4124,19 +3820,19 @@ static void c2_ack_slv_cnf1(SFc2_mpu6050InstanceStruct *chartInstance)
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_scl, 12U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_sda = true;
     chartInstance->c2_dataWrittenToVector[3U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_sda, 13U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     *chartInstance->c2_n_ack = true;
     chartInstance->c2_dataWrittenToVector[5U] = true;
     _SFD_DATA_RANGE_CHECK((real_T)*chartInstance->c2_n_ack, 15U, 4U, 27U,
-                          chartInstance->c2_sfEvent, false);
+                          *chartInstance->c2_sfEvent, false);
     _SFD_SYMBOL_SCOPE_POP();
   }
 
-  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 13U, chartInstance->c2_sfEvent);
+  _SFD_CS_CALL(EXIT_OUT_OF_FUNCTION_TAG, 13U, *chartInstance->c2_sfEvent);
 }
 
 static void init_script_number_translation(uint32_T c2_machineNumber, uint32_T
@@ -4336,16 +4032,16 @@ static const mxArray *c2_d_sf_marshallOut(void *chartInstanceVoid, void
 }
 
 static uint8_T c2_e_emlrt_marshallIn(SFc2_mpu6050InstanceStruct *chartInstance,
-  const mxArray *c2_b_tp_idle, const char_T *c2_identifier)
+  const mxArray *c2_b_bit_cnt, const char_T *c2_identifier)
 {
   uint8_T c2_y;
   emlrtMsgIdentifier c2_thisId;
   c2_thisId.fIdentifier = (const char *)c2_identifier;
   c2_thisId.fParent = NULL;
   c2_thisId.bParentIsCell = false;
-  c2_y = c2_f_emlrt_marshallIn(chartInstance, sf_mex_dup(c2_b_tp_idle),
+  c2_y = c2_f_emlrt_marshallIn(chartInstance, sf_mex_dup(c2_b_bit_cnt),
     &c2_thisId);
-  sf_mex_destroy(&c2_b_tp_idle);
+  sf_mex_destroy(&c2_b_bit_cnt);
   return c2_y;
 }
 
@@ -4364,20 +4060,20 @@ static uint8_T c2_f_emlrt_marshallIn(SFc2_mpu6050InstanceStruct *chartInstance,
 static void c2_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c2_mxArrayInData, const char_T *c2_varName, void *c2_outData)
 {
-  const mxArray *c2_b_tp_idle;
+  const mxArray *c2_b_bit_cnt;
   const char_T *c2_identifier;
   emlrtMsgIdentifier c2_thisId;
   uint8_T c2_y;
   SFc2_mpu6050InstanceStruct *chartInstance;
   chartInstance = (SFc2_mpu6050InstanceStruct *)chartInstanceVoid;
-  c2_b_tp_idle = sf_mex_dup(c2_mxArrayInData);
+  c2_b_bit_cnt = sf_mex_dup(c2_mxArrayInData);
   c2_identifier = c2_varName;
   c2_thisId.fIdentifier = (const char *)c2_identifier;
   c2_thisId.fParent = NULL;
   c2_thisId.bParentIsCell = false;
-  c2_y = c2_f_emlrt_marshallIn(chartInstance, sf_mex_dup(c2_b_tp_idle),
+  c2_y = c2_f_emlrt_marshallIn(chartInstance, sf_mex_dup(c2_b_bit_cnt),
     &c2_thisId);
-  sf_mex_destroy(&c2_b_tp_idle);
+  sf_mex_destroy(&c2_b_bit_cnt);
   *(uint8_T *)c2_outData = c2_y;
   sf_mex_destroy(&c2_mxArrayInData);
 }
@@ -4541,7 +4237,7 @@ static void c2_init_sf_message_store_memory(SFc2_mpu6050InstanceStruct
 
 static void init_test_point_addr_map(SFc2_mpu6050InstanceStruct *chartInstance)
 {
-  chartInstance->c2_testPointAddrMap[0] = &chartInstance->c2_bit_cnt;
+  chartInstance->c2_testPointAddrMap[0] = chartInstance->c2_bit_cnt;
 }
 
 static void **get_test_point_address_map(SFc2_mpu6050InstanceStruct
@@ -4570,6 +4266,13 @@ static void init_dsm_address_info(SFc2_mpu6050InstanceStruct *chartInstance)
 static void init_simulink_io_address(SFc2_mpu6050InstanceStruct *chartInstance)
 {
   chartInstance->c2_fEmlrtCtx = (void *)sfrtGetEmlrtCtx(chartInstance->S);
+  chartInstance->c2_sfEvent = (int32_T *)ssGetDWork_wrapper(chartInstance->S, 0);
+  chartInstance->c2_doneDoubleBufferReInit = (boolean_T *)ssGetDWork_wrapper
+    (chartInstance->S, 1);
+  chartInstance->c2_is_active_c2_mpu6050 = (uint8_T *)ssGetDWork_wrapper
+    (chartInstance->S, 2);
+  chartInstance->c2_is_c2_mpu6050 = (uint8_T *)ssGetDWork_wrapper
+    (chartInstance->S, 3);
   chartInstance->c2_enb = (boolean_T *)ssGetInputPortSignal_wrapper
     (chartInstance->S, 0);
   chartInstance->c2_rd_wr = (boolean_T *)ssGetInputPortSignal_wrapper
@@ -4578,6 +4281,7 @@ static void init_simulink_io_address(SFc2_mpu6050InstanceStruct *chartInstance)
     (chartInstance->S, 2);
   chartInstance->c2_busy = (boolean_T *)ssGetOutputPortSignal_wrapper
     (chartInstance->S, 1);
+  chartInstance->c2_bit_cnt = (uint8_T *)ssGetDWork_wrapper(chartInstance->S, 4);
   chartInstance->c2_scl = (boolean_T *)ssGetOutputPortSignal_wrapper
     (chartInstance->S, 2);
   chartInstance->c2_sda = (boolean_T *)ssGetOutputPortSignal_wrapper
@@ -4596,6 +4300,8 @@ static void init_simulink_io_address(SFc2_mpu6050InstanceStruct *chartInstance)
     (chartInstance->S, 4);
   chartInstance->c2_n_ack = (boolean_T *)ssGetOutputPortSignal_wrapper
     (chartInstance->S, 5);
+  chartInstance->c2_reg_byte_cnt = (uint8_T *)ssGetDWork_wrapper
+    (chartInstance->S, 5);
   chartInstance->c2_reg_data_burst = (boolean_T *)ssGetOutputPortSignal_wrapper
     (chartInstance->S, 6);
   chartInstance->c2_reg_addr_burst = (boolean_T *)ssGetOutputPortSignal_wrapper
@@ -4604,6 +4310,8 @@ static void init_simulink_io_address(SFc2_mpu6050InstanceStruct *chartInstance)
     (chartInstance->S, 8);
   chartInstance->c2_data_out = (uint8_T *)ssGetOutputPortSignal_wrapper
     (chartInstance->S, 9);
+  chartInstance->c2_temp_data = (uint8_T *)ssGetDWork_wrapper(chartInstance->S,
+    6);
 }
 
 /* SFunction Glue Code */
@@ -4628,12 +4336,13 @@ extern void utFree(void*);
 #endif
 
 static void init_test_point_mapping_info(SimStruct *S);
+static uint32_T* sf_get_sfun_dwork_checksum(void);
 void sf_c2_mpu6050_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(938800247U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(430903150U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(4217801661U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(268263998U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2088335629U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2782865138U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1973293796U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2223547731U);
 }
 
 mxArray* sf_c2_mpu6050_get_post_codegen_info(void);
@@ -5092,10 +4801,10 @@ mxArray *sf_c2_mpu6050_jit_fallback_info(void)
 
   mxArray *mxInfo = mxCreateStructMatrix(1, 1, 5, infoFields);
   mxArray *fallbackType = mxCreateString("early");
-  mxArray *fallbackReason = mxCreateString("logging");
+  mxArray *fallbackReason = mxCreateString("ext_mode");
   mxArray *hiddenFallbackType = mxCreateString("");
   mxArray *hiddenFallbackReason = mxCreateString("");
-  mxArray *incompatibleSymbol = mxCreateString("bit_cnt");
+  mxArray *incompatibleSymbol = mxCreateString("");
   mxSetField(mxInfo, 0, infoFields[0], fallbackType);
   mxSetField(mxInfo, 0, infoFields[1], fallbackReason);
   mxSetField(mxInfo, 0, infoFields[2], hiddenFallbackType);
@@ -5787,7 +5496,7 @@ static void chart_debug_initialize_data_addresses(SimStruct *S)
         _SFD_SET_DATA_VALUE_PTR(4U, (void *)chartInstance->c2_rd_wr);
         _SFD_SET_DATA_VALUE_PTR(5U, (void *)chartInstance->c2_mode);
         _SFD_SET_DATA_VALUE_PTR(11U, (void *)chartInstance->c2_busy);
-        _SFD_SET_DATA_VALUE_PTR(0U, (void *)&chartInstance->c2_bit_cnt);
+        _SFD_SET_DATA_VALUE_PTR(0U, (void *)chartInstance->c2_bit_cnt);
         _SFD_SET_DATA_VALUE_PTR(12U, (void *)chartInstance->c2_scl);
         _SFD_SET_DATA_VALUE_PTR(13U, (void *)chartInstance->c2_sda);
         _SFD_SET_DATA_VALUE_PTR(6U, (void *)chartInstance->c2_slv_addr);
@@ -5797,12 +5506,12 @@ static void chart_debug_initialize_data_addresses(SimStruct *S)
         _SFD_SET_DATA_VALUE_PTR(10U, (void *)chartInstance->c2_sda_in);
         _SFD_SET_DATA_VALUE_PTR(14U, (void *)chartInstance->c2_ack);
         _SFD_SET_DATA_VALUE_PTR(15U, (void *)chartInstance->c2_n_ack);
-        _SFD_SET_DATA_VALUE_PTR(1U, (void *)&chartInstance->c2_reg_byte_cnt);
+        _SFD_SET_DATA_VALUE_PTR(1U, (void *)chartInstance->c2_reg_byte_cnt);
         _SFD_SET_DATA_VALUE_PTR(16U, (void *)chartInstance->c2_reg_data_burst);
         _SFD_SET_DATA_VALUE_PTR(17U, (void *)chartInstance->c2_reg_addr_burst);
         _SFD_SET_DATA_VALUE_PTR(18U, (void *)chartInstance->c2_mstr_ack);
         _SFD_SET_DATA_VALUE_PTR(19U, (void *)chartInstance->c2_data_out);
-        _SFD_SET_DATA_VALUE_PTR(2U, (void *)&chartInstance->c2_temp_data);
+        _SFD_SET_DATA_VALUE_PTR(2U, (void *)chartInstance->c2_temp_data);
       }
     }
   }
@@ -5810,11 +5519,38 @@ static void chart_debug_initialize_data_addresses(SimStruct *S)
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "stLslrfyS7Gie0lijZL8HcD";
+  return "skYyxnfK5pXpkOdtBIu4MSF";
+}
+
+static void sf_check_dwork_consistency(SimStruct *S)
+{
+  if (sim_mode_is_rtw_gen(S) || sim_mode_is_external(S)) {
+    const uint32_T *sfunDWorkChecksum = sf_get_sfun_dwork_checksum();
+    mxArray *infoStruct = load_mpu6050_optimization_info(sim_mode_is_rtw_gen(S),
+      sim_mode_is_modelref_sim(S), sim_mode_is_external(S));
+    mxArray* mxRTWDWorkChecksum = sf_get_dwork_info_from_mat_file(S,
+      sf_get_instance_specialization(), infoStruct, 2, "dworkChecksum");
+    if (mxRTWDWorkChecksum != NULL) {
+      double *pr = mxGetPr(mxRTWDWorkChecksum);
+      if ((uint32_T)pr[0] != sfunDWorkChecksum[0] ||
+          (uint32_T)pr[1] != sfunDWorkChecksum[1] ||
+          (uint32_T)pr[2] != sfunDWorkChecksum[2] ||
+          (uint32_T)pr[3] != sfunDWorkChecksum[3]) {
+        sf_mex_error_message("Code generation and simulation targets registered different sets of persistent variables for the block. "
+                             "External or Rapid Accelerator mode simulation requires code generation and simulation targets to "
+                             "register the same set of persistent variables for this block. "
+                             "This discrepancy is typically caused by MATLAB functions that have different code paths for "
+                             "simulation and code generation targets where these code paths define different sets of persistent variables. "
+                             "Please identify these code paths in the offending block and rewrite the MATLAB code so that "
+                             "the set of persistent variables is the same between simulation and code generation.");
+      }
+    }
+  }
 }
 
 static void sf_opaque_initialize_c2_mpu6050(void *chartInstanceVar)
 {
+  sf_check_dwork_consistency(((SFc2_mpu6050InstanceStruct*) chartInstanceVar)->S);
   chart_debug_initialization(((SFc2_mpu6050InstanceStruct*) chartInstanceVar)->S,
     0);
   initialize_params_c2_mpu6050((SFc2_mpu6050InstanceStruct*) chartInstanceVar);
@@ -5834,6 +5570,11 @@ static void sf_opaque_disable_c2_mpu6050(void *chartInstanceVar)
 static void sf_opaque_gateway_c2_mpu6050(void *chartInstanceVar)
 {
   sf_gateway_c2_mpu6050((SFc2_mpu6050InstanceStruct*) chartInstanceVar);
+}
+
+static void sf_opaque_ext_mode_exec_c2_mpu6050(void *chartInstanceVar)
+{
+  ext_mode_exec_c2_mpu6050((SFc2_mpu6050InstanceStruct*) chartInstanceVar);
 }
 
 static const mxArray* sf_opaque_get_sim_state_c2_mpu6050(SimStruct* S)
@@ -5892,6 +5633,33 @@ static void mdlProcessParameters_c2_mpu6050(SimStruct *S)
   }
 }
 
+mxArray *sf_c2_mpu6050_get_testpoint_info(void)
+{
+  const char *infoEncStr[] = {
+    "100 S1x3'varName','path'{{T\"is_active_c2_mpu6050\",T\"is_active_c2_mpu6050\"},{T\"is_c2_mpu6050\",T\"is_c2_mpu6050\"},{T\"bit_cnt\",T\"bit_cnt\"}}"
+  };
+
+  mxArray *mxTpInfo = sf_mex_decode_encoded_mx_struct_array(infoEncStr, 3, 10);
+  return mxTpInfo;
+}
+
+static void sf_set_sfun_dwork_info(SimStruct *S)
+{
+  const char *dworkEncStr[] = {
+    "100 S1x7'type','isSigned','wordLength','bias','slope','exponent','isScaledDouble','isComplex','size','local_queue_dwork_idx','local_queue_id'{{T\"int32\",,,,,,,M[0],M[],M[-1],M[-1]},{T\"boolean\",,,,,,,M[0],M[],M[-1],M[-1]},{T\"uint8\",,,,,,,M[0],M[],M[-1],M[-1]},{T\"uint8\",,,,,,,M[0],M[],M[-1],M[-1]},{T\"uint8\",,,,,,,M[0],M[],M[-1],M[-1]},{T\"uint8\",,,,,,,M[0],M[],M[-1],M[-1]},{T\"uint8\",,,,,,,M[0],M[],M[-1],M[-1]}}"
+  };
+
+  sf_set_encoded_dwork_info(S, dworkEncStr, 7, 10);
+}
+
+static uint32_T* sf_get_sfun_dwork_checksum()
+{
+  static uint32_T checksum[4] = { 762987745U, 2290496466U, 2471380714U,
+    975819282U };
+
+  return checksum;
+}
+
 static void mdlSetWorkWidths_c2_mpu6050(SimStruct *S)
 {
   ssSetStatesModifiedOnlyInUpdate(S, 0);
@@ -5945,6 +5713,7 @@ static void mdlSetWorkWidths_c2_mpu6050(SimStruct *S)
     ssSetHasSubFunctions(S,!(chartIsInlinable));
     ssSetCallsOutputInInitFcn(S,1);
   } else {
+    sf_set_sfun_dwork_info(S);
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
@@ -5967,10 +5736,10 @@ static void mdlSetWorkWidths_c2_mpu6050(SimStruct *S)
     prhs[2] = mxCreateDoubleMatrix(1, 4, mxREAL);
     prhs[3] = mxCreateString(S->path + firstSlashIdx + 1);
     inPr = mxGetPr(prhs[2]);
-    inPr[0] = 982846907U;
-    inPr[1] = 2348823113U;
-    inPr[2] = 3554300143U;
-    inPr[3] = 3931218785U;
+    inPr[0] = 2592996743U;
+    inPr[1] = 1636078277U;
+    inPr[2] = 1104666606U;
+    inPr[3] = 1559126641U;
     mexCallMATLAB(1, plhs, 4, prhs, "sf");
     outPr = mxGetPr(plhs[0]);
     for (i = 0; i < 4; ++i) {
@@ -5987,10 +5756,10 @@ static void mdlSetWorkWidths_c2_mpu6050(SimStruct *S)
     mxDestroyArray(prhs[2]);
     mxDestroyArray(prhs[3]);
   } else {
-    ssSetChecksum0(S,(982846907U));
-    ssSetChecksum1(S,(2348823113U));
-    ssSetChecksum2(S,(3554300143U));
-    ssSetChecksum3(S,(3931218785U));
+    ssSetChecksum0(S,(2592996743U));
+    ssSetChecksum1(S,(1636078277U));
+    ssSetChecksum2(S,(1104666606U));
+    ssSetChecksum3(S,(1559126641U));
   }
 
   ssSetmdlDerivatives(S, NULL);
@@ -6035,7 +5804,7 @@ static void mdlStart_c2_mpu6050(SimStruct *S)
   chartInstance->chartInfo.mdlSetWorkWidths = mdlSetWorkWidths_c2_mpu6050;
   chartInstance->chartInfo.callGetHoverDataForMsg =
     sf_opaque_get_hover_data_for_msg;
-  chartInstance->chartInfo.extModeExec = NULL;
+  chartInstance->chartInfo.extModeExec = sf_opaque_ext_mode_exec_c2_mpu6050;
   chartInstance->chartInfo.restoreLastMajorStepConfiguration = NULL;
   chartInstance->chartInfo.restoreBeforeLastMajorStepConfiguration = NULL;
   chartInstance->chartInfo.storeCurrentConfiguration = NULL;
@@ -6142,10 +5911,10 @@ static rtwCAPI_ModelMappingStaticInfo testPointMappingStaticInfo = {
   "float",
 
   {
-    982846907U,
-    2348823113U,
-    3554300143U,
-    3931218785U
+    2592996743U,
+    1636078277U,
+    1104666606U,
+    1559126641U
   }
 };
 

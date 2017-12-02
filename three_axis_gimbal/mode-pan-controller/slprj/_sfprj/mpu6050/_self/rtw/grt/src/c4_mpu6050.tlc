@@ -1,0 +1,83 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  0 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   9 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "sfEvent"\
+      Description  "ActiveChartEvent"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_active_c4_mpu6050"\
+      Description  "StateIsActive"\
+      SFName       "is_active_c4_mpu6050"\
+      Path         "is_active_c4_mpu6050"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "is_c4_mpu6050"\
+      Description  "StateActiveChild"\
+      SFName       "is_c4_mpu6050"\
+      Path         "is_c4_mpu6050"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "addr"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "addr"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "bit_idx"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "bit_idx"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "data"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "data"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "rw"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "rw"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "reg_idx"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "reg_idx"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "rd_cnt"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "rd_cnt"\
+      SrcLocation  ""\
+    }\
+  }
+  %return ChartDataElements
+%endfunction

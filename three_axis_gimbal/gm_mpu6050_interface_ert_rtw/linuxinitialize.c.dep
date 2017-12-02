@@ -1,8 +1,16 @@
 linuxinitialize.c.o: \
  C:/PROGRA~1/MATLAB/R2017a/toolbox/target/codertarget/rtos/src/linuxinitialize.c \
  C:/PROGRA~1/MATLAB/R2017a/toolbox/target/codertarget/rtos/inc/linuxinitialize.h \
+<<<<<<< HEAD
  C:/MATLAB/senior-design/three_axis_gimbal/gm_mpu6050_interface_ert_rtw/MW_custom_RTOS_header.h
 
 C:/PROGRA~1/MATLAB/R2017a/toolbox/target/codertarget/rtos/inc/linuxinitialize.h:
 
 C:/MATLAB/senior-design/three_axis_gimbal/gm_mpu6050_interface_ert_rtw/MW_custom_RTOS_header.h:
+=======
+ F:/MATLAB/three_axis_gimbal/gm_mpu6050_interface_ert_rtw/MW_custom_RTOS_header.h
+
+C:/PROGRA~1/MATLAB/R2017a/toolbox/target/codertarget/rtos/inc/linuxinitialize.h:
+
+F:/MATLAB/three_axis_gimbal/gm_mpu6050_interface_ert_rtw/MW_custom_RTOS_header.h:
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
