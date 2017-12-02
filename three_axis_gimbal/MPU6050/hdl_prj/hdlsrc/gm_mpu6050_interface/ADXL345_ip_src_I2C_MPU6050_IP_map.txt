@@ -1,0 +1,21 @@
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelX/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelX --> ADXL345_ip_src_AXI4Lite_Read_AccelX
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelY/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead_block
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelY --> ADXL345_ip_src_AXI4Lite_Read_AccelY
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelZ/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead_block1
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelZ --> ADXL345_ip_src_AXI4Lite_Read_AccelZ
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroX/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead_block2
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroX --> ADXL345_ip_src_AXI4Lite_Read_GyroX
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroY/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead_block3
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroY --> ADXL345_ip_src_AXI4Lite_Read_GyroY
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroZ/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead_block4
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroZ --> ADXL345_ip_src_AXI4Lite_Read_GyroZ
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_RegData/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead_block5
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_RegData --> ADXL345_ip_src_AXI4Lite_Read_RegData
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_deviceID/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead_block6
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_deviceID --> ADXL345_ip_src_AXI4Lite_Read_deviceID
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_validout/AXI4-Interface Read --> ADXL345_ip_src_zynq_AXIRead_block7
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_validout --> ADXL345_ip_src_AXI4Lite_Read_validout
+gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead --> ADXL345_ip_src_AXI4LiteRead
+I2C_MPU6050_IP_tc --> ADXL345_ip_src_I2C_MPU6050_IP_tc
+gm_mpu6050_interface/I2C_MPU6050_IP --> ADXL345_ip_src_I2C_MPU6050_IP
