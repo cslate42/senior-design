@@ -1,7 +1,7 @@
 /*
  * File Name:         hdl_prj\ipcore\ADXL345_ip_v1_0\include\ADXL345_ip_addr.h
  * Description:       C Header File
- * Created:           2017-12-01 17:08:13
+ * Created:           2017-12-01 18:21:24
 */
 
 #ifndef ADXL345_IP_H_

@@ -1,13 +1,29 @@
 gm_mpu6050_interface_data.c.o: gm_mpu6050_interface_data.c \
  gm_mpu6050_interface.h rtwtypes.h \
+ C:/PROGRA~1/MATLAB/R2017a/simulink/include/rtw_extmode.h \
+ C:/PROGRA~1/MATLAB/R2017a/simulink/include/sysran_types.h \
+ C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/dt_info.h \
+ C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/ext_mode/common/ext_work.h \
+ C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/ext_mode/common/ext_types.h \
  C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/axi_lct.h \
  C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/axi_interface.h \
  C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/mwadma_ioctl.h \
- gm_mpu6050_interface_types.h gm_mpu6050_interface_private.h
+ gm_mpu6050_interface_types.h multiword_types.h \
+ gm_mpu6050_interface_private.h
 
 gm_mpu6050_interface.h:
 
 rtwtypes.h:
+
+C:/PROGRA~1/MATLAB/R2017a/simulink/include/rtw_extmode.h:
+
+C:/PROGRA~1/MATLAB/R2017a/simulink/include/sysran_types.h:
+
+C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/dt_info.h:
+
+C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/ext_mode/common/ext_work.h:
+
+C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/ext_mode/common/ext_types.h:
 
 C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/axi_lct.h:
 
@@ -16,5 +32,7 @@ C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq
 C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include/mwadma_ioctl.h:
 
 gm_mpu6050_interface_types.h:
+
+multiword_types.h:
 
 gm_mpu6050_interface_private.h:

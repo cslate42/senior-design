@@ -65,6 +65,7 @@ typedef struct {
   boolean_T *c1_tmpValid;
   boolean_T *c1_tmpReadDevice;
   boolean_T *c1_tmpHere;
+  uint8_T *c1_tmpData;
 } SFc1_mpu6050InstanceStruct;
 
 #endif                                 /*typedef_SFc1_mpu6050InstanceStruct*/

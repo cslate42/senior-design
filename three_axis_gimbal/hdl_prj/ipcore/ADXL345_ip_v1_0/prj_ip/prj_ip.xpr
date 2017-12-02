@@ -6,7 +6,7 @@
 <Project Version="7" Minor="14" Path="F:/MATLAB/three_axis_gimbal/hdl_prj/ipcore/ADXL345_ip_v1_0/prj_ip/prj_ip.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="5affa753e43047f5ac5c3d79428f3509"/>
+    <Option Name="Id" Val="4877944af3e04d40b74292b3f652fccb"/>
     <Option Name="Part" Val="xc7z020clg484-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>

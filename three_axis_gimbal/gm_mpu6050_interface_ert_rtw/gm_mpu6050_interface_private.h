@@ -6,9 +6,9 @@
  *
  * Code generated for Simulink model 'gm_mpu6050_interface'.
  *
- * Model version                  : 1.262
+ * Model version                  : 1.279
  * Simulink Coder version         : 8.12 (R2017a) 16-Feb-2017
- * C/C++ source code generated on : Fri Dec 01 17:20:00 2017
+ * C/C++ source code generated on : Fri Dec 01 18:35:53 2017
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -19,6 +19,16 @@
 #ifndef RTW_HEADER_gm_mpu6050_interface_private_h_
 #define RTW_HEADER_gm_mpu6050_interface_private_h_
 #include "rtwtypes.h"
+#include "multiword_types.h"
+
+/* Private macros used by the generated code to access rtModel */
+#ifndef rtmSetTFinal
+# define rtmSetTFinal(rtm, val)        ((rtm)->Timing.tFinal = (val))
+#endif
+
+#ifndef rtmGetTPtr
+# define rtmGetTPtr(rtm)               (&(rtm)->Timing.taskTime0)
+#endif
 #endif                                 /* RTW_HEADER_gm_mpu6050_interface_private_h_ */
 
 /*

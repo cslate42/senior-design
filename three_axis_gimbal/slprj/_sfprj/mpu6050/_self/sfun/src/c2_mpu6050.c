@@ -1152,10 +1152,10 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
 
    case c2_IN_scl_ext_n:
     CV_CHART_EVAL(1, 0, 40);
-    *chartInstance->c2_mstr_ack = false;
-    chartInstance->c2_dataWrittenToVector[9U] = true;
     *chartInstance->c2_scl = false;
     chartInstance->c2_dataWrittenToVector[2U] = true;
+    *chartInstance->c2_mstr_ack = false;
+    chartInstance->c2_dataWrittenToVector[9U] = true;
     _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 26U, *chartInstance->c2_sfEvent);
     _SFD_CS_CALL(STATE_INACTIVE_TAG, 39U, *chartInstance->c2_sfEvent);
     *chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_p;
@@ -1206,10 +1206,10 @@ static void c2_chartstep_c2_mpu6050(SFc2_mpu6050InstanceStruct *chartInstance)
 
    case c2_IN_start_n:
     CV_CHART_EVAL(1, 0, 42);
-    *chartInstance->c2_busy = true;
-    chartInstance->c2_dataWrittenToVector[0U] = true;
     *chartInstance->c2_scl = true;
     chartInstance->c2_dataWrittenToVector[2U] = true;
+    *chartInstance->c2_busy = true;
+    chartInstance->c2_dataWrittenToVector[0U] = true;
     _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 13U, *chartInstance->c2_sfEvent);
     _SFD_CS_CALL(STATE_INACTIVE_TAG, 41U, *chartInstance->c2_sfEvent);
     *chartInstance->c2_is_c2_mpu6050 = c2_IN_start_p;
@@ -1394,10 +1394,10 @@ static void c2_idle(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_b_debug_family_var_map[2];
   real_T c2_b_nargin = 0.0;
   real_T c2_b_nargout = 0.0;
-  *chartInstance->c2_busy = false;
-  chartInstance->c2_dataWrittenToVector[0U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
+  *chartInstance->c2_busy = false;
+  chartInstance->c2_dataWrittenToVector[0U] = true;
   _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 30U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_wb_debug_family_names,
     c2_debug_family_var_map);
@@ -1493,10 +1493,10 @@ static void c2_ready(SFc2_mpu6050InstanceStruct *chartInstance)
 
 static void c2_mastr_ack_data_cnf1(SFc2_mpu6050InstanceStruct *chartInstance)
 {
-  *chartInstance->c2_mstr_ack = true;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
+  *chartInstance->c2_mstr_ack = true;
+  chartInstance->c2_dataWrittenToVector[9U] = true;
   _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 50U, *chartInstance->c2_sfEvent);
   _SFD_CS_CALL(STATE_INACTIVE_TAG, 31U, *chartInstance->c2_sfEvent);
   *chartInstance->c2_is_c2_mpu6050 = c2_IN_scl_ext_n;
@@ -1510,10 +1510,10 @@ static void c2_mastr_ack_data_cnf(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_debug_family_var_map[2];
   real_T c2_nargin = 0.0;
   real_T c2_nargout = 0.0;
-  *chartInstance->c2_mstr_ack = true;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
+  *chartInstance->c2_mstr_ack = true;
+  chartInstance->c2_dataWrittenToVector[9U] = true;
   _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 14U, *chartInstance->c2_sfEvent);
   _SFD_CS_CALL(STATE_INACTIVE_TAG, 30U, *chartInstance->c2_sfEvent);
   *chartInstance->c2_is_c2_mpu6050 = c2_IN_Increment_Byte_count1;
@@ -1593,10 +1593,10 @@ static void c2_mastr_ack_data(SFc2_mpu6050InstanceStruct *chartInstance)
   real_T c2_c_nargin = 0.0;
   real_T c2_b_nargout = 0.0;
   real_T c2_c_nargout = 0.0;
-  *chartInstance->c2_mstr_ack = true;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
+  *chartInstance->c2_mstr_ack = true;
+  chartInstance->c2_dataWrittenToVector[9U] = true;
   _SFD_CT_CALL(TRANSITION_BEFORE_PROCESSING_TAG, 22U, *chartInstance->c2_sfEvent);
   _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 3U, 3U, c2_xb_debug_family_names,
     c2_debug_family_var_map);
@@ -1821,10 +1821,10 @@ static void c2_Increment_Byte_count1(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_debug_family_var_map[2];
   real_T c2_nargin = 0.0;
   real_T c2_nargout = 0.0;
-  *chartInstance->c2_mstr_ack = false;
-  chartInstance->c2_dataWrittenToVector[9U] = true;
   *chartInstance->c2_scl = false;
   chartInstance->c2_dataWrittenToVector[2U] = true;
+  *chartInstance->c2_mstr_ack = false;
+  chartInstance->c2_dataWrittenToVector[9U] = true;
   _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 48U, *chartInstance->c2_sfEvent);
   _SFD_CS_CALL(STATE_INACTIVE_TAG, 0U, *chartInstance->c2_sfEvent);
   *chartInstance->c2_is_c2_mpu6050 = c2_IN_cmd_reg_read_data_n;
@@ -3017,10 +3017,10 @@ static void c2_repeat_strt_n(SFc2_mpu6050InstanceStruct *chartInstance)
   uint32_T c2_debug_family_var_map[2];
   real_T c2_nargin = 0.0;
   real_T c2_nargout = 0.0;
-  *chartInstance->c2_busy = true;
-  chartInstance->c2_dataWrittenToVector[0U] = true;
   *chartInstance->c2_scl = true;
   chartInstance->c2_dataWrittenToVector[2U] = true;
+  *chartInstance->c2_busy = true;
+  chartInstance->c2_dataWrittenToVector[0U] = true;
   _SFD_CT_CALL(TRANSITION_ACTIVE_TAG, 41U, *chartInstance->c2_sfEvent);
   _SFD_CS_CALL(STATE_INACTIVE_TAG, 37U, *chartInstance->c2_sfEvent);
   *chartInstance->c2_is_c2_mpu6050 = c2_IN_repeat_strt_p;

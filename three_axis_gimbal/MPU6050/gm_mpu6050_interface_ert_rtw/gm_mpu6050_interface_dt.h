@@ -6,9 +6,9 @@
  *
  * Code generation for model "gm_mpu6050_interface".
  *
- * Model version              : 1.256
+ * Model version              : 1.297
  * Simulink Coder version : 8.12 (R2017a) 16-Feb-2017
- * C source code generated on : Thu Nov 30 23:13:13 2017
+ * C source code generated on : Sat Dec 02 13:17:33 2017
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -64,14 +64,14 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&gm_mpu6050_interface_B.AXI4Lite_Read_deviceID_DTC), 3, 0, 2 },
 
-  { (char_T *)(&gm_mpu6050_interface_B.AXI4Lite_Read_validout_DTC), 8, 0, 2 }
+  { (char_T *)(&gm_mpu6050_interface_B.AXI4Lite_Read_validout_DTC), 8, 0, 1 }
   ,
 
   { (char_T *)(&gm_mpu6050_interface_DW.obj), 14, 0, 9 },
 
-  { (char_T *)(&gm_mpu6050_interface_DW.obj_j2), 15, 0, 1 },
+  { (char_T *)(&gm_mpu6050_interface_DW.obj_a), 15, 0, 1 },
 
-  { (char_T *)(&gm_mpu6050_interface_DW.Scope_PWORK.LoggedData[0]), 11, 0, 16 }
+  { (char_T *)(&gm_mpu6050_interface_DW.Scope_PWORK.LoggedData[0]), 11, 0, 14 }
 };
 
 /* data type transition table for block I/O structure */

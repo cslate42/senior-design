@@ -47,7 +47,7 @@
 -- DO NOT MODIFY THIS FILE.
 
 -- IP VLNV: xilinx.com:ip:ADXL345_ip:1.0
--- IP Revision: 1712011708
+-- IP Revision: 1712011821
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;

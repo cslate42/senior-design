@@ -2,7 +2,7 @@
 ## Makefile generated for Simulink model 'gm_mpu6050_interface'. 
 ## 
 ## Makefile     : gm_mpu6050_interface.mk
-## Generated on : Fri Dec 01 17:20:07 2017
+## Generated on : Fri Dec 01 18:36:00 2017
 ## MATLAB Coder version: 3.3 (R2017a)
 ## 
 ## Build Info:
@@ -220,7 +220,7 @@ BUILD_TYPE = "Top-Level Standalone Executable"
 ## INCLUDE PATHS
 ###########################################################################
 
-INCLUDES_BUILDINFO = -I$(START_DIR) -IC:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include -I$(START_DIR)/gm_mpu6050_interface_ert_rtw -I$(MATLAB_ROOT)/extern/include -I$(MATLAB_ROOT)/simulink/include -I$(MATLAB_ROOT)/rtw/c/src -I$(MATLAB_ROOT)/rtw/c/src/ext_mode/common -I$(MATLAB_ROOT)/rtw/c/ert -I$(MATLAB_ROOT)/toolbox/target/codertarget/rtos/inc
+INCLUDES_BUILDINFO = -I$(START_DIR) -IC:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/include -I$(START_DIR)/gm_mpu6050_interface_ert_rtw -I$(MATLAB_ROOT)/extern/include -I$(MATLAB_ROOT)/simulink/include -I$(MATLAB_ROOT)/rtw/c/src -I$(MATLAB_ROOT)/rtw/c/src/ext_mode/common -I$(MATLAB_ROOT)/rtw/c/ert -I$(MATLAB_ROOT)/toolbox/coder/rtiostream/src/utils -I$(MATLAB_ROOT)/toolbox/target/codertarget/rtos/inc
 
 INCLUDES = $(INCLUDES_BUILDINFO)
 
@@ -228,19 +228,20 @@ INCLUDES = $(INCLUDES_BUILDINFO)
 ## DEFINES
 ###########################################################################
 
-DEFINES_ = -DMODEL=gm_mpu6050_interface -DNUMST=1 -DNCSTATES=0 -DHAVESTDIO -DTERMFCN=1 -DONESTEPFCN=1 -DMAT_FILE=0 -DMULTI_INSTANCE_CODE=0 -DINTEGER_CODE=0 -DMT=0 -DCLASSIC_INTERFACE=0 -DALLOCATIONFCN=0 -DTID01EQ=0 -DARM_PROJECT -DSTACK_SIZE=64 -D__MW_TARGET_USE_HARDWARE_RESOURCES_H__ -DRT
-DEFINES_BUILD_ARGS = -DTERMFCN=1 -DONESTEPFCN=1 -DMAT_FILE=0 -DMULTI_INSTANCE_CODE=0 -DINTEGER_CODE=0 -DMT=0 -DCLASSIC_INTERFACE=0 -DALLOCATIONFCN=0
+DEFINES_ = -DMODEL=gm_mpu6050_interface -DNUMST=1 -DNCSTATES=0 -DHAVESTDIO -DON_TARGET_WAIT_FOR_START=1 -DTERMFCN=1 -DONESTEPFCN=1 -DMAT_FILE=0 -DMULTI_INSTANCE_CODE=0 -DEXT_MODE=1 -DINTEGER_CODE=0 -DMT=0 -DCLASSIC_INTERFACE=0 -DALLOCATIONFCN=0 -DTID01EQ=0 -DARM_PROJECT -DSTACK_SIZE=64 -D__MW_TARGET_USE_HARDWARE_RESOURCES_H__ -DRT
+DEFINES_BUILD_ARGS = -DTERMFCN=1 -DONESTEPFCN=1 -DMAT_FILE=0 -DMULTI_INSTANCE_CODE=0 -DEXT_MODE=1 -DINTEGER_CODE=0 -DMT=0 -DCLASSIC_INTERFACE=0 -DALLOCATIONFCN=0
 DEFINES_IMPLIED = -DTID01EQ=0
+DEFINES_OPTS = -DON_TARGET_WAIT_FOR_START=1
 DEFINES_SKIPFORSIL = -DARM_PROJECT -DSTACK_SIZE=64 -DRT
 DEFINES_STANDARD = -DMODEL=gm_mpu6050_interface -DNUMST=1 -DNCSTATES=0 -DHAVESTDIO
 
-DEFINES = $(DEFINES_) $(DEFINES_BUILD_ARGS) $(DEFINES_IMPLIED) $(DEFINES_SKIPFORSIL) $(DEFINES_STANDARD)
+DEFINES = $(DEFINES_) $(DEFINES_BUILD_ARGS) $(DEFINES_IMPLIED) $(DEFINES_OPTS) $(DEFINES_SKIPFORSIL) $(DEFINES_STANDARD)
 
 ###########################################################################
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)/gm_mpu6050_interface_ert_rtw/gm_mpu6050_interface.c $(START_DIR)/gm_mpu6050_interface_ert_rtw/gm_mpu6050_interface_data.c C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/src/axi4Lite.c $(MATLAB_ROOT)/toolbox/target/codertarget/rtos/src/linuxinitialize.c
+SRCS = $(START_DIR)/gm_mpu6050_interface_ert_rtw/gm_mpu6050_interface.c $(START_DIR)/gm_mpu6050_interface_ert_rtw/gm_mpu6050_interface_data.c $(MATLAB_ROOT)/rtw/c/src/ext_mode/common/ext_svr.c $(MATLAB_ROOT)/rtw/c/src/ext_mode/common/updown.c $(MATLAB_ROOT)/rtw/c/src/ext_mode/common/ext_work.c $(MATLAB_ROOT)/toolbox/coder/rtiostream/src/utils/rtiostream_utils.c C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/zynq/src/axi4Lite.c $(MATLAB_ROOT)/toolbox/target/codertarget/rtos/src/linuxinitialize.c $(MATLAB_ROOT)/rtw/c/src/ext_mode/common/rtiostream_interface.c C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/arm_cortex_a/src/rtiostream_tcpip.c
 
 MAIN_SRC = $(START_DIR)/gm_mpu6050_interface_ert_rtw/ert_main.c
 
@@ -250,7 +251,7 @@ ALL_SRCS = $(SRCS) $(MAIN_SRC)
 ## OBJECTS
 ###########################################################################
 
-OBJS = gm_mpu6050_interface.c.o gm_mpu6050_interface_data.c.o axi4Lite.c.o linuxinitialize.c.o
+OBJS = gm_mpu6050_interface.c.o gm_mpu6050_interface_data.c.o ext_svr.c.o updown.c.o ext_work.c.o rtiostream_utils.c.o axi4Lite.c.o linuxinitialize.c.o rtiostream_interface.c.o rtiostream_tcpip.c.o
 
 MAIN_OBJ = ert_main.c.o
 
@@ -439,7 +440,31 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS) $(MAIN_OBJ)
 	$(CPP) $(CPPFLAGS) -o $@ $<
 
 
+ext_svr.c.o : $(MATLAB_ROOT)/rtw/c/src/ext_mode/common/ext_svr.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+
+updown.c.o : $(MATLAB_ROOT)/rtw/c/src/ext_mode/common/updown.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+
+ext_work.c.o : $(MATLAB_ROOT)/rtw/c/src/ext_mode/common/ext_work.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+
+rtiostream_utils.c.o : $(MATLAB_ROOT)/toolbox/coder/rtiostream/src/utils/rtiostream_utils.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+
 linuxinitialize.c.o : $(MATLAB_ROOT)/toolbox/target/codertarget/rtos/src/linuxinitialize.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+
+rtiostream_interface.c.o : $(MATLAB_ROOT)/rtw/c/src/ext_mode/common/rtiostream_interface.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+
+rtiostream_tcpip.c.o : C:/ProgramData/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/arm_cortex_a/src/rtiostream_tcpip.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 

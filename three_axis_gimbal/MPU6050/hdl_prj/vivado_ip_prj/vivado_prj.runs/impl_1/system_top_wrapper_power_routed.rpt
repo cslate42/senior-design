@@ -1,7 +1,7 @@
 Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
-| Date             : Thu Nov 30 23:03:58 2017
+| Date             : Sat Dec 02 12:37:34 2017
 | Host             : LAPTOP-BT7NMSMH running 64-bit major release  (build 9200)
 | Command          : report_power -file system_top_wrapper_power_routed.rpt -pb system_top_wrapper_power_summary_routed.pb -rpx system_top_wrapper_power_routed.rpx
 | Design           : system_top_wrapper
@@ -30,7 +30,7 @@ Table of Contents
 ----------
 
 +--------------------------+-------+
-| Total On-Chip Power (W)  | 1.809 |
+| Total On-Chip Power (W)  | 1.808 |
 | Dynamic (W)              | 1.646 |
 | Device Static (W)        | 0.163 |
 | Effective TJA (C/W)      | 11.5  |
@@ -49,20 +49,20 @@ Table of Contents
 +-------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.006 |        6 |       --- |             --- |
-| Slice Logic             |     0.003 |     2327 |       --- |             --- |
-|   LUT as Logic          |     0.003 |      913 |     53200 |            1.72 |
-|   Register              |    <0.001 |      950 |    106400 |            0.89 |
+| Clocks                  |     0.005 |        6 |       --- |             --- |
+| Slice Logic             |     0.003 |     2268 |       --- |             --- |
+|   LUT as Logic          |     0.002 |      891 |     53200 |            1.67 |
+|   Register              |    <0.001 |      953 |    106400 |            0.90 |
 |   CARRY4                |    <0.001 |       26 |     13300 |            0.20 |
-|   F7/F8 Muxes           |    <0.001 |       40 |     53200 |            0.08 |
+|   F7/F8 Muxes           |    <0.001 |       25 |     53200 |            0.05 |
 |   LUT as Shift Register |    <0.001 |       68 |     17400 |            0.39 |
 |   Others                |     0.000 |      189 |       --- |             --- |
-| Signals                 |     0.004 |     1818 |       --- |             --- |
+| Signals                 |     0.004 |     1789 |       --- |             --- |
 | MMCM                    |     0.106 |        1 |         4 |           25.00 |
 | I/O                     |    <0.001 |       13 |       200 |            6.50 |
 | PS7                     |     1.528 |        1 |       --- |             --- |
 | Static Power            |     0.163 |          |           |                 |
-| Total                   |     1.809 |          |           |                 |
+| Total                   |     1.808 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,7 +72,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.028 |       0.012 |      0.016 |
+| Vccint    |       1.000 |     0.027 |       0.012 |      0.016 |
 | Vccaux    |       1.800 |     0.079 |       0.059 |      0.021 |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |
 | Vcco25    |       2.500 |     0.001 |       0.000 |      0.001 |
@@ -157,7 +157,7 @@ Table of Contents
 |       U0                                         |     0.004 |
 |         u_ADXL345_ip_axi_lite_inst               |     0.002 |
 |           u_ADXL345_ip_addr_decoder_inst         |    <0.001 |
-|           u_ADXL345_ip_axi_lite_module_inst      |     0.001 |
+|           u_ADXL345_ip_axi_lite_module_inst      |    <0.001 |
 |         u_ADXL345_ip_dut_inst                    |     0.002 |
 |           u_ADXL345_ip_src_I2C_MPU6050_IP        |     0.002 |
 |             u_I2C_MPU6050_IP_tc                  |    <0.001 |
@@ -165,6 +165,7 @@ Table of Contents
 |               u_i2c_bidir                        |    <0.001 |
 |                 IOBUF_inst                       |    <0.001 |
 |               u_i2c_mstr                         |    <0.001 |
+|             u_MATLAB_Function                    |    <0.001 |
 |             u_MPU6050_Interface                  |     0.001 |
 |     axi_interconnect_0                           |     0.007 |
 |       s00_couplers                               |     0.007 |
@@ -184,7 +185,7 @@ Table of Contents
 |                 aw_pipe                          |    <0.001 |
 |                 b_pipe                           |    <0.001 |
 |                 r_pipe                           |    <0.001 |
-|               WR.aw_channel_0                    |     0.002 |
+|               WR.aw_channel_0                    |     0.001 |
 |                 aw_cmd_fsm_0                     |    <0.001 |
 |                 cmd_translator_0                 |    <0.001 |
 |                   incr_cmd_0                     |    <0.001 |

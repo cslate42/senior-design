@@ -744,7 +744,7 @@
       <spirit:file>
         <spirit:name>hdl/vhdl/ADXL345_ip.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_7db637da</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_2ada85bb</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -881,8 +881,8 @@
       </xilinx:taxonomies>
       <xilinx:displayName>ADXL345_ip</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>1712011708</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2017-12-01T22:08:23Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>1712011821</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2017-12-01T23:21:41Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2016.2</xilinx:xilinxVersion>

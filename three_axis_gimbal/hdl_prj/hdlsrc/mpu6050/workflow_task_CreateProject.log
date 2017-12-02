@@ -1410,7 +1410,7 @@ DADDR_13: 00c0	-CLKOUT6 Register 2
 
 DADDR_12: 1041	-CLKOUT6 Register 1
 DADDR_13: 00c0	-CLKOUT6 Register 2
-create_bd_cell: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 420.227 ; gain = 108.449
+create_bd_cell: Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 420.105 ; gain = 108.387
 DADDR_08: 128a	-CLKOUT0 Register 1
 DADDR_09: 0000	-CLKOUT0 Register 2
 DADDR_08: 128a	-CLKOUT0 Register 1
@@ -1678,11 +1678,11 @@ Wrote  : <F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sour
     ** Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 
 source F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/vivado_prj.hw/webtalk/labtool_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Fri Dec 01 17:09:22 2017...
+INFO: [Common 17-206] Exiting Webtalk at Fri Dec 01 18:22:43 2017...
 # exit
-INFO: [Common 17-206] Exiting Vivado at Fri Dec 01 17:09:22 2017...
+INFO: [Common 17-206] Exiting Vivado at Fri Dec 01 18:22:43 2017...
 
-Elapsed time is 47.7834 seconds.
+Elapsed time is 48.4181 seconds.
 
 ****** Vivado v2016.2 (64-bit)
   **** SW Build 1577090 on Thu Jun  2 16:32:40 MDT 2016
@@ -1731,7 +1731,7 @@ WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter 
 VHDL Output written to : F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/hdl/system_top.vhd
 VHDL Output written to : F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/hdl/system_top_wrapper.vhd
 Wrote  : <F:/MATLAB/three_axis_gimbal/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/system_top.bd> 
-make_wrapper: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 515.379 ; gain = 90.941
+make_wrapper: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 515.371 ; gain = 90.191
 # regsub -all "system_top.vhd" [get_files system_top.vhd] "system_top_wrapper.vhd" TOPFILEPATH
 # add_files -norecurse $TOPFILEPATH
 # update_compile_order -fileset sources_1
@@ -1741,8 +1741,8 @@ INFO: [BD 5-320] Validate design is not run, since the design is already validat
 # add_files -fileset constrs_1 -norecurse ADXL345_ip_src_I2C_MPU6050_IP_top.xdc
 # close_project
 # exit
-INFO: [Common 17-206] Exiting Vivado at Fri Dec 01 17:09:46 2017...
+INFO: [Common 17-206] Exiting Vivado at Fri Dec 01 18:23:07 2017...
 
-Elapsed time is 23.8133 seconds.
+Elapsed time is 23.7175 seconds.
 
 

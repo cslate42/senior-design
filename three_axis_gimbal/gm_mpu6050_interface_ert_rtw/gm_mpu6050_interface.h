@@ -6,9 +6,9 @@
  *
  * Code generated for Simulink model 'gm_mpu6050_interface'.
  *
- * Model version                  : 1.262
+ * Model version                  : 1.279
  * Simulink Coder version         : 8.12 (R2017a) 16-Feb-2017
- * C/C++ source code generated on : Fri Dec 01 17:20:00 2017
+ * C/C++ source code generated on : Fri Dec 01 18:35:53 2017
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -18,17 +18,33 @@
 
 #ifndef RTW_HEADER_gm_mpu6050_interface_h_
 #define RTW_HEADER_gm_mpu6050_interface_h_
-#include <stddef.h>
 #include <string.h>
+#include <float.h>
+#include <stddef.h>
 #ifndef gm_mpu6050_interface_COMMON_INCLUDES_
 # define gm_mpu6050_interface_COMMON_INCLUDES_
 #include "rtwtypes.h"
+#include "rtw_extmode.h"
+#include "sysran_types.h"
+#include "dt_info.h"
+#include "ext_work.h"
 #include "axi_lct.h"
 #endif                                 /* gm_mpu6050_interface_COMMON_INCLUDES_ */
 
 #include "gm_mpu6050_interface_types.h"
 
+/* Shared type includes */
+#include "multiword_types.h"
+
 /* Macros for accessing real-time model data structure */
+#ifndef rtmGetFinalTime
+# define rtmGetFinalTime(rtm)          ((rtm)->Timing.tFinal)
+#endif
+
+#ifndef rtmGetRTWExtModeInfo
+# define rtmGetRTWExtModeInfo(rtm)     ((rtm)->extModeInfo)
+#endif
+
 #ifndef rtmGetErrorStatus
 # define rtmGetErrorStatus(rtm)        ((rtm)->errorStatus)
 #endif
@@ -37,18 +53,51 @@
 # define rtmSetErrorStatus(rtm, val)   ((rtm)->errorStatus = (val))
 #endif
 
+#ifndef rtmGetStopRequested
+# define rtmGetStopRequested(rtm)      ((rtm)->Timing.stopRequestedFlag)
+#endif
+
+#ifndef rtmSetStopRequested
+# define rtmSetStopRequested(rtm, val) ((rtm)->Timing.stopRequestedFlag = (val))
+#endif
+
+#ifndef rtmGetStopRequestedPtr
+# define rtmGetStopRequestedPtr(rtm)   (&((rtm)->Timing.stopRequestedFlag))
+#endif
+
+#ifndef rtmGetT
+# define rtmGetT(rtm)                  ((rtm)->Timing.taskTime0)
+#endif
+
+#ifndef rtmGetTFinal
+# define rtmGetTFinal(rtm)             ((rtm)->Timing.tFinal)
+#endif
+
+/* Block signals (auto storage) */
+typedef struct {
+  int16_T AXI4Lite_Read_AccelX_DTC;    /* '<S2>/AXI4Lite_Read_AccelX_DTC' */
+  int16_T AXI4Lite_Read_AccelY_DTC;    /* '<S2>/AXI4Lite_Read_AccelY_DTC' */
+  int16_T AXI4Lite_Read_AccelZ_DTC;    /* '<S2>/AXI4Lite_Read_AccelZ_DTC' */
+  int16_T AXI4Lite_Read_GyroX_DTC;     /* '<S2>/AXI4Lite_Read_GyroX_DTC' */
+  int16_T AXI4Lite_Read_GyroY_DTC;     /* '<S2>/AXI4Lite_Read_GyroY_DTC' */
+  int16_T AXI4Lite_Read_GyroZ_DTC;     /* '<S2>/AXI4Lite_Read_GyroZ_DTC' */
+  uint8_T AXI4Lite_Read_deviceID_DTC;  /* '<S2>/AXI4Lite_Read_deviceID_DTC' */
+  uint8_T AXI4Lite_Read_RegData_DTC;   /* '<S2>/AXI4Lite_Read_RegData_DTC' */
+  boolean_T AXI4Lite_Read_validout_DTC;/* '<S2>/AXI4Lite_Read_validout_DTC' */
+} B_gm_mpu6050_interface_T;
+
 /* Block states (auto storage) for system '<Root>' */
 typedef struct {
-  zynq_AXIRead_gm_mpu6050_inter_T obj; /* '<S13>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_h;/* '<S12>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj; /* '<S12>/AXI4-Interface Read' */
   zynq_AXIRead_gm_mpu6050_inter_T obj_k;/* '<S11>/AXI4-Interface Read' */
   zynq_AXIRead_gm_mpu6050_inter_T obj_f;/* '<S10>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_fp;/* '<S9>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_km;/* '<S8>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_fh;/* '<S7>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_n;/* '<S6>/AXI4-Interface Read' */
-  zynq_AXIRead_gm_mpu6050_inter_T obj_fu;/* '<S5>/AXI4-Interface Read' */
-  zynq_AXIWrite_gm_mpu6050_inte_T obj_nw;/* '<S14>/AXI4-Interface Write' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_c;/* '<S9>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_d;/* '<S8>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_b;/* '<S7>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_h;/* '<S6>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_hs;/* '<S5>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_bm;/* '<S4>/AXI4-Interface Read' */
+  zynq_AXIWrite_gm_mpu6050_inte_T obj_a;/* '<S13>/AXI4-Interface Write' */
   struct {
     void *LoggedData[2];
   } Scope_PWORK;                       /* '<Root>/Scope' */
@@ -57,25 +106,23 @@ typedef struct {
     void *LoggedData[2];
   } Scope1_PWORK;                      /* '<Root>/Scope1' */
 
-  struct {
-    void *LoggedData[2];
-  } Scope2_PWORK;                      /* '<Root>/Scope2' */
-
-  void *AXI4InterfaceWrite_PWORK;      /* '<S14>/AXI4-Interface Write' */
-  void *AXI4InterfaceRead_PWORK;       /* '<S13>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_e;     /* '<S12>/AXI4-Interface Read' */
+  void *AXI4InterfaceWrite_PWORK;      /* '<S13>/AXI4-Interface Write' */
+  void *AXI4InterfaceRead_PWORK;       /* '<S12>/AXI4-Interface Read' */
   void *AXI4InterfaceRead_PWORK_d;     /* '<S11>/AXI4-Interface Read' */
   void *AXI4InterfaceRead_PWORK_i;     /* '<S10>/AXI4-Interface Read' */
   void *AXI4InterfaceRead_PWORK_g;     /* '<S9>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_e1;    /* '<S8>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_i5;    /* '<S7>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_c;     /* '<S6>/AXI4-Interface Read' */
-  void *AXI4InterfaceRead_PWORK_ca;    /* '<S5>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_h;     /* '<S8>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_c;     /* '<S7>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_gy;    /* '<S6>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_e;     /* '<S5>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_k;     /* '<S4>/AXI4-Interface Read' */
 } DW_gm_mpu6050_interface_T;
 
 /* External inputs (root inport signals with auto storage) */
 typedef struct {
   boolean_T TmpCnfDevice;              /* '<Root>/TmpCnfDevice' */
+  boolean_T tmp;                       /* '<Root>/tmp' */
+  boolean_T tmp1;                      /* '<Root>/tmp1' */
 } ExtU_gm_mpu6050_interface_T;
 
 /* External outputs (root outports fed by signals with auto storage) */
@@ -96,10 +143,46 @@ struct P_gm_mpu6050_interface_T_ {
 /* Real-time Model Data Structure */
 struct tag_RTM_gm_mpu6050_interface_T {
   const char_T *errorStatus;
+  RTWExtModeInfo *extModeInfo;
+
+  /*
+   * Sizes:
+   * The following substructure contains sizes information
+   * for many of the model attributes such as inputs, outputs,
+   * dwork, sample times, etc.
+   */
+  struct {
+    uint32_T checksums[4];
+  } Sizes;
+
+  /*
+   * SpecialInfo:
+   * The following substructure contains special information
+   * related to other components that are dependent on RTW.
+   */
+  struct {
+    const void *mappingInfo;
+  } SpecialInfo;
+
+  /*
+   * Timing:
+   * The following substructure contains information regarding
+   * the timing information for the model.
+   */
+  struct {
+    time_T taskTime0;
+    uint32_T clockTick0;
+    time_T stepSize0;
+    time_T tFinal;
+    boolean_T stopRequestedFlag;
+  } Timing;
 };
 
 /* Block parameters (auto storage) */
 extern P_gm_mpu6050_interface_T gm_mpu6050_interface_P;
+
+/* Block signals (auto storage) */
+extern B_gm_mpu6050_interface_T gm_mpu6050_interface_B;
 
 /* Block states (auto storage) */
 extern DW_gm_mpu6050_interface_T gm_mpu6050_interface_DW;
@@ -134,19 +217,18 @@ extern RT_MODEL_gm_mpu6050_interface_T *const gm_mpu6050_interface_M;
  *
  * '<Root>' : 'gm_mpu6050_interface'
  * '<S1>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP'
- * '<S2>'   : 'gm_mpu6050_interface/MATLAB Function'
- * '<S3>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead'
- * '<S4>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteWrite'
- * '<S5>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelX'
- * '<S6>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelY'
- * '<S7>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelZ'
- * '<S8>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroX'
- * '<S9>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroY'
- * '<S10>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroZ'
- * '<S11>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_RegData'
- * '<S12>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_deviceID'
- * '<S13>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_validout'
- * '<S14>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteWrite/AXI4Lite_Write_RegAddr'
+ * '<S2>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead'
+ * '<S3>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteWrite'
+ * '<S4>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelX'
+ * '<S5>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelY'
+ * '<S6>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_AccelZ'
+ * '<S7>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroX'
+ * '<S8>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroY'
+ * '<S9>'   : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_GyroZ'
+ * '<S10>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_RegData'
+ * '<S11>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_deviceID'
+ * '<S12>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_validout'
+ * '<S13>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteWrite/AXI4Lite_Write_RegAddr'
  */
 #endif                                 /* RTW_HEADER_gm_mpu6050_interface_h_ */
 

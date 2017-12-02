@@ -34,7 +34,7 @@ foreach family $Families {append IPSupportedFamily "{$family} {Production} "}
 set_property supported_families $IPSupportedFamily [ipx::current_core]
 set_property taxonomy {{/HDL Coder Generated IP}} [ipx::current_core]
 set_property description {HDL Coder generated IP} [ipx::current_core]
-set_property core_revision 1712011708 [ipx::current_core]
+set_property core_revision 1712011855 [ipx::current_core]
 
 # Add HDL source files to IP
 ipx::add_file {hdl/vhdl/i2c_bidir.vhd} [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]
