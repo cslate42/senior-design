@@ -158,8 +158,6 @@ proc create_root_design { parentCell } {
   set FIXED_IO [ create_bd_intf_port -mode Master -vlnv xilinx.com:display_processing_system7:fixedio_rtl:1.0 FIXED_IO ]
 
   # Create ports
-  set DIPSwitches [ create_bd_port -dir I -from 7 -to 0 DIPSwitches ]
-  set GPLEDs [ create_bd_port -dir O -from 7 -to 0 GPLEDs ]
   set SCL [ create_bd_port -dir O -from 0 -to 0 SCL ]
   set SDA [ create_bd_port -dir IO -from 0 -to 0 SDA ]
 
@@ -1276,10 +1274,8 @@ CONFIG.PCW_WDT_WDT_IO.VALUE_SRC {DEFAULT} \
   connect_bd_intf_net -intf_net processing_system7_0_M_AXI_GP0 [get_bd_intf_pins axi_interconnect_0/S00_AXI] [get_bd_intf_pins processing_system7_0/M_AXI_GP0]
 
   # Create port connections
-  connect_bd_net -net ADXL345_ip_0_GPLEDs [get_bd_ports GPLEDs] [get_bd_pins ADXL345_ip_0/GPLEDs]
   connect_bd_net -net ADXL345_ip_0_SCL [get_bd_ports SCL] [get_bd_pins ADXL345_ip_0/SCL]
   connect_bd_net -net ARESETN_1 [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins proc_sys_reset_0/interconnect_aresetn]
-  connect_bd_net -net DIPSwitches_1 [get_bd_ports DIPSwitches] [get_bd_pins ADXL345_ip_0/DIPSwitches]
   connect_bd_net -net Net [get_bd_ports SDA] [get_bd_pins ADXL345_ip_0/SDA]
   connect_bd_net -net S00_ARESETN_1 [get_bd_pins ADXL345_ip_0/AXI4_Lite_ARESETN] [get_bd_pins ADXL345_ip_0/IPCORE_RESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
   connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins ADXL345_ip_0/AXI4_Lite_ACLK] [get_bd_pins ADXL345_ip_0/IPCORE_CLK] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK]

@@ -6,7 +6,6 @@ add_files -norecurse {../hdl/vhdl/i2c_bidir.vhd}
 add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_I2C_MPU6050_IP_pkg.vhd}
 add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_i2c_mstr.vhd}
 add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd}
-add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd}
 add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_MPU6050_Interface.vhd}
 add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_I2C_MPU6050_IP_tc.vhd}
 add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_I2C_MPU6050_IP.vhd}
@@ -34,7 +33,7 @@ foreach family $Families {append IPSupportedFamily "{$family} {Production} "}
 set_property supported_families $IPSupportedFamily [ipx::current_core]
 set_property taxonomy {{/HDL Coder Generated IP}} [ipx::current_core]
 set_property description {HDL Coder generated IP} [ipx::current_core]
-set_property core_revision 1712032132 [ipx::current_core]
+set_property core_revision 1712040024 [ipx::current_core]
 
 # Add HDL source files to IP
 ipx::add_file {hdl/vhdl/i2c_bidir.vhd} [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]
@@ -53,10 +52,6 @@ ipx::add_file {hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd} [ipx::get_file_
 set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]]
 ipx::add_file {hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd} [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]
 set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]]
-ipx::add_file {hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd} [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]
-set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]]
-ipx::add_file {hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd} [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]
-set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]]
 ipx::add_file {hdl/vhdl/ADXL345_ip_src_MPU6050_Interface.vhd} [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]
 set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_MPU6050_Interface.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]]
 ipx::add_file {hdl/vhdl/ADXL345_ip_src_MPU6050_Interface.vhd} [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]

@@ -6,9 +6,15 @@
  *
  * Code generated for Simulink model 'gm_mpu6050_interface'.
  *
+<<<<<<< HEAD
+ * Model version                  : 1.170
+ * Simulink Coder version         : 8.12 (R2017a) 16-Feb-2017
+ * C/C++ source code generated on : Wed Nov 29 14:17:28 2017
+=======
  * Model version                  : 1.279
  * Simulink Coder version         : 8.12 (R2017a) 16-Feb-2017
  * C/C++ source code generated on : Fri Dec 01 18:35:53 2017
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -18,8 +24,13 @@
 
 #ifndef RTW_HEADER_gm_mpu6050_interface_h_
 #define RTW_HEADER_gm_mpu6050_interface_h_
+<<<<<<< HEAD
+#include <float.h>
+#include <string.h>
+=======
 #include <string.h>
 #include <float.h>
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 #include <stddef.h>
 #ifndef gm_mpu6050_interface_COMMON_INCLUDES_
 # define gm_mpu6050_interface_COMMON_INCLUDES_
@@ -89,6 +100,18 @@ typedef struct {
 /* Block states (auto storage) for system '<Root>' */
 typedef struct {
   zynq_AXIRead_gm_mpu6050_inter_T obj; /* '<S12>/AXI4-Interface Read' */
+<<<<<<< HEAD
+  zynq_AXIRead_gm_mpu6050_inter_T obj_f;/* '<S11>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_d;/* '<S10>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_c;/* '<S9>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_i;/* '<S8>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_g;/* '<S7>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_fo;/* '<S6>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_n;/* '<S5>/AXI4-Interface Read' */
+  zynq_AXIRead_gm_mpu6050_inter_T obj_a;/* '<S4>/AXI4-Interface Read' */
+  zynq_AXIWrite_gm_mpu6050_inte_T obj_aq;/* '<S14>/AXI4-Interface Write' */
+  zynq_AXIWrite_gm_mpu6050_inte_T obj_p;/* '<S13>/AXI4-Interface Write' */
+=======
   zynq_AXIRead_gm_mpu6050_inter_T obj_k;/* '<S11>/AXI4-Interface Read' */
   zynq_AXIRead_gm_mpu6050_inter_T obj_f;/* '<S10>/AXI4-Interface Read' */
   zynq_AXIRead_gm_mpu6050_inter_T obj_c;/* '<S9>/AXI4-Interface Read' */
@@ -98,6 +121,7 @@ typedef struct {
   zynq_AXIRead_gm_mpu6050_inter_T obj_hs;/* '<S5>/AXI4-Interface Read' */
   zynq_AXIRead_gm_mpu6050_inter_T obj_bm;/* '<S4>/AXI4-Interface Read' */
   zynq_AXIWrite_gm_mpu6050_inte_T obj_a;/* '<S13>/AXI4-Interface Write' */
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
   struct {
     void *LoggedData[2];
   } Scope_PWORK;                       /* '<Root>/Scope' */
@@ -106,6 +130,21 @@ typedef struct {
     void *LoggedData[2];
   } Scope1_PWORK;                      /* '<Root>/Scope1' */
 
+<<<<<<< HEAD
+  void *AXI4InterfaceWrite_PWORK;      /* '<S14>/AXI4-Interface Write' */
+  void *AXI4InterfaceWrite_PWORK_i;    /* '<S13>/AXI4-Interface Write' */
+  void *AXI4InterfaceRead_PWORK;       /* '<S12>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_c;     /* '<S11>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_n;     /* '<S10>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_no;    /* '<S9>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_o;     /* '<S8>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_p;     /* '<S7>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_ns;    /* '<S6>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_j;     /* '<S5>/AXI4-Interface Read' */
+  void *AXI4InterfaceRead_PWORK_f;     /* '<S4>/AXI4-Interface Read' */
+} DW_gm_mpu6050_interface_T;
+
+=======
   void *AXI4InterfaceWrite_PWORK;      /* '<S13>/AXI4-Interface Write' */
   void *AXI4InterfaceRead_PWORK;       /* '<S12>/AXI4-Interface Read' */
   void *AXI4InterfaceRead_PWORK_d;     /* '<S11>/AXI4-Interface Read' */
@@ -125,6 +164,7 @@ typedef struct {
   boolean_T tmp1;                      /* '<Root>/tmp1' */
 } ExtU_gm_mpu6050_interface_T;
 
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 /* External outputs (root outports fed by signals with auto storage) */
 typedef struct {
   boolean_T SCL;                       /* '<Root>/SCL' */
@@ -138,6 +178,18 @@ struct P_gm_mpu6050_interface_T_ {
   uint8_T Constant2_Value;             /* Computed Parameter: Constant2_Value
                                         * Referenced by: '<Root>/Constant2'
                                         */
+<<<<<<< HEAD
+  uint8_T ManualSwitch_CurrentSetting; /* Computed Parameter: ManualSwitch_CurrentSetting
+                                        * Referenced by: '<Root>/Manual Switch'
+                                        */
+  boolean_T Constant_Value;            /* Computed Parameter: Constant_Value
+                                        * Referenced by: '<Root>/Constant'
+                                        */
+  boolean_T Constant1_Value;           /* Computed Parameter: Constant1_Value
+                                        * Referenced by: '<Root>/Constant1'
+                                        */
+=======
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 };
 
 /* Real-time Model Data Structure */
@@ -187,9 +239,12 @@ extern B_gm_mpu6050_interface_T gm_mpu6050_interface_B;
 /* Block states (auto storage) */
 extern DW_gm_mpu6050_interface_T gm_mpu6050_interface_DW;
 
+<<<<<<< HEAD
+=======
 /* External inputs (root inport signals with auto storage) */
 extern ExtU_gm_mpu6050_interface_T gm_mpu6050_interface_U;
 
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 /* External outputs (root outports fed by signals with auto storage) */
 extern ExtY_gm_mpu6050_interface_T gm_mpu6050_interface_Y;
 
@@ -228,7 +283,12 @@ extern RT_MODEL_gm_mpu6050_interface_T *const gm_mpu6050_interface_M;
  * '<S10>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_RegData'
  * '<S11>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_deviceID'
  * '<S12>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteRead/AXI4Lite_Read_validout'
+<<<<<<< HEAD
+ * '<S13>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteWrite/AXI4Lite_Write_ConfigDevice'
+ * '<S14>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteWrite/AXI4Lite_Write_RegAddr'
+=======
  * '<S13>'  : 'gm_mpu6050_interface/I2C_MPU6050_IP/AXI4LiteWrite/AXI4Lite_Write_RegAddr'
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
  */
 #endif                                 /* RTW_HEADER_gm_mpu6050_interface_h_ */
 

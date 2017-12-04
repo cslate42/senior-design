@@ -11,6 +11,19 @@ this.def["baseRateTask"] = {file: "ert_main_c.html",line:40,type:"fcn"};
 this.def["exitFcn"] = {file: "ert_main_c.html",line:84,type:"fcn"};
 this.def["terminateTask"] = {file: "ert_main_c.html",line:90,type:"fcn"};
 this.def["main"] = {file: "ert_main_c.html",line:109,type:"fcn"};
+<<<<<<< HEAD
+this.def["gm_mpu6050_interface_B"] = {file: "gm_mpu6050_interface_c.html",line:39,type:"var"};
+this.def["gm_mpu6050_interface_DW"] = {file: "gm_mpu6050_interface_c.html",line:42,type:"var"};
+this.def["gm_mpu6050_interface_Y"] = {file: "gm_mpu6050_interface_c.html",line:45,type:"var"};
+this.def["gm_mpu6050_interface_M_"] = {file: "gm_mpu6050_interface_c.html",line:48,type:"var"};
+this.def["gm_mpu6050_interface_M"] = {file: "gm_mpu6050_interface_c.html",line:49,type:"var"};
+this.def["gm_mpu6050_interface_step"] = {file: "gm_mpu6050_interface_c.html",line:53,type:"fcn"};
+this.def["gm_mpu6050_interface_initialize"] = {file: "gm_mpu6050_interface_c.html",line:259,type:"fcn"};
+this.def["gm_mpu6050_interface_terminate"] = {file: "gm_mpu6050_interface_c.html",line:496,type:"fcn"};
+this.def["B_gm_mpu6050_interface_T"] = {file: "gm_mpu6050_interface_h.html",line:87,type:"type"};
+this.def["DW_gm_mpu6050_interface_T"] = {file: "gm_mpu6050_interface_h.html",line:121,type:"type"};
+this.def["ExtY_gm_mpu6050_interface_T"] = {file: "gm_mpu6050_interface_h.html",line:129,type:"type"};
+=======
 this.def["gm_mpu6050_interface_B"] = {file: "gm_mpu6050_interface_c.html",line:38,type:"var"};
 this.def["gm_mpu6050_interface_DW"] = {file: "gm_mpu6050_interface_c.html",line:41,type:"var"};
 this.def["gm_mpu6050_interface_U"] = {file: "gm_mpu6050_interface_c.html",line:44,type:"var"};
@@ -24,6 +37,7 @@ this.def["B_gm_mpu6050_interface_T"] = {file: "gm_mpu6050_interface_h.html",line
 this.def["DW_gm_mpu6050_interface_T"] = {file: "gm_mpu6050_interface_h.html",line:119,type:"type"};
 this.def["ExtU_gm_mpu6050_interface_T"] = {file: "gm_mpu6050_interface_h.html",line:126,type:"type"};
 this.def["ExtY_gm_mpu6050_interface_T"] = {file: "gm_mpu6050_interface_h.html",line:134,type:"type"};
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 this.def["zynq_AXIRead_gm_mpu6050_inter_T"] = {file: "gm_mpu6050_interface_types_h.html",line:29,type:"type"};
 this.def["zynq_AXIWrite_gm_mpu6050_inte_T"] = {file: "gm_mpu6050_interface_types_h.html",line:39,type:"type"};
 this.def["struct_T_gm_mpu6050_interface_T"] = {file: "gm_mpu6050_interface_types_h.html",line:48,type:"type"};
@@ -69,7 +83,11 @@ this.def["rtDataTypeNames"] = {file: "gm_mpu6050_interface_dt_h.html",line:42,ty
 this.def["rtBTransitions"] = {file: "gm_mpu6050_interface_dt_h.html",line:62,type:"var"};
 this.def["rtBTransTable"] = {file: "gm_mpu6050_interface_dt_h.html",line:78,type:"var"};
 this.def["rtPTransitions"] = {file: "gm_mpu6050_interface_dt_h.html",line:84,type:"var"};
+<<<<<<< HEAD
+this.def["rtPTransTable"] = {file: "gm_mpu6050_interface_dt_h.html",line:91,type:"var"};
+=======
 this.def["rtPTransTable"] = {file: "gm_mpu6050_interface_dt_h.html",line:89,type:"var"};
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 this.def["UD"] = {file: "barplot_c.html",line:44,type:"type"};
 this.def["mdlCheckParameters"] = {file: "barplot_c.html",line:57,type:"fcn"};
 this.def["mdlInitializeSizes"] = {file: "barplot_c.html",line:99,type:"fcn"};

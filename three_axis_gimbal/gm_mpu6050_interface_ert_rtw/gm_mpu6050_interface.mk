@@ -2,7 +2,11 @@
 ## Makefile generated for Simulink model 'gm_mpu6050_interface'. 
 ## 
 ## Makefile     : gm_mpu6050_interface.mk
+<<<<<<< HEAD
+## Generated on : Wed Nov 29 14:17:37 2017
+=======
 ## Generated on : Fri Dec 01 18:36:00 2017
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 ## MATLAB Coder version: 3.3 (R2017a)
 ## 
 ## Build Info:
@@ -29,7 +33,11 @@ MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2017a
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2017a/bin
 MATLAB_ARCH_BIN           = C:/PROGRA~1/MATLAB/R2017a/bin/win64
 MASTER_ANCHOR_DIR         = 
+<<<<<<< HEAD
+START_DIR                 = C:/MATLAB/senior-design/three_axis_gimbal
+=======
 START_DIR                 = F:/MATLAB/three_axis_gimbal
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 ARCH                      = win64
 SOLVER                    = 
 SOLVER_OBJ                = 

@@ -6,9 +6,15 @@
  *
  * Code generation for model "gm_mpu6050_interface".
  *
+<<<<<<< HEAD
+ * Model version              : 1.170
+ * Simulink Coder version : 8.12 (R2017a) 16-Feb-2017
+ * C source code generated on : Wed Nov 29 14:17:28 2017
+=======
  * Model version              : 1.279
  * Simulink Coder version : 8.12 (R2017a) 16-Feb-2017
  * C source code generated on : Fri Dec 01 18:35:53 2017
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -69,9 +75,15 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&gm_mpu6050_interface_DW.obj), 14, 0, 9 },
 
+<<<<<<< HEAD
+  { (char_T *)(&gm_mpu6050_interface_DW.obj_aq), 15, 0, 2 },
+
+  { (char_T *)(&gm_mpu6050_interface_DW.Scope_PWORK.LoggedData[0]), 11, 0, 15 }
+=======
   { (char_T *)(&gm_mpu6050_interface_DW.obj_a), 15, 0, 1 },
 
   { (char_T *)(&gm_mpu6050_interface_DW.Scope_PWORK.LoggedData[0]), 11, 0, 14 }
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 };
 
 /* data type transition table for block I/O structure */
@@ -82,12 +94,22 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
+<<<<<<< HEAD
+  { (char_T *)(&gm_mpu6050_interface_P.Constant2_Value), 3, 0, 2 },
+
+  { (char_T *)(&gm_mpu6050_interface_P.Constant_Value), 8, 0, 2 }
+=======
   { (char_T *)(&gm_mpu6050_interface_P.Constant2_Value), 3, 0, 1 }
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 };
 
 /* data type transition table for Parameters structure */
 static DataTypeTransitionTable rtPTransTable = {
+<<<<<<< HEAD
+  2U,
+=======
   1U,
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
   rtPTransitions
 };
 

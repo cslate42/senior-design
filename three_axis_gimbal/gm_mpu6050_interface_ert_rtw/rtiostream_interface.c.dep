@@ -1,7 +1,11 @@
 rtiostream_interface.c.o: \
  C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/ext_mode/common/rtiostream_interface.c \
  C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/ext_mode/common/updown_util.h \
+<<<<<<< HEAD
+ C:/MATLAB/senior-design/three_axis_gimbal/gm_mpu6050_interface_ert_rtw/rtwtypes.h \
+=======
  F:/MATLAB/three_axis_gimbal/gm_mpu6050_interface_ert_rtw/rtwtypes.h \
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
  C:/PROGRA~1/MATLAB/R2017a/simulink/include/rtw_extmode.h \
  C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/rtiostream.h \
  C:/PROGRA~1/MATLAB/R2017a/toolbox/coder/rtiostream/src/utils/rtiostream_utils.h \
@@ -10,7 +14,11 @@ rtiostream_interface.c.o: \
 
 C:/PROGRA~1/MATLAB/R2017a/rtw/c/src/ext_mode/common/updown_util.h:
 
+<<<<<<< HEAD
+C:/MATLAB/senior-design/three_axis_gimbal/gm_mpu6050_interface_ert_rtw/rtwtypes.h:
+=======
 F:/MATLAB/three_axis_gimbal/gm_mpu6050_interface_ert_rtw/rtwtypes.h:
+>>>>>>> 4c498d00033ba8e3c1028dad581483e8536e1362
 
 C:/PROGRA~1/MATLAB/R2017a/simulink/include/rtw_extmode.h:
 

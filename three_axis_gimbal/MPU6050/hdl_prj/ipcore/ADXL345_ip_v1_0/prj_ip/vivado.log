@@ -2,8 +2,8 @@
 # Vivado v2016.2 (64-bit)
 # SW Build 1577090 on Thu Jun  2 16:32:40 MDT 2016
 # IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
-# Start of session at: Sun Dec 03 21:32:51 2017
-# Process ID: 4740
+# Start of session at: Mon Dec 04 00:24:08 2017
+# Process ID: 7260
 # Current directory: F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/ipcore/ADXL345_ip_v1_0/prj_ip
 # Command line: vivado.exe -mode batch -source vivado_ip_package.tcl
 # Log file: F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/ipcore/ADXL345_ip_v1_0/prj_ip/vivado.log
@@ -16,7 +16,6 @@ source vivado_ip_package.tcl
 # add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_I2C_MPU6050_IP_pkg.vhd}
 # add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_i2c_mstr.vhd}
 # add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd}
-# add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd}
 # add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_MPU6050_Interface.vhd}
 # add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_I2C_MPU6050_IP_tc.vhd}
 # add_files -norecurse {../hdl/vhdl/ADXL345_ip_src_I2C_MPU6050_IP.vhd}
@@ -54,7 +53,7 @@ INFO: [IP_Flow 19-4728] Bus Interface 'IPCORE_CLK': Added interface parameter 'A
 # set_property supported_families $IPSupportedFamily [ipx::current_core]
 # set_property taxonomy {{/HDL Coder Generated IP}} [ipx::current_core]
 # set_property description {HDL Coder generated IP} [ipx::current_core]
-# set_property core_revision 1712032132 [ipx::current_core]
+# set_property core_revision 1712040024 [ipx::current_core]
 # ipx::add_file {hdl/vhdl/i2c_bidir.vhd} [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]
 WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/i2c_bidir.vhd" already exists in file group "xilinx_anylanguagesynthesis", cannot add it again.
 # set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/i2c_bidir.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]]
@@ -79,12 +78,6 @@ WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/ADXL345_ip_src_I2C_MasterControl
 # ipx::add_file {hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd} [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]
 WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd" already exists in file group "xilinx_anylanguagebehavioralsimulation", cannot add it again.
 # set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_I2C_MasterController.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]]
-# ipx::add_file {hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd} [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]
-WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd" already exists in file group "xilinx_anylanguagesynthesis", cannot add it again.
-# set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]]
-# ipx::add_file {hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd} [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]
-WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd" already exists in file group "xilinx_anylanguagebehavioralsimulation", cannot add it again.
-# set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_MATLAB_Function.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects [ipx::current_core]]]
 # ipx::add_file {hdl/vhdl/ADXL345_ip_src_MPU6050_Interface.vhd} [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]
 WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/ADXL345_ip_src_MPU6050_Interface.vhd" already exists in file group "xilinx_anylanguagesynthesis", cannot add it again.
 # set_property type {{vhdlSource}} [ipx::get_files {hdl/vhdl/ADXL345_ip_src_MPU6050_Interface.vhd} -of_objects [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects [ipx::current_core]]]
@@ -227,6 +220,6 @@ WARNING: [IP_Flow 19-1971] File named "hdl/vhdl/ADXL345_ip.vhd" already exists i
     ** Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 
 source F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/ipcore/ADXL345_ip_v1_0/prj_ip/prj_ip.hw/webtalk/labtool_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Sun Dec 03 21:33:08 2017...
+INFO: [Common 17-206] Exiting Webtalk at Mon Dec 04 00:24:23 2017...
 # exit
-INFO: [Common 17-206] Exiting Vivado at Sun Dec 03 21:33:08 2017...
+INFO: [Common 17-206] Exiting Vivado at Mon Dec 04 00:24:23 2017...

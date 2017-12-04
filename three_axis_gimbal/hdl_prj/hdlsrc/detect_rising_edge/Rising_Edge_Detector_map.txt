@@ -1,2 +1,0 @@
-detect_rising_edge/Rising Edge Detector/Detect Rise Positive --> Detect_Rise_Positive
-detect_rising_edge/Rising Edge Detector --> Rising_Edge_Detector

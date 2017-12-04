@@ -5,7 +5,7 @@ High-level Resource Utilization Report for mpu6050_working
 </title>
 
 </head>
-<body bgcolor="#ffffff" link="0033CC" vlink="#666666" onload="try {if (top) {if (top.rtwPageOnLoad) top.rtwPageOnLoad('rtwIdBillOfMaterials'); else local_onload();}} catch(err) {};hdlTableShrink(this, 'Register_1_1');hdlTableShrink(this, 'Input_Port');hdlTableShrink(this, 'Output_Port');hdlTableShrink(this, 'Register_4_1');hdlTableShrink(this, 'Register_4_2');">
+<body bgcolor="#ffffff" link="0033CC" vlink="#666666" onload="try {if (top) {if (top.rtwPageOnLoad) top.rtwPageOnLoad('rtwIdBillOfMaterials'); else local_onload();}} catch(err) {};hdlTableShrink(this, 'Input_Port');hdlTableShrink(this, 'Output_Port');hdlTableShrink(this, 'Register_3_1');hdlTableShrink(this, 'Register_3_2');">
 <script>
 <!--
 function hdlTableShrink(o,tagNameStr)
@@ -170,7 +170,7 @@ Adders/Subtractors
 Registers
 </td>
 <td align="center" valign="top" style="border-style: none">
-57
+39
 </td>
 
 </tr>
@@ -179,7 +179,7 @@ Registers
 Total 1-Bit Registers
 </td>
 <td align="center" valign="top" style="border-style: none">
-267
+242
 </td>
 
 </tr>
@@ -197,7 +197,7 @@ RAMs
 Multiplexers
 </td>
 <td align="center" valign="top" style="border-style: none">
-59
+42
 </td>
 
 </tr>
@@ -206,7 +206,7 @@ Multiplexers
 I/O Bits
 </td>
 <td align="center" valign="top" style="border-style: none">
-140
+131
 </td>
 
 </tr>
@@ -246,40 +246,13 @@ I2C_MPU6050_IP
 
 </h5>
 <h5>
-Registers (9)
-</h5>
-<span name="collapsible" id="collapsible" style="font-family:monospace" onclick="hdlTableShrink(this, 'Register_1_1')" onmouseover="this.style.cursor = 'pointer'">
-[+]
-</span>
-<span style="font-family:monospace">
-1-bit Register 							: 9
-</span>
-<span name="Register_1_1" id="Register_1_1">
-<ul>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:179')" name="code2model" class="code2model">
-Unit Delay
-</a>
-
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:180')" name="code2model" class="code2model">
-Unit Delay1
-</a>
-
-</li>
-
-</ul>
-
-</span>
-<br /><h5>
-Number of I/O Bits (140)
+Number of I/O Bits (131)
 </h5>
 <span name="collapsible" id="collapsible" style="font-family:monospace" onclick="hdlTableShrink(this, 'Input_Port')" onmouseover="this.style.cursor = 'pointer'">
 [+]
 </span>
 <span style="font-family:monospace">
-Number of Input Bits: 14
+Number of Input Bits: 12
 </span>
 <span name="Input_Port" id="Input_Port">
 <ul>
@@ -304,18 +277,6 @@ ConfigDevice
 </a>
 : 1 bit
 </li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:190')" name="code2model" class="code2model">
-updateSw0
-</a>
-: 1 bit
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:191')" name="code2model" class="code2model">
-modeSw1
-</a>
-: 1 bit
-</li>
 
 </ul>
 
@@ -324,10 +285,10 @@ modeSw1
 [+]
 </span>
 <span style="font-family:monospace">
-Number of Output Bits: 126
+Number of Output Bits: 119
 </span>
 <span name="Output_Port" id="Output_Port">
-<ul class="SystemdefinedCollapse" id="565c87e6-d3fb-4454-8946-efe4a6977241" dataCollapse="off">
+<ul class="SystemdefinedCollapse" id="f2cdfb78-13e0-4921-b5da-5a9eabceaf5a" dataCollapse="off">
 <li>
 ce_out: 1 bit
 </li>
@@ -410,56 +371,14 @@ GyroZ
 : 16 bits
 </li>
 <li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:170')" name="code2model" class="code2model">
-led0
-</a>
-: 1 bit
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:183')" name="code2model" class="code2model">
-led1
-</a>
-: 1 bit
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:184')" name="code2model" class="code2model">
-led2
-</a>
-: 1 bit
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:185')" name="code2model" class="code2model">
-led3
-</a>
-: 1 bit
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:186')" name="code2model" class="code2model">
-led4
-</a>
-: 1 bit
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:187')" name="code2model" class="code2model">
-led5
-</a>
-: 1 bit
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:188')" name="code2model" class="code2model">
-led6
-</a>
-: 1 bit
-</li>
-<li>
-<a href="matlab:Simulink.ID.hilite('mpu6050_working:189')" name="code2model" class="code2model">
-led7
+<a href="matlab:Simulink.ID.hilite('mpu6050_working:246')" name="code2model" class="code2model">
+isDeviceSetup
 </a>
 : 1 bit
 </li>
 
 </ul>
-<span class="SDCollapseControl" onclick="collapseSD(this, '565c87e6-d3fb-4454-8946-efe4a6977241')" onmouseover="this.style.cursor = 'pointer'">
+<span class="SDCollapseControl" onclick="collapseSD(this, 'f2cdfb78-13e0-4921-b5da-5a9eabceaf5a')" onmouseover="this.style.cursor = 'pointer'">
 &#8743; Less
 </span>
 <br />
@@ -477,7 +396,7 @@ Adders/Subtractors (2)
 33x33-bit Adder 							: 2
 </span>
 <br /><h5>
-Registers (29)
+Registers (20)
 </h5>
 <span style="font-family:monospace">
 7-bit Register 							: 1
@@ -486,16 +405,16 @@ Registers (29)
 32-bit Register 							: 1
 </span>
 <br /><span style="font-family:monospace">
-8-bit Register 							: 7
+8-bit Register 							: 6
 </span>
 <br /><span style="font-family:monospace">
-1-bit Register 							: 14
+1-bit Register 							: 6
 </span>
 <br /><span style="font-family:monospace">
 16-bit Register 							: 6
 </span>
 <br /><h5>
-Multiplexers (28)
+Multiplexers (20)
 </h5>
 <span style="font-family:monospace">
 8-bit 2-to-1 Multiplexer 							: 3
@@ -513,7 +432,7 @@ Multiplexers (28)
 32-bit 27-to-1 Multiplexer 							: 1
 </span>
 <br /><span style="font-family:monospace">
-1-bit 3-to-1 Multiplexer 							: 2
+1-bit 3-to-1 Multiplexer 							: 1
 </span>
 <br /><span style="font-family:monospace">
 8-bit 20-to-1 Multiplexer 							: 1
@@ -522,13 +441,7 @@ Multiplexers (28)
 8-bit 5-to-1 Multiplexer 							: 1
 </span>
 <br /><span style="font-family:monospace">
-8-bit 17-to-1 Multiplexer 							: 1
-</span>
-<br /><span style="font-family:monospace">
-1-bit 2-to-1 Multiplexer 							: 7
-</span>
-<br /><span style="font-family:monospace">
-1-bit 4-to-1 Multiplexer 							: 1
+1-bit 2-to-1 Multiplexer 							: 2
 </span>
 <br /><span style="font-family:monospace">
 8-bit 7-to-1 Multiplexer 							: 1
@@ -543,21 +456,6 @@ Number of Shift operators (6)
 Static Shift Left 							: 6
 </span>
 <br /><p><hr /></p><h5>
-Report for User-defined block:    <a href="matlab:Simulink.ID.hilite('mpu6050_working:178')" name="code2model" class="code2model">
-MATLAB Function
-</a>
-
-</h5>
-<h5>
-Multiplexers (9)
-</h5>
-<span style="font-family:monospace">
-1-bit 40-to-1 Multiplexer 							: 8
-</span>
-<br /><span style="font-family:monospace">
-1-bit 2-to-1 Multiplexer 							: 1
-</span>
-<br /><p><hr /></p><h5>
 Report for Subsystem:    <a href="matlab:Simulink.ID.hilite('mpu6050_working:3')" name="code2model" class="code2model">
 I2C_MasterController
 </a>
@@ -566,13 +464,13 @@ I2C_MasterController
 <h5>
 Registers (7)
 </h5>
-<span name="collapsible" id="collapsible" style="font-family:monospace" onclick="hdlTableShrink(this, 'Register_4_1')" onmouseover="this.style.cursor = 'pointer'">
+<span name="collapsible" id="collapsible" style="font-family:monospace" onclick="hdlTableShrink(this, 'Register_3_1')" onmouseover="this.style.cursor = 'pointer'">
 [+]
 </span>
 <span style="font-family:monospace">
 1-bit Register 							: 6
 </span>
-<span name="Register_4_1" id="Register_4_1">
+<span name="Register_3_1" id="Register_3_1">
 <ul>
 <li>
 <a href="matlab:Simulink.ID.hilite('mpu6050_working:86')" name="code2model" class="code2model">
@@ -614,13 +512,13 @@ mstr_ack_dly
 </ul>
 
 </span>
-<br /><span name="collapsible" id="collapsible" style="font-family:monospace" onclick="hdlTableShrink(this, 'Register_4_2')" onmouseover="this.style.cursor = 'pointer'">
+<br /><span name="collapsible" id="collapsible" style="font-family:monospace" onclick="hdlTableShrink(this, 'Register_3_2')" onmouseover="this.style.cursor = 'pointer'">
 [+]
 </span>
 <span style="font-family:monospace">
 8-bit Register 							: 1
 </span>
-<span name="Register_4_2" id="Register_4_2">
+<span name="Register_3_2" id="Register_3_2">
 <ul>
 <li>
 <a href="matlab:Simulink.ID.hilite('mpu6050_working:65')" name="code2model" class="code2model">

@@ -603,7 +603,7 @@ Simulink version: <font color="#800000">8.9</font>
 </td>
 <td align="right" valign="top">
 <b>
-Model version: <font color="#800000">1.298</font>
+Model version: <font color="#800000">1.304</font>
 </b>
 
 </td>
@@ -618,7 +618,7 @@ System: <font color="#800000">mpu6050_working/I2C_MPU6050_IP</font>
 </td>
 <td align="right" valign="top">
 <b>
-Current run: <font color="#800000">03-Dec-2017 21:33:13</font>
+Current run: <font color="#800000">04-Dec-2017 00:24:36</font>
 </b>
 
 </td>
@@ -2101,7 +2101,7 @@ DADDR_13: 00c0	-CLKOUT6 Register 2
 
 DADDR_12: 1041	-CLKOUT6 Register 1
 DADDR_13: 00c0	-CLKOUT6 Register 2
-create_bd_cell: Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 418.895 ; gain = 107.840
+create_bd_cell: Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 419.777 ; gain = 108.332
 DADDR_08: 128a	-CLKOUT0 Register 1
 DADDR_09: 0000	-CLKOUT0 Register 2
 DADDR_08: 128a	-CLKOUT0 Register 1
@@ -2369,11 +2369,11 @@ Wrote  : &lt;F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_pr
     ** Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 
 source F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.hw/webtalk/labtool_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Sun Dec 03 21:33:56 2017...
+INFO: [Common 17-206] Exiting Webtalk at Mon Dec 04 00:25:18 2017...
 # exit
-INFO: [Common 17-206] Exiting Vivado at Sun Dec 03 21:33:57 2017...
+INFO: [Common 17-206] Exiting Vivado at Mon Dec 04 00:25:19 2017...
 
-Elapsed time is 43.2433 seconds.
+Elapsed time is 43.0602 seconds.
 
 ****** Vivado v2016.2 (64-bit)
   **** SW Build 1577090 on Thu Jun  2 16:32:40 MDT 2016
@@ -2408,21 +2408,17 @@ Successfully read diagram &lt;system_top&gt; from BD file &lt;F:/MATLAB/three_ax
 # create_bd_addr_seg -range 0x10000 -offset 0x400D0000 [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs $HDLCODERIPINST/AXI4_Lite/reg0] SEG_${HDLCODERIPINST}_reg0
 # connect_bd_net -net [get_bd_nets -of_objects [get_bd_pins clk_wiz_0/clk_out1]] [get_bd_pins $HDLCODERIPINST/IPCORE_CLK] [get_bd_pins clk_wiz_0/clk_out1]
 # connect_bd_net -net [get_bd_nets -of_objects [get_bd_pins proc_sys_reset_0/peripheral_aresetn]] [get_bd_pins $HDLCODERIPINST/IPCORE_RESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
-# create_bd_port -dir I -from 7 -to 0 DIPSwitches
-# connect_bd_net [get_bd_ports DIPSwitches] [get_bd_pins $HDLCODERIPINST/DIPSwitches]
 # create_bd_port -dir O -from 0 -to 0 SCL
 # connect_bd_net [get_bd_ports SCL] [get_bd_pins $HDLCODERIPINST/SCL]
 # create_bd_port -dir IO -from 0 -to 0 SDA
 # connect_bd_net [get_bd_ports SDA] [get_bd_pins $HDLCODERIPINST/SDA]
-# create_bd_port -dir O -from 7 -to 0 GPLEDs
-# connect_bd_net [get_bd_ports GPLEDs] [get_bd_pins $HDLCODERIPINST/GPLEDs]
 # make_wrapper -files $BDFILEPATH -top
 INFO: [Ipptcl 7-1463] No Compatible Board Interface found. Board Tab not created in customize GUI
 WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter PCW_M_AXI_GP0_FREQMHZ(10) on '/processing_system7_0' with propagated value(100). Command ignored
 VHDL Output written to : F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/hdl/system_top.vhd
 VHDL Output written to : F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/hdl/system_top_wrapper.vhd
 Wrote  : &lt;F:/MATLAB/three_axis_gimbal/MPU6050/hdl_prj/vivado_ip_prj/vivado_prj.srcs/sources_1/bd/system_top/system_top.bd&gt; 
-make_wrapper: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 514.129 ; gain = 90.395
+make_wrapper: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 514.184 ; gain = 91.641
 # regsub -all "system_top.vhd" [get_files system_top.vhd] "system_top_wrapper.vhd" TOPFILEPATH
 # add_files -norecurse $TOPFILEPATH
 # update_compile_order -fileset sources_1
@@ -2432,9 +2428,9 @@ INFO: [BD 5-320] Validate design is not run, since the design is already validat
 # add_files -fileset constrs_1 -norecurse ADXL345_ip_src_I2C_MPU6050_IP_top.xdc
 # close_project
 # exit
-INFO: [Common 17-206] Exiting Vivado at Sun Dec 03 21:34:19 2017...
+INFO: [Common 17-206] Exiting Vivado at Mon Dec 04 00:25:39 2017...
 
-Elapsed time is 22.0384 seconds.
+Elapsed time is 20.4094 seconds.
 
 
 </pre><!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>

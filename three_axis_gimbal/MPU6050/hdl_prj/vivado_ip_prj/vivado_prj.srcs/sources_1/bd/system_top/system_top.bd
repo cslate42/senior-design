@@ -137,16 +137,6 @@
       </spirit:views>
       <spirit:ports>
         <spirit:port>
-          <spirit:name>DIPSwitches</spirit:name>
-          <spirit:wire>
-            <spirit:direction>in</spirit:direction>
-            <spirit:vector>
-              <spirit:left>7</spirit:left>
-              <spirit:right>0</spirit:right>
-            </spirit:vector>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
           <spirit:name>SCL</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
@@ -162,16 +152,6 @@
             <spirit:direction>inout</spirit:direction>
             <spirit:vector>
               <spirit:left>0</spirit:left>
-              <spirit:right>0</spirit:right>
-            </spirit:vector>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
-          <spirit:name>GPLEDs</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-            <spirit:vector>
-              <spirit:left>7</spirit:left>
               <spirit:right>0</spirit:right>
             </spirit:vector>
           </spirit:wire>
@@ -514,11 +494,6 @@
         <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="ext_reset_in"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>DIPSwitches_1</spirit:name>
-        <spirit:externalPortReference spirit:portRef="DIPSwitches"/>
-        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="DIPSwitches"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>ADXL345_ip_0_SCL</spirit:name>
         <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="SCL"/>
         <spirit:externalPortReference spirit:portRef="SCL"/>
@@ -527,11 +502,6 @@
         <spirit:name>Net</spirit:name>
         <spirit:externalPortReference spirit:portRef="SDA"/>
         <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="SDA"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>ADXL345_ip_0_GPLEDs</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="ADXL345_ip_0" spirit:portRef="GPLEDs"/>
-        <spirit:externalPortReference spirit:portRef="GPLEDs"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>

@@ -47,7 +47,7 @@
 -- DO NOT MODIFY THIS FILE.
 
 -- IP VLNV: xilinx.com:ip:ADXL345_ip:1.0
--- IP Revision: 1712032132
+-- IP Revision: 1712040024
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
@@ -57,7 +57,6 @@ ENTITY system_top_ADXL345_ip_0_0 IS
   PORT (
     IPCORE_CLK : IN STD_LOGIC;
     IPCORE_RESETN : IN STD_LOGIC;
-    DIPSwitches : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     AXI4_Lite_ACLK : IN STD_LOGIC;
     AXI4_Lite_ARESETN : IN STD_LOGIC;
     AXI4_Lite_AWADDR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -71,7 +70,6 @@ ENTITY system_top_ADXL345_ip_0_0 IS
     AXI4_Lite_RREADY : IN STD_LOGIC;
     SCL : OUT STD_LOGIC;
     SDA : INOUT STD_LOGIC;
-    GPLEDs : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     AXI4_Lite_AWREADY : OUT STD_LOGIC;
     AXI4_Lite_WREADY : OUT STD_LOGIC;
     AXI4_Lite_BRESP : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -90,7 +88,6 @@ ARCHITECTURE system_top_ADXL345_ip_0_0_arch OF system_top_ADXL345_ip_0_0 IS
     PORT (
       IPCORE_CLK : IN STD_LOGIC;
       IPCORE_RESETN : IN STD_LOGIC;
-      DIPSwitches : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       AXI4_Lite_ACLK : IN STD_LOGIC;
       AXI4_Lite_ARESETN : IN STD_LOGIC;
       AXI4_Lite_AWADDR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -104,7 +101,6 @@ ARCHITECTURE system_top_ADXL345_ip_0_0_arch OF system_top_ADXL345_ip_0_0 IS
       AXI4_Lite_RREADY : IN STD_LOGIC;
       SCL : OUT STD_LOGIC;
       SDA : INOUT STD_LOGIC;
-      GPLEDs : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
       AXI4_Lite_AWREADY : OUT STD_LOGIC;
       AXI4_Lite_WREADY : OUT STD_LOGIC;
       AXI4_Lite_BRESP : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -120,7 +116,7 @@ ARCHITECTURE system_top_ADXL345_ip_0_0_arch OF system_top_ADXL345_ip_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF system_top_ADXL345_ip_0_0_arch : ARCHITECTURE IS "system_top_ADXL345_ip_0_0,ADXL345_ip,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF system_top_ADXL345_ip_0_0_arch: ARCHITECTURE IS "system_top_ADXL345_ip_0_0,ADXL345_ip,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=ADXL345_ip,x_ipVersion=1.0,x_ipCoreRevision=1712032132,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED}";
+  ATTRIBUTE CORE_GENERATION_INFO OF system_top_ADXL345_ip_0_0_arch: ARCHITECTURE IS "system_top_ADXL345_ip_0_0,ADXL345_ip,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=ADXL345_ip,x_ipVersion=1.0,x_ipCoreRevision=1712040024,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED}";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_INFO OF IPCORE_CLK: SIGNAL IS "xilinx.com:signal:clock:1.0 IPCORE_CLK CLK";
   ATTRIBUTE X_INTERFACE_INFO OF IPCORE_RESETN: SIGNAL IS "xilinx.com:signal:reset:1.0 IPCORE_RESETN RST";
@@ -148,7 +144,6 @@ BEGIN
     PORT MAP (
       IPCORE_CLK => IPCORE_CLK,
       IPCORE_RESETN => IPCORE_RESETN,
-      DIPSwitches => DIPSwitches,
       AXI4_Lite_ACLK => AXI4_Lite_ACLK,
       AXI4_Lite_ARESETN => AXI4_Lite_ARESETN,
       AXI4_Lite_AWADDR => AXI4_Lite_AWADDR,
@@ -162,7 +157,6 @@ BEGIN
       AXI4_Lite_RREADY => AXI4_Lite_RREADY,
       SCL => SCL,
       SDA => SDA,
-      GPLEDs => GPLEDs,
       AXI4_Lite_AWREADY => AXI4_Lite_AWREADY,
       AXI4_Lite_WREADY => AXI4_Lite_WREADY,
       AXI4_Lite_BRESP => AXI4_Lite_BRESP,

@@ -8,7 +8,7 @@ LD = $(CC)
  
 MODEL     = mpu6050
 TARGET      = sfun
-MODULE_SRCS   = c1_mpu6050.c c2_mpu6050.c c4_mpu6050.c
+MODULE_SRCS   = c2_mpu6050.c c4_mpu6050.c c5_mpu6050.c
 MODEL_SRC  = mpu6050_sfun.c
 MODEL_REG = mpu6050_sfun_registry.c
 MAKEFILE    = mpu6050_sfun.gmk

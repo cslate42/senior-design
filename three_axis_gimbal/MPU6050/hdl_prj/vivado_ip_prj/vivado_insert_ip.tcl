@@ -14,14 +14,10 @@ create_bd_addr_seg -range 0x10000 -offset 0x400D0000 [get_bd_addr_spaces process
 
 connect_bd_net -net [get_bd_nets -of_objects [get_bd_pins clk_wiz_0/clk_out1]] [get_bd_pins $HDLCODERIPINST/IPCORE_CLK] [get_bd_pins clk_wiz_0/clk_out1]
 connect_bd_net -net [get_bd_nets -of_objects [get_bd_pins proc_sys_reset_0/peripheral_aresetn]] [get_bd_pins $HDLCODERIPINST/IPCORE_RESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
-create_bd_port -dir I -from 7 -to 0 DIPSwitches
-connect_bd_net [get_bd_ports DIPSwitches] [get_bd_pins $HDLCODERIPINST/DIPSwitches]
 create_bd_port -dir O -from 0 -to 0 SCL
 connect_bd_net [get_bd_ports SCL] [get_bd_pins $HDLCODERIPINST/SCL]
 create_bd_port -dir IO -from 0 -to 0 SDA
 connect_bd_net [get_bd_ports SDA] [get_bd_pins $HDLCODERIPINST/SDA]
-create_bd_port -dir O -from 7 -to 0 GPLEDs
-connect_bd_net [get_bd_ports GPLEDs] [get_bd_pins $HDLCODERIPINST/GPLEDs]
 make_wrapper -files $BDFILEPATH -top
 regsub -all "system_top.vhd" [get_files system_top.vhd] "system_top_wrapper.vhd" TOPFILEPATH
 add_files -norecurse $TOPFILEPATH

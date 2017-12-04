@@ -2,9 +2,9 @@
 
 #include "mpu6050_sfun.h"
 #include "mpu6050_sfun_debug_macros.h"
-#include "c1_mpu6050.h"
 #include "c2_mpu6050.h"
 #include "c4_mpu6050.h"
+#include "c5_mpu6050.h"
 
 /* Type Definitions */
 
@@ -30,11 +30,6 @@ void mpu6050_terminator(void)
 unsigned int sf_mpu6050_method_dispatcher(SimStruct *simstructPtr, unsigned int
   chartFileNumber, const char* specsCksum, int_T method, void *data)
 {
-  if (chartFileNumber==1) {
-    c1_mpu6050_method_dispatcher(simstructPtr, method, data);
-    return 1;
-  }
-
   if (chartFileNumber==2) {
     c2_mpu6050_method_dispatcher(simstructPtr, method, data);
     return 1;
@@ -42,6 +37,11 @@ unsigned int sf_mpu6050_method_dispatcher(SimStruct *simstructPtr, unsigned int
 
   if (chartFileNumber==4) {
     c4_mpu6050_method_dispatcher(simstructPtr, method, data);
+    return 1;
+  }
+
+  if (chartFileNumber==5) {
+    c5_mpu6050_method_dispatcher(simstructPtr, method, data);
     return 1;
   }
 
@@ -70,13 +70,6 @@ unsigned int sf_mpu6050_process_testpoint_info_call( int nlhs, mxArray * plhs[],
     unsigned int chartFileNumber;
     chartFileNumber = (unsigned int)mxGetScalar(prhs[2]);
     switch (chartFileNumber) {
-     case 1:
-      {
-        extern mxArray *sf_c1_mpu6050_get_testpoint_info(void);
-        plhs[0] = sf_c1_mpu6050_get_testpoint_info();
-        break;
-      }
-
      case 2:
       {
         extern mxArray *sf_c2_mpu6050_get_testpoint_info(void);
@@ -88,6 +81,13 @@ unsigned int sf_mpu6050_process_testpoint_info_call( int nlhs, mxArray * plhs[],
       {
         extern mxArray *sf_c4_mpu6050_get_testpoint_info(void);
         plhs[0] = sf_c4_mpu6050_get_testpoint_info();
+        break;
+      }
+
+     case 5:
+      {
+        extern mxArray *sf_c5_mpu6050_get_testpoint_info(void);
+        plhs[0] = sf_c5_mpu6050_get_testpoint_info();
         break;
       }
 
@@ -136,13 +136,6 @@ unsigned int sf_mpu6050_process_check_sum_call( int nlhs, mxArray * plhs[], int
       unsigned int chartFileNumber;
       chartFileNumber = (unsigned int)mxGetScalar(prhs[2]);
       switch (chartFileNumber) {
-       case 1:
-        {
-          extern void sf_c1_mpu6050_get_check_sum(mxArray *plhs[]);
-          sf_c1_mpu6050_get_check_sum(plhs);
-          break;
-        }
-
        case 2:
         {
           extern void sf_c2_mpu6050_get_check_sum(mxArray *plhs[]);
@@ -154,6 +147,13 @@ unsigned int sf_mpu6050_process_check_sum_call( int nlhs, mxArray * plhs[], int
         {
           extern void sf_c4_mpu6050_get_check_sum(mxArray *plhs[]);
           sf_c4_mpu6050_get_check_sum(plhs);
+          break;
+        }
+
+       case 5:
+        {
+          extern void sf_c5_mpu6050_get_check_sum(mxArray *plhs[]);
+          sf_c5_mpu6050_get_check_sum(plhs);
           break;
         }
 
@@ -211,18 +211,6 @@ unsigned int sf_mpu6050_autoinheritance_info( int nlhs, mxArray * plhs[], int
     unsigned int chartFileNumber;
     chartFileNumber = (unsigned int)mxGetScalar(prhs[1]);
     switch (chartFileNumber) {
-     case 1:
-      {
-        if (strcmp(aiChksum, "s71fEcbgkKWZZLPdO7BTU") == 0) {
-          extern mxArray *sf_c1_mpu6050_get_autoinheritance_info(void);
-          plhs[0] = sf_c1_mpu6050_get_autoinheritance_info();
-          break;
-        }
-
-        plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
-        break;
-      }
-
      case 2:
       {
         if (strcmp(aiChksum, "2TP1HyoU37MbJN8wzR0rCF") == 0) {
@@ -240,6 +228,18 @@ unsigned int sf_mpu6050_autoinheritance_info( int nlhs, mxArray * plhs[], int
         if (strcmp(aiChksum, "ajrkRtU7nUMEe2oUO8MAjG") == 0) {
           extern mxArray *sf_c4_mpu6050_get_autoinheritance_info(void);
           plhs[0] = sf_c4_mpu6050_get_autoinheritance_info();
+          break;
+        }
+
+        plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
+        break;
+      }
+
+     case 5:
+      {
+        if (strcmp(aiChksum, "s71fEcbgkKWZZLPdO7BTU") == 0) {
+          extern mxArray *sf_c5_mpu6050_get_autoinheritance_info(void);
+          plhs[0] = sf_c5_mpu6050_get_autoinheritance_info();
           break;
         }
 
@@ -282,16 +282,6 @@ unsigned int sf_mpu6050_get_eml_resolved_functions_info( int nlhs, mxArray *
     unsigned int chartFileNumber;
     chartFileNumber = (unsigned int)mxGetScalar(prhs[1]);
     switch (chartFileNumber) {
-     case 1:
-      {
-        extern const mxArray *sf_c1_mpu6050_get_eml_resolved_functions_info(void);
-        mxArray *persistentMxArray = (mxArray *)
-          sf_c1_mpu6050_get_eml_resolved_functions_info();
-        plhs[0] = mxDuplicateArray(persistentMxArray);
-        mxDestroyArray(persistentMxArray);
-        break;
-      }
-
      case 2:
       {
         extern const mxArray *sf_c2_mpu6050_get_eml_resolved_functions_info(void);
@@ -307,6 +297,16 @@ unsigned int sf_mpu6050_get_eml_resolved_functions_info( int nlhs, mxArray *
         extern const mxArray *sf_c4_mpu6050_get_eml_resolved_functions_info(void);
         mxArray *persistentMxArray = (mxArray *)
           sf_c4_mpu6050_get_eml_resolved_functions_info();
+        plhs[0] = mxDuplicateArray(persistentMxArray);
+        mxDestroyArray(persistentMxArray);
+        break;
+      }
+
+     case 5:
+      {
+        extern const mxArray *sf_c5_mpu6050_get_eml_resolved_functions_info(void);
+        mxArray *persistentMxArray = (mxArray *)
+          sf_c5_mpu6050_get_eml_resolved_functions_info();
         plhs[0] = mxDuplicateArray(persistentMxArray);
         mxDestroyArray(persistentMxArray);
         break;
@@ -347,15 +347,6 @@ unsigned int sf_mpu6050_third_party_uses_info( int nlhs, mxArray * plhs[], int
     unsigned int chartFileNumber;
     chartFileNumber = (unsigned int)mxGetScalar(prhs[1]);
     switch (chartFileNumber) {
-     case 1:
-      {
-        if (strcmp(tpChksum, "sJxteiJJEyzEgrERCwNxwdC") == 0) {
-          extern mxArray *sf_c1_mpu6050_third_party_uses_info(void);
-          plhs[0] = sf_c1_mpu6050_third_party_uses_info();
-          break;
-        }
-      }
-
      case 2:
       {
         if (strcmp(tpChksum, "skYyxnfK5pXpkOdtBIu4MSF") == 0) {
@@ -370,6 +361,15 @@ unsigned int sf_mpu6050_third_party_uses_info( int nlhs, mxArray * plhs[], int
         if (strcmp(tpChksum, "saF3GFwSNSFegVrf4WyxUhH") == 0) {
           extern mxArray *sf_c4_mpu6050_third_party_uses_info(void);
           plhs[0] = sf_c4_mpu6050_third_party_uses_info();
+          break;
+        }
+      }
+
+     case 5:
+      {
+        if (strcmp(tpChksum, "sf85NVBVLbAIgvYg2cdFqpD") == 0) {
+          extern mxArray *sf_c5_mpu6050_third_party_uses_info(void);
+          plhs[0] = sf_c5_mpu6050_third_party_uses_info();
           break;
         }
       }
@@ -402,15 +402,6 @@ unsigned int sf_mpu6050_jit_fallback_info( int nlhs, mxArray * plhs[], int nrhs,
     unsigned int chartFileNumber;
     chartFileNumber = (unsigned int)mxGetScalar(prhs[1]);
     switch (chartFileNumber) {
-     case 1:
-      {
-        if (strcmp(tpChksum, "sJxteiJJEyzEgrERCwNxwdC") == 0) {
-          extern mxArray *sf_c1_mpu6050_jit_fallback_info(void);
-          plhs[0] = sf_c1_mpu6050_jit_fallback_info();
-          break;
-        }
-      }
-
      case 2:
       {
         if (strcmp(tpChksum, "skYyxnfK5pXpkOdtBIu4MSF") == 0) {
@@ -425,6 +416,15 @@ unsigned int sf_mpu6050_jit_fallback_info( int nlhs, mxArray * plhs[], int nrhs,
         if (strcmp(tpChksum, "saF3GFwSNSFegVrf4WyxUhH") == 0) {
           extern mxArray *sf_c4_mpu6050_jit_fallback_info(void);
           plhs[0] = sf_c4_mpu6050_jit_fallback_info();
+          break;
+        }
+      }
+
+     case 5:
+      {
+        if (strcmp(tpChksum, "sf85NVBVLbAIgvYg2cdFqpD") == 0) {
+          extern mxArray *sf_c5_mpu6050_jit_fallback_info(void);
+          plhs[0] = sf_c5_mpu6050_jit_fallback_info();
           break;
         }
       }
@@ -457,15 +457,6 @@ unsigned int sf_mpu6050_updateBuildInfo_args_info( int nlhs, mxArray * plhs[],
     unsigned int chartFileNumber;
     chartFileNumber = (unsigned int)mxGetScalar(prhs[1]);
     switch (chartFileNumber) {
-     case 1:
-      {
-        if (strcmp(tpChksum, "sJxteiJJEyzEgrERCwNxwdC") == 0) {
-          extern mxArray *sf_c1_mpu6050_updateBuildInfo_args_info(void);
-          plhs[0] = sf_c1_mpu6050_updateBuildInfo_args_info();
-          break;
-        }
-      }
-
      case 2:
       {
         if (strcmp(tpChksum, "skYyxnfK5pXpkOdtBIu4MSF") == 0) {
@@ -480,6 +471,15 @@ unsigned int sf_mpu6050_updateBuildInfo_args_info( int nlhs, mxArray * plhs[],
         if (strcmp(tpChksum, "saF3GFwSNSFegVrf4WyxUhH") == 0) {
           extern mxArray *sf_c4_mpu6050_updateBuildInfo_args_info(void);
           plhs[0] = sf_c4_mpu6050_updateBuildInfo_args_info();
+          break;
+        }
+      }
+
+     case 5:
+      {
+        if (strcmp(tpChksum, "sf85NVBVLbAIgvYg2cdFqpD") == 0) {
+          extern mxArray *sf_c5_mpu6050_updateBuildInfo_args_info(void);
+          plhs[0] = sf_c5_mpu6050_updateBuildInfo_args_info();
           break;
         }
       }

@@ -1,7 +1,7 @@
 mpu6050_sfun.obj
-c1_mpu6050.obj
 c2_mpu6050.obj
 c4_mpu6050.obj
+c5_mpu6050.obj
 mpu6050_sfun_registry.obj
 
 
