@@ -1,7 +1,7 @@
 Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
-| Date         : Sat Dec 02 12:36:00 2017
+| Date         : Sun Dec 03 21:37:38 2017
 | Host         : LAPTOP-BT7NMSMH running 64-bit major release  (build 9200)
 | Command      : report_utilization -file system_top_wrapper_utilization_synth.rpt -pb system_top_wrapper_utilization_synth.pb
 | Design       : system_top_wrapper
@@ -38,7 +38,7 @@ Table of Contents
 | Slice Registers            | 1044 |     0 |    106400 |  0.98 |
 |   Register as Flip Flop    | 1044 |     0 |    106400 |  0.98 |
 |   Register as Latch        |    0 |     0 |    106400 |  0.00 |
-| F7 Muxes                   |   24 |     0 |     26600 |  0.09 |
+| F7 Muxes                   |   30 |     0 |     26600 |  0.11 |
 | F8 Muxes                   |    1 |     0 |     13300 | <0.01 |
 +----------------------------+------+-------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
@@ -149,17 +149,17 @@ Table of Contents
 |  Ref Name  | Used |  Functional Category |
 +------------+------+----------------------+
 | FDRE       |  984 |         Flop & Latch |
-| LUT6       |  398 |                  LUT |
-| LUT3       |  257 |                  LUT |
-| LUT4       |  192 |                  LUT |
-| LUT5       |  135 |                  LUT |
+| LUT6       |  366 |                  LUT |
+| LUT3       |  264 |                  LUT |
+| LUT4       |  188 |                  LUT |
+| LUT5       |  178 |                  LUT |
 | BIBUF      |  130 |                   IO |
 | LUT1       |  125 |                  LUT |
-| LUT2       |   62 |                  LUT |
 | FDSE       |   60 |         Flop & Latch |
+| LUT2       |   52 |                  LUT |
 | SRLC32E    |   47 |   Distributed Memory |
+| MUXF7      |   30 |                MuxFx |
 | CARRY4     |   26 |           CarryLogic |
-| MUXF7      |   24 |                MuxFx |
 | SRL16E     |   23 |   Distributed Memory |
 | OBUF       |    9 |                   IO |
 | IBUF       |    9 |                   IO |

@@ -744,7 +744,7 @@
       <spirit:file>
         <spirit:name>hdl/vhdl/ADXL345_ip.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_b40703c3</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_86070a21</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -835,7 +835,7 @@
         <spirit:userFileType>image</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>doc/mpu6050_ip_core_report.html</spirit:name>
+        <spirit:name>doc/mpu6050_working_ip_core_report.html</spirit:name>
         <spirit:userFileType>html</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -881,8 +881,8 @@
       </xilinx:taxonomies>
       <xilinx:displayName>ADXL345_ip</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>1712021230</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2017-12-02T17:30:50Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>1712032132</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2017-12-04T02:33:05Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2016.2</xilinx:xilinxVersion>

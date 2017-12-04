@@ -1,7 +1,7 @@
 Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
-| Date             : Sat Dec 02 12:37:34 2017
+| Date             : Sun Dec 03 21:39:10 2017
 | Host             : LAPTOP-BT7NMSMH running 64-bit major release  (build 9200)
 | Command          : report_power -file system_top_wrapper_power_routed.rpt -pb system_top_wrapper_power_summary_routed.pb -rpx system_top_wrapper_power_routed.rpx
 | Design           : system_top_wrapper
@@ -30,8 +30,8 @@ Table of Contents
 ----------
 
 +--------------------------+-------+
-| Total On-Chip Power (W)  | 1.808 |
-| Dynamic (W)              | 1.646 |
+| Total On-Chip Power (W)  | 1.809 |
+| Dynamic (W)              | 1.647 |
 | Device Static (W)        | 0.163 |
 | Effective TJA (C/W)      | 11.5  |
 | Max Ambient (C)          | 64.1  |
@@ -49,20 +49,20 @@ Table of Contents
 +-------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.005 |        6 |       --- |             --- |
-| Slice Logic             |     0.003 |     2268 |       --- |             --- |
-|   LUT as Logic          |     0.002 |      891 |     53200 |            1.67 |
+| Clocks                  |     0.006 |        6 |       --- |             --- |
+| Slice Logic             |     0.003 |     2278 |       --- |             --- |
+|   LUT as Logic          |     0.003 |      893 |     53200 |            1.68 |
 |   Register              |    <0.001 |      953 |    106400 |            0.90 |
 |   CARRY4                |    <0.001 |       26 |     13300 |            0.20 |
-|   F7/F8 Muxes           |    <0.001 |       25 |     53200 |            0.05 |
+|   F7/F8 Muxes           |    <0.001 |       31 |     53200 |            0.06 |
 |   LUT as Shift Register |    <0.001 |       68 |     17400 |            0.39 |
 |   Others                |     0.000 |      189 |       --- |             --- |
-| Signals                 |     0.004 |     1789 |       --- |             --- |
+| Signals                 |     0.004 |     1787 |       --- |             --- |
 | MMCM                    |     0.106 |        1 |         4 |           25.00 |
 | I/O                     |    <0.001 |       13 |       200 |            6.50 |
 | PS7                     |     1.528 |        1 |       --- |             --- |
 | Static Power            |     0.163 |          |           |                 |
-| Total                   |     1.808 |          |           |                 |
+| Total                   |     1.809 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,7 +72,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.027 |       0.012 |      0.016 |
+| Vccint    |       1.000 |     0.028 |       0.013 |      0.016 |
 | Vccaux    |       1.800 |     0.079 |       0.059 |      0.021 |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |
 | Vcco25    |       2.500 |     0.001 |       0.000 |      0.001 |
@@ -151,13 +151,13 @@ Table of Contents
 +--------------------------------------------------+-----------+
 | Name                                             | Power (W) |
 +--------------------------------------------------+-----------+
-| system_top_wrapper                               |     1.646 |
-|   system_top_i                                   |     1.646 |
+| system_top_wrapper                               |     1.647 |
+|   system_top_i                                   |     1.647 |
 |     ADXL345_ip_0                                 |     0.004 |
 |       U0                                         |     0.004 |
 |         u_ADXL345_ip_axi_lite_inst               |     0.002 |
 |           u_ADXL345_ip_addr_decoder_inst         |    <0.001 |
-|           u_ADXL345_ip_axi_lite_module_inst      |    <0.001 |
+|           u_ADXL345_ip_axi_lite_module_inst      |     0.001 |
 |         u_ADXL345_ip_dut_inst                    |     0.002 |
 |           u_ADXL345_ip_src_I2C_MPU6050_IP        |     0.002 |
 |             u_I2C_MPU6050_IP_tc                  |    <0.001 |

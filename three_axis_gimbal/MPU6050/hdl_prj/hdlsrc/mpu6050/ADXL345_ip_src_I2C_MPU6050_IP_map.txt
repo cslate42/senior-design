@@ -1,7 +1,0 @@
- --> ADXL345_ip_src_I2C_MPU6050_IP_pkg
-mpu6050/I2C_MPU6050_IP/I2C_MasterController/i2c_mstr --> ADXL345_ip_src_i2c_mstr
-mpu6050/I2C_MPU6050_IP/I2C_MasterController --> ADXL345_ip_src_I2C_MasterController
-mpu6050/I2C_MPU6050_IP/MATLAB Function --> ADXL345_ip_src_MATLAB_Function
-mpu6050/I2C_MPU6050_IP/MPU6050_Interface --> ADXL345_ip_src_MPU6050_Interface
-I2C_MPU6050_IP_tc --> ADXL345_ip_src_I2C_MPU6050_IP_tc
-mpu6050/I2C_MPU6050_IP --> ADXL345_ip_src_I2C_MPU6050_IP
